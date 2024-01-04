@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import {
-	Image,
 	ImageBackground,
 	Platform,
 	Pressable,
@@ -12,7 +11,7 @@ import { Text, View } from "../components/Themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Colors from "../constants/Colors";
 import { LogoSvg } from "../assets/images/LogoSvg";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function HeroScreen() {
     const colorScheme = useColorScheme();
