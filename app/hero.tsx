@@ -12,10 +12,11 @@ import { Text, View } from "../components/Themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Colors from "../constants/Colors";
 import { LogoSvg } from "../assets/images/LogoSvg";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 export default function HeroScreen() {
-	const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
+    const router = useRouter();
 
 	return (
 		<ImageBackground
@@ -28,22 +29,8 @@ export default function HeroScreen() {
 			</View>
 			<Text style={styles.title}>Tout commence par du code.</Text>
 			<View style={styles.authButton}>
-				<Link href="/auth" asChild>
-					<Pressable
-						style={({ pressed }) => [
-							styles.button,
-							{ opacity: pressed ? 0.5 : 1 },
-						]}
-					>
-						<FontAwesome
-							name="envelope"
-							size={25}
-							color={Colors[colorScheme ?? "light"].text}
-						/>
-						<Text style={styles.textButton}>Connexion avec un email</Text>
-					</Pressable>
-				</Link>
 				<Pressable
+					onPress={() => router.push("/auth")}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
@@ -57,6 +44,7 @@ export default function HeroScreen() {
 					<Text style={styles.textButton}>Connexion avec Github</Text>
 				</Pressable>
 				<Pressable
+					onPress={() => router.push("/auth")}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
@@ -69,13 +57,28 @@ export default function HeroScreen() {
 					/>
 					<Text style={styles.textButton}>Connexion avec Google</Text>
 				</Pressable>
+				<Pressable
+					onPress={() => router.push("/auth")}
+					style={({ pressed }) => [
+						styles.button,
+						{ opacity: pressed ? 0.5 : 1 },
+					]}
+				>
+					<FontAwesome
+						name="envelope"
+						size={25}
+						color={Colors[colorScheme ?? "light"].text}
+					/>
+					<Text style={styles.textButton}>Connexion avec un email</Text>
+				</Pressable>
 
 				<Pressable
+					onPress={() => router.push("/auth")}
 					style={({ pressed }) => [
 						{ opacity: pressed ? 0.5 : 1, marginTop: 20 },
 					]}
 				>
-					<Text style={styles.textButton}>Problèmes de connexion?</Text>
+					<Text style={styles.textButton}>Problèmes de connexion ?</Text>
 				</Pressable>
 			</View>
 
@@ -133,8 +136,8 @@ const styles = StyleSheet.create({
 
 		borderWidth: 1,
 		borderRadius: 50,
-        borderColor: "#fff",
-        
-        backgroundColor: "rgba(0, 0, 0, 0.3)",
-	}
+		borderColor: "#fff",
+
+		backgroundColor: "rgba(0, 0, 0, 0.3)",
+	},
 });
