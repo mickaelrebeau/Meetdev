@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
@@ -6,30 +6,67 @@ import { Text, View } from '../../components/Themed';
 export default function MessagesScreen() {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Messages</Text>
-			<View
-				style={styles.separator}
-				lightColor="#eee"
-				darkColor="rgba(255,255,255,0.1)"
-			/>
-			<EditScreenInfo path="app/(tabs)/messages.tsx" />
+			<View style={styles.match}>
+				<Text style={styles.title}>Nouveaux Match</Text>
+				<View style={styles.images}>
+					<Image
+						style={styles.image}
+						source={require("../../assets/images/mike.png")}
+					/>
+					<Image
+						style={styles.image}
+						source={require("../../assets/images/mike.png")}
+					/>
+					<Image
+						style={styles.image}
+						source={require("../../assets/images/mike.png")}
+					/>
+					<Image
+						style={styles.image}
+						source={require("../../assets/images/mike.png")}
+					/>
+				</View>
+			</View>
+			<View style={styles.match}>
+				<Text style={styles.title}>Messages</Text>
+			</View>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-  container: {
+	container: {
+    width: "100%",
+
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    gap: 50,
+
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+	},
+	match: {
+		width: "100%",
+	},
+	images: {
+		marginTop: 20,
+		paddingHorizontal: 10,
+		width: "100%",
+
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "#BFBFBF",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+	title: {
+		fontSize: 20,
+		fontWeight: "bold",
+	},
 });
