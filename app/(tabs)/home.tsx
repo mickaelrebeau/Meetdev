@@ -1,129 +1,170 @@
-import { Image, Pressable, StyleSheet } from 'react-native';
+import {
+	Pressable,
+	StyleSheet,
+	useWindowDimensions,
+} from "react-native";
 
-import { Text, View } from '../../components/Themed';
-import { Card } from '@rneui/themed';
-import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
+import { View } from "../../components/Themed";
+import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import ProfilCard from "../../components/ProfilCard";
+import { Users } from "../../constants/Users";
+import Animated, {
+	interpolate,
+	runOnJS,
+	useAnimatedGestureHandler,
+	useAnimatedStyle,
+	useDerivedValue,
+	useSharedValue,
+	withSpring,
+} from "react-native-reanimated";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import { useEffect, useState } from "react";
 
 export default function HomeScreen() {
-  return (
-		<View style={styles.container}>
-			<Card containerStyle={styles.card}>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-						justifyContent: "space-between",
-						backgroundColor: "transparent",
-					}}
-				>
-					<Image
-						style={{ width: 150, height: 150 }}
-						source={require("../../assets/images/mike.png")}
-					/>
-					<View style={{ backgroundColor: "transparent", width: "100%" }}>
-						<Text
-							style={{
-								color: "black",
-								fontWeight: "bold",
-								fontSize: 30,
-								textAlign: "center",
-							}}
-						>
-							Mike_dreeman
-						</Text>
-						<Text
-							style={{
-								color: "black",
-								fontWeight: "300",
-								fontSize: 20,
-								textAlign: "center",
-							}}
-						>
-							Développeur Frontend
-						</Text>
-					</View>
-				</View>
-				<Text style={{ marginVertical: 30, color: "gray" }}>
-					Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo
-					sollicitudin facilisi dolor magna. Augue tristique amet faucibus
-					dictum enim viverra. Ullamcorper risus felis magna sem risus
-					vestibulum mi augue.
-				</Text>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						backgroundColor: "transparent",
-						gap: 5,
-					}}
-				>
-					<Text
-						style={{
-							borderWidth: 1,
-							borderColor: "gray",
-							borderRadius: 50,
-							paddingHorizontal: 10,
-							paddingVertical: 3,
-							color: "gray",
-							fontWeight: "400",
-						}}
-					>
-						Python
-					</Text>
-					<Text
-						style={{
-							borderWidth: 1,
-							borderColor: "gray",
-							borderRadius: 50,
-							paddingHorizontal: 10,
-							paddingVertical: 3,
-							color: "gray",
-							fontWeight: "400",
-						}}
-					>
-						Javascript
-					</Text>
-					<Text
-						style={{
-							borderWidth: 1,
-							borderColor: "gray",
-							borderRadius: 50,
-							paddingHorizontal: 10,
-							paddingVertical: 3,
-							color: "gray",
-							fontWeight: "400",
-						}}
-					>
-						Typescript
-					</Text>
-					<Text
-						style={{
-							borderWidth: 1,
-							borderColor: "gray",
-							borderRadius: 50,
-							paddingHorizontal: 10,
-							paddingVertical: 3,
-							color: "gray",
-							fontWeight: "400",
-						}}
-					>
-						Java
-					</Text>
-				</View>
-			</Card>
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [nextIndex, setNextIndex] = useState((currentIndex + 1) % Users.length);
+	const currentProfil = Users[currentIndex];
+	const nextProfil = Users[nextIndex];
+	const { width } = useWindowDimensions();
 
-			<View
-				style={{
-					marginTop: 20,
-					padding: 10,
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					gap: 30,
-				}}
-			>
-				<Pressable>
+	const hiddenTranslateCard = 2 * width;
+
+	const sharedValue = useSharedValue(0);
+	const rotate = useDerivedValue(
+		() =>
+			interpolate(sharedValue.value, [0, hiddenTranslateCard], [0, 60]) + "deg"
+	);
+
+	const cardStyle = useAnimatedStyle(() => ({
+		transform: [
+			{
+				translateX: sharedValue.value,
+			},
+			{
+				rotate: rotate.value,
+			},
+		],
+	}));
+	const nextCardStyle = useAnimatedStyle(() => ({
+		transform: [
+			{
+				scale: interpolate(
+					sharedValue.value,
+					[-hiddenTranslateCard, 0, hiddenTranslateCard],
+					[1, 0.95, 1]
+				),
+			},
+		],
+		opacity: interpolate(
+			sharedValue.value,
+			[-hiddenTranslateCard, 0, hiddenTranslateCard],
+			[1, 0.6, 1]
+		),
+	}));
+
+	const likeStyle = useAnimatedStyle(() => ({
+		opacity: interpolate(
+			sharedValue.value,
+			[0, hiddenTranslateCard / 5],
+			[0, 1]
+		),
+	}));
+
+	const rejectStyle = useAnimatedStyle(() => ({
+		opacity: interpolate(
+			sharedValue.value,
+			[0, -hiddenTranslateCard / 5],
+			[0, 1]
+		),
+	}));
+
+	const gestureHandler = useAnimatedGestureHandler({
+		onActive: (event) => {
+			sharedValue.value = event.translationX;
+		},
+		onEnd: (event) => {
+			if (Math.abs(event.velocityX) < 800) {
+				sharedValue.value = withSpring(0);
+				return;
+			}
+
+			sharedValue.value = withSpring(
+				hiddenTranslateCard * Math.sign(event.velocityX)
+			);
+
+			runOnJS(setCurrentIndex)((currentIndex + 1) % Users.length);
+		},
+	});
+
+	const handleLike = () => {
+		sharedValue.value = withSpring(
+			hiddenTranslateCard,
+			{ damping: 3000 },
+			() => {
+				runOnJS(setCurrentIndex)((currentIndex + 1) % Users.length);
+			}
+		);
+	};
+
+	const handleReject = () => {
+		sharedValue.value = withSpring(
+			-hiddenTranslateCard,
+			{ damping: 3000 },
+			() => {
+				runOnJS(setCurrentIndex)((currentIndex + 1) % Users.length);
+			}
+		);
+	};
+
+	useEffect(() => {
+		sharedValue.value = 0;
+		setNextIndex((currentIndex + 1) % Users.length);
+	}, [currentIndex]);
+
+	return (
+		<View style={styles.container}>
+			{nextProfil && (
+				<View style={styles.nextCard}>
+					<Animated.View style={[styles.card, nextCardStyle]}>
+						<ProfilCard key={nextProfil.id} {...nextProfil} />
+					</Animated.View>
+				</View>
+			)}
+
+			{currentProfil && (
+				<PanGestureHandler onGestureEvent={gestureHandler}>
+					<Animated.View style={[styles.card, cardStyle]}>
+						<Animated.View
+							style={[
+								styles.cardGesture,
+								{ backgroundColor: "green" },
+								likeStyle,
+							]}
+						>
+							<Animated.Image
+								source={require("../../assets/images/like-icon.png")}
+								style={[styles.like, { left: 5 }]}
+							/>
+						</Animated.View>
+						<Animated.View
+							style={[
+								styles.cardGesture,
+								{ backgroundColor: "red" },
+								rejectStyle,
+							]}
+						>
+							<Animated.Image
+								source={require("../../assets/images/rejected-icon.png")}
+								style={[styles.like, { right: 5 }]}
+							/>
+						</Animated.View>
+						<ProfilCard key={currentProfil.id} {...currentProfil} />
+					</Animated.View>
+				</PanGestureHandler>
+			)}
+
+			<View style={styles.buttons}>
+				<Pressable onPress={handleReject}>
 					{({ pressed }) => (
 						<Entypo
 							name="cross"
@@ -155,7 +196,7 @@ export default function HomeScreen() {
 						/>
 					)}
 				</Pressable>
-				<Pressable>
+				<Pressable onPress={handleLike}>
 					{({ pressed }) => (
 						<FontAwesome
 							name="heart"
@@ -178,30 +219,61 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
 	container: {
-		height: "100%",
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
 	},
+	nextCard: {
+		...StyleSheet.absoluteFillObject,
+		top: -55,
+		width: "100%",
+		height: "100%",
+
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	card: {
 		width: "90%",
 		height: "70%",
-		marginVertical: 10,
 
-    borderRadius: 15,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	cardGesture: {
+		...StyleSheet.absoluteFillObject,
+		top: 5,
+
+		width: "100%",
+		height: "100%",
+
+		zIndex: 1,
+		elevation: 1,
+
+		borderRadius: 15,
+
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	like: {
+		position: "absolute",
+		top: 10,
+
+		zIndex: 1,
+		elevation: 1,
+
+		width: 150,
+		height: 150,
+	},
+	buttons: {
+		marginTop: 20,
+		padding: 10,
+
+		backgroundColor: "transparent",
 
 		display: "flex",
-		justifyContent: "space-between",
-		flexDirection: "column",
-		gap: 10,
-	},
-	title: {
-		fontSize: 20,
-		fontWeight: "bold",
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: "80%",
+		flexDirection: "row",
+		alignItems: "center",
+
+		gap: 30,
 	},
 });
