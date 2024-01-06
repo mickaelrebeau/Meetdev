@@ -3,6 +3,8 @@ import { Link, Tabs } from "expo-router";
 import { Pressable, View, useColorScheme } from "react-native";
 
 import Colors from "../../constants/Colors";
+import { LogoSvg } from "../../assets/images/LogoSvg";
+import { Octicons } from "@expo/vector-icons";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -28,8 +30,9 @@ export default function TabLayout() {
 				options={{
 					title: "Messages",
 					tabBarIcon: ({ color }) => (
-						<TabBarIcon name="comment" color={color} />
+						<TabBarIcon name="comments" color={color} />
 					),
+					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
 					headerRight: () => (
 						<Link href="/security" asChild>
 							<Pressable>
@@ -37,7 +40,7 @@ export default function TabLayout() {
 									<FontAwesome
 										name="shield"
 										size={25}
-										color={Colors[colorScheme ?? "light"].text}
+										color={Colors[colorScheme ?? "light"].tint}
 										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
 									/>
 								)}
@@ -50,7 +53,10 @@ export default function TabLayout() {
 				name="home"
 				options={{
 					title: "Meetdev",
-					tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+					tabBarIcon: ({ color }) => (
+						<Octicons name="flame" size={24} color={color} />
+					),
+					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
 					headerRight: () => (
 						<Link href="/notifications" asChild>
 							<Pressable>
@@ -58,7 +64,7 @@ export default function TabLayout() {
 									<FontAwesome
 										name="bell"
 										size={25}
-										color={Colors[colorScheme ?? "light"].text}
+										color={Colors[colorScheme ?? "light"].tint}
 										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
 									/>
 								)}
@@ -70,8 +76,9 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="profil"
 				options={{
-					title: "Profil",
+					title: "Profile",
 					tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
 					headerRight: () => (
 						<View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
 							<Link href="/security" asChild>
@@ -79,8 +86,8 @@ export default function TabLayout() {
 									{({ pressed }) => (
 										<FontAwesome
 											name="shield"
-											size={25}
-											color={Colors[colorScheme ?? "light"].text}
+											size={30}
+											color={Colors[colorScheme ?? "light"].tint}
 											style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
 										/>
 									)}
@@ -91,8 +98,8 @@ export default function TabLayout() {
 									{({ pressed }) => (
 										<FontAwesome
 											name="gear"
-											size={25}
-											color={Colors[colorScheme ?? "light"].text}
+											size={30}
+											color={Colors[colorScheme ?? "light"].tint}
 											style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
 										/>
 									)}
