@@ -1,6 +1,7 @@
 import {
 	Pressable,
 	StyleSheet,
+	useColorScheme,
 	useWindowDimensions,
 } from "react-native";
 
@@ -19,8 +20,10 @@ import Animated, {
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
+import Colors from "../../constants/Colors";
 
 export default function HomeScreen() {
+	const colorScheme = useColorScheme();
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [nextIndex, setNextIndex] = useState((currentIndex + 1) % Users.length);
 	const currentProfil = Users[currentIndex];
@@ -169,30 +172,28 @@ export default function HomeScreen() {
 						<Entypo
 							name="cross"
 							size={24}
-							color="white"
-							style={{
-								opacity: pressed ? 0.5 : 1,
-								padding: 20,
-								borderWidth: 1,
-								borderColor: "gray",
-								borderRadius: 50,
-							}}
+							color={Colors[colorScheme ?? "light"].text}
+							style={[
+								styles.button,
+								{
+									opacity: pressed ? 0.5 : 1,
+								},
+							]}
 						/>
 					)}
 				</Pressable>
 				<Pressable>
 					{({ pressed }) => (
-						<AntDesign
-							name="exclamation"
+						<Entypo
+							name="warning"
 							size={24}
-							color="white"
-							style={{
-								opacity: pressed ? 0.5 : 1,
-								padding: 5,
-								borderWidth: 1,
-								borderColor: "gray",
-								borderRadius: 50,
-							}}
+							color={Colors[colorScheme ?? "light"].text}
+							style={[
+								styles.buttonCenter,
+								{
+									opacity: pressed ? 0.5 : 1,
+								},
+							]}
 						/>
 					)}
 				</Pressable>
@@ -201,14 +202,13 @@ export default function HomeScreen() {
 						<FontAwesome
 							name="heart"
 							size={24}
-							color="white"
-							style={{
-								opacity: pressed ? 0.5 : 1,
-								padding: 20,
-								borderWidth: 1,
-								borderColor: "gray",
-								borderRadius: 50,
-							}}
+							color={Colors[colorScheme ?? "light"].text}
+							style={[
+								styles.button,
+								{
+									opacity: pressed ? 0.5 : 1,
+								},
+							]}
 						/>
 					)}
 				</Pressable>
@@ -275,5 +275,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 
 		gap: 30,
+	},
+	button: {
+		padding: 20,
+		borderWidth: 1,
+		borderColor: "gray",
+		borderRadius: 50,
+	},
+	buttonCenter: {
+		padding: 12,
+		borderWidth: 1,
+		borderColor: "gray",
+		borderRadius: 50,
 	},
 });
