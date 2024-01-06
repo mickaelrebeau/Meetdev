@@ -6,7 +6,7 @@ import {
 } from "react-native";
 
 import { View } from "../../components/Themed";
-import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 import ProfilCard from "../../components/ProfilCard";
 import { Users } from "../../constants/Users";
 import Animated, {
