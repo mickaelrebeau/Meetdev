@@ -4,17 +4,14 @@ import {
 	Platform,
 	Pressable,
 	StyleSheet,
-	useColorScheme,
 } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import Colors from "../constants/Colors";
 import { LogoSvg } from "../assets/images/LogoSvg";
 import { useRouter } from "expo-router";
 
 export default function HeroScreen() {
-    const colorScheme = useColorScheme();
     const router = useRouter();
 
 	return (
@@ -24,51 +21,39 @@ export default function HeroScreen() {
 		>
 			<View style={styles.logo}>
 				<LogoSvg />
-				<Text style={styles.titleLogo}>Meetdev</Text>
+				<Text style={[styles.titleLogo, { color: "white" }]}>Meetdev</Text>
 			</View>
-			<Text style={styles.title}>Tout commence par du code.</Text>
+			<Text style={[styles.title, { color: "white" }]}>Tout commence par du code.</Text>
 			<View style={styles.authButton}>
 				<Pressable
-					onPress={() => router.push("/auth")}
+					onPress={() => router.push("/home")}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
 					]}
 				>
-					<FontAwesome
-						name="github"
-						size={25}
-						color={Colors[colorScheme ?? "light"].text}
-					/>
+					<FontAwesome name="github" size={25} color="white" />
 					<Text style={styles.textButton}>Connexion avec Github</Text>
 				</Pressable>
 				<Pressable
-					onPress={() => router.push("/auth")}
+					onPress={() => router.push("/home")}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
 					]}
 				>
-					<FontAwesome
-						name="google"
-						size={25}
-						color={Colors[colorScheme ?? "light"].text}
-					/>
+					<FontAwesome name="google" size={25} color="white" />
 					<Text style={styles.textButton}>Connexion avec Google</Text>
 				</Pressable>
 				<Pressable
 					onPress={() => router.push("/auth")}
 					style={({ pressed }) => [
 						styles.button,
-						{ opacity: pressed ? 0.5 : 1 },
+						{ opacity: pressed ? 0.5 : 1, backgroundColor: "white" },
 					]}
 				>
-					<FontAwesome
-						name="envelope"
-						size={25}
-						color={Colors[colorScheme ?? "light"].text}
-					/>
-					<Text style={styles.textButton}>Connexion avec un email</Text>
+					<FontAwesome name="envelope" size={25} color="black" />
+					<Text style={[styles.textButton, { color: "black" }]}>Connexion avec un email</Text>
 				</Pressable>
 
 				<Pressable
@@ -113,6 +98,7 @@ const styles = StyleSheet.create({
 	textButton: {
 		fontSize: 20,
 		fontWeight: "500",
+		color: "#fff",
 	},
 	authButton: {
 		width: "100%",
