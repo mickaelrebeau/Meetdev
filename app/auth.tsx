@@ -1,20 +1,19 @@
-import {
-	Pressable,
-	StyleSheet,
-} from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import { CheckBox, Input, Tab, TabView } from "@rneui/themed";
 import { LogoSvg } from "../assets/images/LogoSvg";
 import React from "react";
+import Colors from "../constants/Colors";
 
 export default function AuthScreen() {
-    const [index, setIndex] = React.useState(0);
-    const [checked, setChecked] = React.useState(false);
+	const colorScheme = useColorScheme();
+	const [index, setIndex] = React.useState(0);
+	const [checked, setChecked] = React.useState(false);
 	const toggleCheckbox = () => setChecked(!checked);
-    
+
 	return (
-		<>
+		<SafeAreaView style={styles.container}>
 			<View style={styles.logo}>
 				<LogoSvg />
 				<Text style={styles.titleLogo}>Meetdev</Text>
@@ -24,17 +23,23 @@ export default function AuthScreen() {
 				value={index}
 				onChange={(e) => setIndex(e)}
 				indicatorStyle={{
-					backgroundColor: "white",
 					height: 2,
+					backgroundColor: Colors[colorScheme ?? "light"].tint,
 				}}
 			>
 				<Tab.Item
 					title="Se connecter"
-					titleStyle={{ fontSize: 24, color: "white" }}
+					titleStyle={{
+						fontSize: 24,
+						color: Colors[colorScheme ?? "light"].text,
+					}}
 				/>
 				<Tab.Item
 					title="S'inscrire"
-					titleStyle={{ fontSize: 24, color: "white" }}
+					titleStyle={{
+						fontSize: 24,
+						color: Colors[colorScheme ?? "light"].text,
+					}}
 				/>
 			</Tab>
 
@@ -53,13 +58,20 @@ export default function AuthScreen() {
 						<Input style={styles.input} placeholder="email@example.fr" />
 
 						<Text style={styles.label}>Mot de passe</Text>
-						<Input placeholder="@Exemple123" secureTextEntry />
+						<Input
+							style={styles.input}
+							placeholder="@Exemple123"
+							secureTextEntry
+						/>
 
 						<Pressable
 							onPress={() => {}}
 							style={({ pressed }) => [
 								styles.button,
-								{ opacity: pressed ? 0.5 : 1 },
+								{
+									opacity: pressed ? 0.5 : 1,
+									borderColor: Colors[colorScheme ?? "light"].text,
+								},
 							]}
 						>
 							<Text style={styles.textButton}>Connexion</Text>
@@ -76,7 +88,7 @@ export default function AuthScreen() {
 						alignItems: "center",
 					}}
 				>
-					<View style={styles.form}>
+					<View style={styles.signup}>
 						<Text style={styles.label}>Pseudo</Text>
 						<Input style={styles.input} placeholder="Exemple123" />
 
@@ -87,10 +99,18 @@ export default function AuthScreen() {
 						<Input style={styles.input} placeholder="email@exemple.fr" />
 
 						<Text style={styles.label}>Mot de passe</Text>
-						<Input placeholder="@Exemple123" secureTextEntry />
+						<Input
+							style={styles.input}
+							placeholder="@Exemple123"
+							secureTextEntry
+						/>
 
 						<Text style={styles.label}>Confirmation de mot de passe</Text>
-						<Input placeholder="@Exemple123" secureTextEntry />
+						<Input
+							style={styles.input}
+							placeholder="@Exemple123"
+							secureTextEntry
+						/>
 
 						<CheckBox
 							containerStyle={styles.checkbox}
@@ -103,7 +123,10 @@ export default function AuthScreen() {
 							onPress={() => {}}
 							style={({ pressed }) => [
 								styles.button,
-								{ opacity: pressed ? 0.5 : 1 },
+								{
+									opacity: pressed ? 0.5 : 1,
+									borderColor: Colors[colorScheme ?? "light"].text,
+								},
 							]}
 						>
 							<Text style={styles.textButton}>Inscription</Text>
@@ -111,16 +134,13 @@ export default function AuthScreen() {
 					</View>
 				</TabView.Item>
 			</TabView>
-		</>
+		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "space-around",
-		resizeMode: "cover",
 	},
 	logo: {
 		marginTop: 50,
@@ -143,7 +163,24 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "transparent",
-		gap: 10,
+		gap: 1,
+	},
+	signup: {
+		marginTop: 60,
+		paddingBottom: 100,
+
+		width: "80%",
+		height: "auto",
+
+		backgroundColor: "transparent",
+
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 1,
+
+		zIndex: 100,
+		elevation: 100,
 	},
 	label: {
 		width: "100%",
@@ -154,11 +191,11 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		padding: 10,
-		height: 40,
 		borderBottomWidth: 2,
+		color: "white",
 	},
 	button: {
-		marginTop: 50,
+		marginTop: 30,
 
 		width: "100%",
 		paddingVertical: 15,
