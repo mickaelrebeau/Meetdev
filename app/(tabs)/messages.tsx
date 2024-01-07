@@ -1,10 +1,13 @@
 import { Image, ScrollView, StyleSheet } from "react-native";
-
 import { Text, View } from "../../components/Themed";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Messages } from "../../constants/Messages";
+import { MessageList } from "../../components/MessageList";
+import { FlatList } from "react-native";
 
 export default function MessagesScreen() {
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<View style={styles.match}>
 				<Text style={styles.title}>Nouveaux Match</Text>
 				<ScrollView horizontal contentContainerStyle={styles.images}>
@@ -36,8 +39,13 @@ export default function MessagesScreen() {
 			</View>
 			<View style={styles.match}>
 				<Text style={styles.title}>Messages</Text>
+				<FlatList
+					data={Messages}
+					renderItem={({ item }) => <MessageList {...item} />}
+					contentContainerStyle={{ paddingBottom: 200 }}
+				/>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -47,10 +55,10 @@ const styles = StyleSheet.create({
 
 		flex: 1,
 		alignItems: "center",
-		gap: 50,
+		gap: 30,
 
 		paddingHorizontal: 10,
-		paddingVertical: 20,
+		paddingVertical: 10,
 	},
 	match: {
 		width: "100%",
