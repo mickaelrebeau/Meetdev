@@ -17,23 +17,27 @@ export default function MessagesScreen() {
 					/>
 					<Image
 						style={styles.image}
-						source={require("../../assets/images/mike.png")}
+						source={require("../../assets/images/homer.png")}
 					/>
 					<Image
 						style={styles.image}
-						source={require("../../assets/images/mike.png")}
+						source={require("../../assets/images/fbi.png")}
 					/>
 					<Image
 						style={styles.image}
-						source={require("../../assets/images/mike.png")}
+						source={require("../../assets/images/elon.png")}
 					/>
 					<Image
 						style={styles.image}
-						source={require("../../assets/images/mike.png")}
+						source={require("../../assets/images/macron.png")}
 					/>
 					<Image
 						style={styles.image}
-						source={require("../../assets/images/mike.png")}
+						source={require("../../assets/images/mark.png")}
+					/>
+					<Image
+						style={styles.image}
+						source={require("../../assets/images/naruto.png")}
 					/>
 				</ScrollView>
 			</View>
@@ -62,6 +66,7 @@ const styles = StyleSheet.create({
 	},
 	match: {
 		width: "100%",
+		paddingVertical: 10,
 	},
 	images: {
 		marginTop: 20,
