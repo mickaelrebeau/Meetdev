@@ -1,6 +1,7 @@
 type Messages = {
     id: number,
     name: string,
+    imgUrl: ImageSourcePropType,
     messages_received: Message[],
     messages_send?: Message[]
 }
