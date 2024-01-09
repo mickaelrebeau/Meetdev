@@ -28,14 +28,14 @@ export default function AuthScreen() {
 				}}
 			>
 				<Tab.Item
-					title="Se connecter"
+					title="Login"
 					titleStyle={{
 						fontSize: 24,
 						color: Colors[colorScheme ?? "light"].text,
 					}}
 				/>
 				<Tab.Item
-					title="S'inscrire"
+					title="Sign Up"
 					titleStyle={{
 						fontSize: 24,
 						color: Colors[colorScheme ?? "light"].text,
@@ -57,7 +57,7 @@ export default function AuthScreen() {
 						<Text style={styles.label}>Email</Text>
 						<Input style={styles.input} placeholder="email@example.fr" />
 
-						<Text style={styles.label}>Mot de passe</Text>
+						<Text style={styles.label}>Password</Text>
 						<Input
 							style={styles.input}
 							placeholder="@Exemple123"
@@ -74,7 +74,7 @@ export default function AuthScreen() {
 								},
 							]}
 						>
-							<Text style={styles.textButton}>Connexion</Text>
+							<Text style={styles.textButton}>Login</Text>
 						</Pressable>
 					</View>
 				</TabView.Item>
@@ -89,23 +89,23 @@ export default function AuthScreen() {
 					}}
 				>
 					<View style={styles.signup}>
-						<Text style={styles.label}>Pseudo</Text>
+						<Text style={styles.label}>Username</Text>
 						<Input style={styles.input} placeholder="Exemple123" />
 
 						<Text style={styles.label}>Email</Text>
 						<Input style={styles.input} placeholder="email@exemple.fr" />
 
-						<Text style={styles.label}>Confirmation d'email</Text>
+						<Text style={styles.label}>Confirm email</Text>
 						<Input style={styles.input} placeholder="email@exemple.fr" />
 
-						<Text style={styles.label}>Mot de passe</Text>
+						<Text style={styles.label}>Password</Text>
 						<Input
 							style={styles.input}
 							placeholder="@Exemple123"
 							secureTextEntry
 						/>
 
-						<Text style={styles.label}>Confirmation de mot de passe</Text>
+						<Text style={styles.label}>Confirm password</Text>
 						<Input
 							style={styles.input}
 							placeholder="@Exemple123"
@@ -114,7 +114,8 @@ export default function AuthScreen() {
 
 						<CheckBox
 							containerStyle={styles.checkbox}
-							title="J'accepte les termes et les conditions d'utilisation"
+							textStyle={{ color: Colors[colorScheme ?? "light"].text }}
+							title="I accept the terms and conditions of use"
 							checked={checked}
 							onPress={toggleCheckbox}
 						/>
@@ -129,7 +130,7 @@ export default function AuthScreen() {
 								},
 							]}
 						>
-							<Text style={styles.textButton}>Inscription</Text>
+							<Text style={styles.textButton}>Sign Up</Text>
 						</Pressable>
 					</View>
 				</TabView.Item>
