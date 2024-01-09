@@ -1,6 +1,7 @@
 import { Image, StyleSheet, useColorScheme } from "react-native";
 import { ListItem } from "@rneui/themed";
 import Colors from "../constants/Colors";
+import { router } from "expo-router";
 
 export const MessageList = (messages: Messages) => {
 	const colorScheme = useColorScheme();
@@ -23,22 +24,28 @@ export const MessageList = (messages: Messages) => {
 		return latestMessage ? latestMessage.content : "";
 	};
 
+	const navigateToChat = () => {
+		router.replace(`/chat/${messages.id}`);
+	};
+
 	return (
-		<ListItem containerStyle={styles.listItem}>
-			<Image
-				style={styles.image}
-				source={require("../assets/images/mike.png")}
-			/>
+		<ListItem containerStyle={styles.listItem} onPress={navigateToChat}>
+			<Image style={styles.image} source={messages.imgUrl} />
 			<ListItem.Content style={styles.listContent}>
 				<ListItem.Title
-					style={[styles.title, { color: Colors[colorScheme ?? "light"].tint }]}
+					style={[styles.title, { color: Colors[colorScheme ?? "light"].text }]}
 				>
 					{messages.name}
 				</ListItem.Title>
 				<ListItem.Subtitle
-					style={[styles.subtitle, { color: Colors[colorScheme ?? "light"].tint }]}
+					style={[
+						styles.subtitle,
+						{ color: Colors[colorScheme ?? "light"].text },
+					]}
 				>
-					{getLatestMessage()}
+					{getLatestMessage().length > 45
+						? getLatestMessage().slice(0, 45) + "..."
+						: getLatestMessage()}
 				</ListItem.Subtitle>
 			</ListItem.Content>
 		</ListItem>
