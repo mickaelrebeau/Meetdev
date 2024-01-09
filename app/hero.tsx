@@ -23,7 +23,9 @@ export default function HeroScreen() {
 				<LogoSvg />
 				<Text style={[styles.titleLogo, { color: "white" }]}>Meetdev</Text>
 			</View>
-			<Text style={[styles.title, { color: "white" }]}>Tout commence par du code.</Text>
+			<Text style={[styles.title, { color: "white" }]}>
+				Everything starts with code.
+			</Text>
 			<View style={styles.authButton}>
 				<Pressable
 					onPress={() => router.push("/home")}
@@ -33,7 +35,7 @@ export default function HeroScreen() {
 					]}
 				>
 					<FontAwesome name="github" size={25} color="white" />
-					<Text style={styles.textButton}>Connexion avec Github</Text>
+					<Text style={styles.textButton}>Sign Up with Github</Text>
 				</Pressable>
 				<Pressable
 					onPress={() => router.push("/home")}
@@ -43,7 +45,7 @@ export default function HeroScreen() {
 					]}
 				>
 					<FontAwesome name="google" size={25} color="white" />
-					<Text style={styles.textButton}>Connexion avec Google</Text>
+					<Text style={styles.textButton}>Sign Up with Google</Text>
 				</Pressable>
 				<Pressable
 					onPress={() => router.push("/auth")}
@@ -53,7 +55,9 @@ export default function HeroScreen() {
 					]}
 				>
 					<FontAwesome name="envelope" size={25} color="black" />
-					<Text style={[styles.textButton, { color: "black" }]}>Connexion avec un email</Text>
+					<Text style={[styles.textButton, { color: "black" }]}>
+						Sign Up with an email
+					</Text>
 				</Pressable>
 
 				<Pressable
@@ -62,7 +66,7 @@ export default function HeroScreen() {
 						{ opacity: pressed ? 0.5 : 1, marginTop: 20 },
 					]}
 				>
-					<Text style={styles.textButton}>Problèmes de connexion ?</Text>
+					<Text style={styles.textButton}>Connection problems?</Text>
 				</Pressable>
 			</View>
 
