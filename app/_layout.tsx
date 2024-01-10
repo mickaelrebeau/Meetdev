@@ -52,7 +52,7 @@ function RootLayoutNav() {
 	return (
 		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
 			<Stack>
-				<Stack.Screen name="hero" options={{ headerShown: false }} />
+				<Stack.Screen name="index" options={{ headerShown: false }} />
 				<Stack.Screen
 					name="auth"
 					options={{ headerShown: false, presentation: "modal" }}
