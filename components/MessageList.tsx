@@ -7,9 +7,7 @@ export const MessageList = (messages: Messages) => {
 	const colorScheme = useColorScheme();
 
 	const getLatestMessage = () => {
-		const receivedMessages = messages.messages_received || [];
-		const sentMessages = messages.messages_send || [];
-		const allMessages = [...receivedMessages, ...sentMessages];
+		const allMessages = messages.chat || [];
 
 		const latestMessage = allMessages.reduce(
 			(latest: Message | null, current: Message) => {
