@@ -70,7 +70,6 @@ export default function AuthScreen() {
 								styles.button,
 								{
 									opacity: pressed ? 0.5 : 1,
-									borderColor: Colors[colorScheme ?? "light"].text,
 								},
 							]}
 						>
@@ -95,17 +94,7 @@ export default function AuthScreen() {
 						<Text style={styles.label}>Email</Text>
 						<Input style={styles.input} placeholder="email@exemple.fr" />
 
-						<Text style={styles.label}>Confirm email</Text>
-						<Input style={styles.input} placeholder="email@exemple.fr" />
-
 						<Text style={styles.label}>Password</Text>
-						<Input
-							style={styles.input}
-							placeholder="@Exemple123"
-							secureTextEntry
-						/>
-
-						<Text style={styles.label}>Confirm password</Text>
 						<Input
 							style={styles.input}
 							placeholder="@Exemple123"
@@ -126,7 +115,6 @@ export default function AuthScreen() {
 								styles.button,
 								{
 									opacity: pressed ? 0.5 : 1,
-									borderColor: Colors[colorScheme ?? "light"].text,
 								},
 							]}
 						>
@@ -201,14 +189,16 @@ const styles = StyleSheet.create({
 		width: "100%",
 		paddingVertical: 15,
 
-		backgroundColor: "transparent",
-		borderWidth: 1,
-		borderRadius: 50,
-		borderColor: "white",
-
 		display: "flex",
+		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
+		gap: 10,
+
+		backgroundColor: "transparent",
+		borderRadius: 50,
+		borderColor: "#2f95dc",
+		borderWidth: 2,
 	},
 	textButton: {
 		fontSize: 20,
