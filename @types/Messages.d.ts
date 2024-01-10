@@ -2,11 +2,11 @@ type Messages = {
     id: number,
     name: string,
     imgUrl: ImageSourcePropType,
-    messages_received: Message[],
-    messages_send?: Message[]
+    chat: Message[],
 }
 
 type Message = {
+    sender: string,
     content: string,
     date: Date
 }
