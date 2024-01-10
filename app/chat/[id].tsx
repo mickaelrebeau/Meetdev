@@ -34,7 +34,12 @@ export default function ChatScreen() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
+			<View
+				style={[
+					styles.header,
+					{ backgroundColor: Colors[colorScheme ?? "light"].chatBackground },
+				]}
+			>
 				<Pressable
 					onPress={() => router.push("/messages")}
 					style={{ flexDirection: "row", alignItems: "center" }}
@@ -50,7 +55,7 @@ export default function ChatScreen() {
 						style={[styles.image, { width: 40, height: 40 }]}
 						source={messages?.imgUrl}
 					/>
-					<Text style={styles.title}>{messages?.name}</Text>
+					<Text style={[styles.title, { color: Colors[colorScheme ?? "light"].text }]}>{messages?.name}</Text>
 				</View>
 				<Pressable>
 					<SimpleLineIcons
@@ -106,7 +111,12 @@ export default function ChatScreen() {
 					);
 				})}
 			</View>
-			<View style={styles.footer}>
+			<View
+				style={[
+					styles.footer,
+					{ backgroundColor: Colors[colorScheme ?? "light"].chatBackground },
+				]}
+			>
 				<View style={styles.input}>
 					<TextInput placeholder="Write your message here..." />
 					<View style={styles.icon}>
@@ -146,7 +156,8 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		width: "100%",
 		padding: 10,
-		backgroundColor: "#3e3e3e",
+		borderBottomColor: "#ccc",
+		borderBottomWidth: 1,
 	},
 	name: {
 		flexDirection: "row",
@@ -194,7 +205,8 @@ const styles = StyleSheet.create({
 
 		width: "100%",
 		padding: 15,
-		backgroundColor: "#3e3e3e",
+		borderTopColor: "#ccc",
+		borderTopWidth: 1,
 	},
 	input: {
 		flex: 1,
@@ -207,7 +219,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		paddingVertical: 5,
 		borderRadius: 10,
-		backgroundColor: "#fff",
+		backgroundColor: "#ccc",
 	},
 	icon: {
 		display: "flex",
