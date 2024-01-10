@@ -171,8 +171,8 @@ export default function HomeScreen() {
 					{({ pressed }) => (
 						<Entypo
 							name="cross"
-							size={24}
-							color={Colors[colorScheme ?? "light"].text}
+							size={28}
+							color={Colors[colorScheme ?? "light"].tint}
 							style={[
 								styles.button,
 								{
@@ -186,8 +186,8 @@ export default function HomeScreen() {
 					{({ pressed }) => (
 						<Entypo
 							name="warning"
-							size={24}
-							color={Colors[colorScheme ?? "light"].text}
+							size={28}
+							color={Colors[colorScheme ?? "light"].tint}
 							style={[
 								styles.buttonCenter,
 								{
@@ -201,8 +201,8 @@ export default function HomeScreen() {
 					{({ pressed }) => (
 						<FontAwesome
 							name="heart"
-							size={24}
-							color={Colors[colorScheme ?? "light"].text}
+							size={28}
+							color={Colors[colorScheme ?? "light"].tint}
 							style={[
 								styles.button,
 								{
@@ -258,9 +258,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 10,
 
-		zIndex: 1,
-		elevation: 1,
-
 		width: 150,
 		height: 150,
 	},
@@ -278,14 +275,14 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		padding: 20,
-		borderWidth: 1,
-		borderColor: "gray",
-		borderRadius: 50,
+		borderWidth: 2,
+		borderColor: "#2f95dc",
+		borderRadius: 100,
 	},
 	buttonCenter: {
 		padding: 12,
-		borderWidth: 1,
-		borderColor: "gray",
-		borderRadius: 50,
+		borderWidth: 2,
+		borderColor: "#2f95dc",
+		borderRadius: 100,
 	},
 });
