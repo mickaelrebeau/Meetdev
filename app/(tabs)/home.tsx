@@ -6,7 +6,7 @@ import {
 } from "react-native";
 
 import { View } from "../../components/Themed";
-import { Entypo, FontAwesome } from "@expo/vector-icons";
+import { AntDesign, Fontisto } from "@expo/vector-icons";
 import ProfilCard from "../../components/ProfilCard";
 import { Users } from "../../constants/Users";
 import Animated, {
@@ -169,14 +169,15 @@ export default function HomeScreen() {
 			<View style={styles.buttons}>
 				<Pressable onPress={handleReject}>
 					{({ pressed }) => (
-						<Entypo
-							name="cross"
+						<Fontisto
+							name="plus-a"
 							size={28}
 							color={Colors[colorScheme ?? "light"].tint}
 							style={[
 								styles.button,
 								{
 									opacity: pressed ? 0.5 : 1,
+									transform: [{ rotate: "45deg" }],
 								},
 							]}
 						/>
@@ -184,8 +185,8 @@ export default function HomeScreen() {
 				</Pressable>
 				<Pressable>
 					{({ pressed }) => (
-						<Entypo
-							name="warning"
+						<AntDesign
+							name="exclamation"
 							size={28}
 							color={Colors[colorScheme ?? "light"].tint}
 							style={[
@@ -199,7 +200,7 @@ export default function HomeScreen() {
 				</Pressable>
 				<Pressable onPress={handleLike}>
 					{({ pressed }) => (
-						<FontAwesome
+						<AntDesign
 							name="heart"
 							size={28}
 							color={Colors[colorScheme ?? "light"].tint}
@@ -274,7 +275,8 @@ const styles = StyleSheet.create({
 		gap: 30,
 	},
 	button: {
-		padding: 20,
+		paddingHorizontal: 20,
+		paddingVertical: 20,
 		borderWidth: 2,
 		borderColor: "#2f95dc",
 		borderRadius: 100,
