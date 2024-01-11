@@ -10,3 +10,8 @@ type Message = {
     content: string,
     date: Date
 }
+
+type GroupedMessage = {
+	title: string,
+	data: Message[],
+}
