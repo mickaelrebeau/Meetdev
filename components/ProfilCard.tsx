@@ -43,6 +43,7 @@ export default function ProfilCard(user: User) {
 			<View
 				style={{
 					display: "flex",
+					flexWrap: "wrap",
 					flexDirection: "row",
 					backgroundColor: "transparent",
 					gap: 5,
