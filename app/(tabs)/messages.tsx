@@ -9,7 +9,7 @@ export default function MessagesScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.match}>
-				<Text style={styles.title}>Nouveaux Match</Text>
+				<Text style={styles.title}>Matches</Text>
 				<ScrollView horizontal contentContainerStyle={styles.images}>
 					<Image
 						style={styles.image}
