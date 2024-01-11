@@ -1,11 +1,19 @@
-import { Image, Pressable, StyleSheet, TextInput, useColorScheme } from "react-native";
+import {
+	Image,
+	Pressable,
+	SectionList,
+	StyleSheet,
+	TextInput,
+	useColorScheme,
+} from "react-native";
 import Colors from "../../constants/Colors";
 import { Text, View } from "../../components/Themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Messages } from "../../constants/Messages";
 import { FontAwesome, Ionicons, SimpleLineIcons } from "@expo/vector-icons";
-import { Input } from "@rneui/themed";
+import moment from "moment";
+import { GiftedChat } from "react-native-gifted-chat";
 
 export default function ChatScreen() {
 	const router = useRouter();
@@ -21,16 +29,24 @@ export default function ChatScreen() {
 		}).format(date);
 	};
 
-	const renderDateHeader = (currentDate: Date, messageDate: Date) => {
-		if (
-			currentDate.getDate() === messageDate.getDate() &&
-			currentDate.getMonth() === messageDate.getMonth() &&
-			currentDate.getFullYear() === messageDate.getFullYear()
-		) {
-			return <Text style={{ fontSize: 18, textAlign: "center" }}>Today</Text>;
-		}
-		return null;
+	const groupMessagesByDate = (messages?: {
+		chat: Message[];
+	}): GroupedMessage[] => {
+		const grouped: { [date: string]: Message[] } = {};
+		messages?.chat.forEach((message) => {
+			const dateStr = moment(message.date).format("LL");
+			if (!grouped[dateStr]) {
+				grouped[dateStr] = [];
+			}
+			grouped[dateStr].push(message);
+		});
+		return Object.keys(grouped).map((date) => ({
+			title: date,
+			data: grouped[date],
+		}));
 	};
+
+	const sections = groupMessagesByDate(messages);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -55,7 +71,14 @@ export default function ChatScreen() {
 						style={[styles.image, { width: 40, height: 40 }]}
 						source={messages?.imgUrl}
 					/>
-					<Text style={[styles.title, { color: Colors[colorScheme ?? "light"].text }]}>{messages?.name}</Text>
+					<Text
+						style={[
+							styles.title,
+							{ color: Colors[colorScheme ?? "light"].text },
+						]}
+					>
+						{messages?.name}
+					</Text>
 				</View>
 				<Pressable>
 					<SimpleLineIcons
@@ -66,50 +89,53 @@ export default function ChatScreen() {
 				</Pressable>
 			</View>
 			<View style={styles.chat}>
-				{messages?.chat.map((item, index, array) => {
-					const currentDate = new Date();
-					const messageDate = new Date(item.date);
-
-					return (
-						<View key={index}>
-							{renderDateHeader(currentDate, messageDate)}
-							<View
-								style={{
-									flexDirection: item.sender === "me" ? "row-reverse" : "row",
-									padding: 10,
-									paddingVertical: item.sender === "me" ? 10 : 10,
-								}}
-							>
-								<View style={{ width: "auto", maxWidth: "70%" }}>
-									<View
-										style={{
-											padding: 10,
-											borderBottomRightRadius: item.sender === "me" ? 0 : 10,
-											borderBottomLeftRadius: item.sender === "me" ? 10 : 0,
-											borderRadius: 10,
-											backgroundColor:
-												item.sender === "me" ? "#3e3e3e" : "#2f95dc",
-										}}
-									>
-										<Text style={styles.text}>{item.content}</Text>
-									</View>
-									{item.sender && (
-										<Text
-											style={[
-												styles.time,
-												{
-													textAlign: item.sender === "me" ? "right" : "left",
-												},
-											]}
+				<SectionList
+					sections={sections}
+					keyExtractor={(item, index) => item.toString() + index}
+					renderSectionHeader={({ section: { title } }) => (
+						<Text style={styles.sectionHeader}>{title}</Text>
+					)}
+					renderItem={({ item }) => {
+						return (
+							<>
+								<View
+									style={{
+										flexDirection: item.sender === "me" ? "row-reverse" : "row",
+										padding: 10,
+										paddingVertical: item.sender === "me" ? 10 : 10,
+									}}
+								>
+									<View style={{ width: "auto", maxWidth: "70%" }}>
+										<View
+											style={{
+												padding: 10,
+												borderBottomRightRadius: item.sender === "me" ? 0 : 10,
+												borderBottomLeftRadius: item.sender === "me" ? 10 : 0,
+												borderRadius: 10,
+												backgroundColor:
+													item.sender === "me" ? "#3e3e3e" : "#2f95dc",
+											}}
 										>
-											{formatDate(messageDate)}
-										</Text>
-									)}
+											<Text style={styles.text}>{item.content}</Text>
+										</View>
+										{item.sender && (
+											<Text
+												style={[
+													styles.time,
+													{
+														textAlign: item.sender === "me" ? "right" : "left",
+													},
+												]}
+											>
+												{formatDate(new Date(item.date))}
+											</Text>
+										)}
+									</View>
 								</View>
-							</View>
-						</View>
-					);
-				})}
+							</>
+						);
+					}}
+				/>
 			</View>
 			<View
 				style={[
@@ -171,6 +197,17 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: "100%",
 		padding: 10,
+		marginBottom: 70,
+	},
+	sectionHeader: {
+		fontWeight: "bold",
+		fontSize: 16,
+		backgroundColor: "transparent",
+		padding: 10,
+		marginBottom: 10,
+		width: "100%",
+		textAlign: "center",
+		color: "gray",
 	},
 	image: {
 		width: 60,
