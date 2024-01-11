@@ -5,7 +5,7 @@ export const Users = [
 		job: "Frontend Developer",
 		image: require("../assets/images/mike.png"),
 		bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
-		tags: ["Python", "Javascript", "Typescript", "Java"],
+		tags: ["Python", "Javascript", "Typescript", "PHP", ".Net"],
 	},
 	{
 		id: 2,
@@ -13,7 +13,7 @@ export const Users = [
 		job: "Backend Developer",
 		image: require("../assets/images/mike.png"),
 		bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
-		tags: ["Python", "Typescript", "C++", "C#", "Objective-C"],
+		tags: ["Python", "Typescript", "C++", "C#", "Objective-C", "Java"],
 	},
 	{
 		id: 3,
