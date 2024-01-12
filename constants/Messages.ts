@@ -1,3 +1,5 @@
+import { User as UserInterface, IMessage } from "react-native-gifted-chat";
+
 export const Messages = [
 	{
 		id: 1,
@@ -75,7 +77,7 @@ export const Messages = [
 				sender: "me",
 				content: "Very nice 👍",
 				date: new Date("2024-01-05T20:18:00"),
-			}
+			},
 		],
 	},
 	{
@@ -100,7 +102,7 @@ export const Messages = [
 				content: "We are looking for you bitch !",
 				date: new Date("2024-01-01T10:45:00"),
 			},
-		]
+		],
 	},
 	{
 		id: 5,
@@ -112,7 +114,7 @@ export const Messages = [
 				content: "I would like to die on Mars. Just not on impact.",
 				date: new Date("2024-01-01T10:45:00"),
 			},
-		]
+		],
 	},
 	{
 		id: 6,
@@ -124,7 +126,7 @@ export const Messages = [
 				content: "We are at War !",
 				date: new Date("2024-01-01T10:45:00"),
 			},
-		]
+		],
 	},
 	{
 		id: 7,
@@ -150,6 +152,32 @@ export const Messages = [
 					"A smile is the best way to get away with trouble even if it’s a fake one",
 				date: new Date("2024-01-01T10:45:00"),
 			},
-		]
+		],
 	},
 ];
+
+export const convertToGiftedChatFormat = (messagesData: Messages) => {
+	const user: UserInterface = {
+		_id: messagesData.id.toString(),
+		name: messagesData.name,
+		avatar: messagesData.imgUrl,
+	};
+
+	const messages = messagesData.chat.map((message, index) => {
+		return {
+			_id: index.toString(),
+			text: message.content,
+			createdAt: message.date,
+			user: {
+				_id: message.sender === "me" ? "1" : "2",
+				name: message.sender,
+				avatar:
+					message.sender === "me"
+						? "https://placeimg.com/140/140/any"
+						: messagesData.imgUrl,
+			},
+		};
+	});
+
+	return messages;
+};
