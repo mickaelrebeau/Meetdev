@@ -20,6 +20,7 @@ export default function ProfilScreen() {
 			</View>
 			<View style={styles.card}>
 				<Pressable
+					onPress={() => router.push("/editProfil")}
 					style={({ pressed }) => [
 						styles.buttonOutline,
 						{
@@ -30,6 +31,7 @@ export default function ProfilScreen() {
 					<Text style={styles.textButton}>Edit profile</Text>
 				</Pressable>
 				<Pressable
+					onPress={() => router.push("/modalCard")}
 					style={({ pressed }) => [
 						styles.buttonOutline,
 						{
