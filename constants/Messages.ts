@@ -157,25 +157,18 @@ export const Messages = [
 ];
 
 export const convertToGiftedChatFormat = (messagesData: Messages) => {
-	const user: UserInterface = {
-		_id: messagesData.id.toString(),
-		name: messagesData.name,
-		avatar: messagesData.imgUrl,
-	};
+	const messages: IMessage[] = messagesData.chat.map((message, index) => {
+		const isMe = message.sender === "me";
 
-	const messages = messagesData.chat.map((message, index) => {
 		return {
 			_id: index.toString(),
 			text: message.content,
 			createdAt: message.date,
 			user: {
-				_id: message.sender === "me" ? "1" : "2",
-				name: message.sender,
-				avatar:
-					message.sender === "me"
-						? "https://placeimg.com/140/140/any"
-						: messagesData.imgUrl,
-			},
+				_id: isMe ? "1" : "2",
+				name: isMe ? "me" : message.sender,
+				avatar: isMe ? undefined : messagesData.imgUrl,
+			}
 		};
 	});
 
