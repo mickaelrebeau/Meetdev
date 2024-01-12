@@ -66,8 +66,19 @@ function RootLayoutNav() {
 					name="notifications"
 					options={{ presentation: "modal", title: "Notifications" }}
 				/>
-				<Stack.Screen name="security" options={{ presentation: "modal", title: "Security" }} />
-				<Stack.Screen name="settings" options={{ presentation: "modal", title: "Settings" }} />
+				<Stack.Screen
+					name="security"
+					options={{ presentation: "modal", title: "Security" }}
+				/>
+				<Stack.Screen
+					name="settings"
+					options={{ presentation: "modal", title: "Settings" }}
+				/>
+				<Stack.Screen
+					name="editProfil"
+					options={{ presentation: "modal", title: "Edit Profile" }}
+				/>
+				<Stack.Screen name="modalCard" options={{ headerShown: false }} />
 			</Stack>
 		</ThemeProvider>
 	);
