@@ -19,19 +19,18 @@ export default function ChatScreen() {
 	const colorScheme = useColorScheme();
 
 	const data = Messages.find((message) => message.id.toString() === id);
-	const giftedChatMessages = data && convertToGiftedChatFormat(data);
+	const giftedChatMessages = data && convertToGiftedChatFormat(data).reverse();
 
 	const [messages, setMessages] = useState<IMessage[]>([]);
 
 	useEffect(() => {
-		setMessages(giftedChatMessages || []);
+		setMessages(giftedChatMessages ||[]);
 	}, []);
 
 	const onSend = useCallback((messages: IMessage[]) => {
 		setMessages((previousMessages) =>
 			GiftedChat.append(previousMessages, messages)
 		);
-		console.log(messages);
 	}, []);
 
 	return (
