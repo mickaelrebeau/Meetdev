@@ -21,9 +21,11 @@ import Animated, {
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import Colors from "../../constants/Colors";
+import { SignalModal } from "../../components/SignalModal";
 
 export default function HomeScreen() {
 	const colorScheme = useColorScheme();
+	const [modalVisible, setModalVisible] = useState(false);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [nextIndex, setNextIndex] = useState((currentIndex + 1) % Users.length);
 	const currentProfil = Users[currentIndex];
@@ -183,7 +185,7 @@ export default function HomeScreen() {
 						/>
 					)}
 				</Pressable>
-				<Pressable>
+				<Pressable onPress={() => setModalVisible(true)}>
 					{({ pressed }) => (
 						<AntDesign
 							name="exclamation"
@@ -214,6 +216,8 @@ export default function HomeScreen() {
 					)}
 				</Pressable>
 			</View>
+
+			<SignalModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
 		</View>
 	);
 }
