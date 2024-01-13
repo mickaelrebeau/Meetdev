@@ -58,18 +58,32 @@ export default function TabLayout() {
 					),
 					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
 					headerRight: () => (
-						<Link href="/notifications" asChild>
-							<Pressable>
-								{({ pressed }) => (
-									<FontAwesome
-										name="bell"
-										size={25}
-										color={Colors[colorScheme ?? "light"].tint}
-										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-									/>
-								)}
-							</Pressable>
-						</Link>
+						<View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+							<Link href="/filters" asChild>
+								<Pressable>
+									{({ pressed }) => (
+										<FontAwesome
+											name="filter"
+											size={25}
+											color={Colors[colorScheme ?? "light"].tint}
+											style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+										/>
+									)}
+								</Pressable>
+							</Link>
+							<Link href="/notifications" asChild>
+								<Pressable>
+									{({ pressed }) => (
+										<FontAwesome
+											name="bell"
+											size={25}
+											color={Colors[colorScheme ?? "light"].tint}
+											style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+										/>
+									)}
+								</Pressable>
+							</Link>
+						</View>
 					),
 				}}
 			/>
