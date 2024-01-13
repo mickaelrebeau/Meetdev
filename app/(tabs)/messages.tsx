@@ -59,14 +59,13 @@ const styles = StyleSheet.create({
 
 		flex: 1,
 		alignItems: "center",
-		gap: 30,
+		gap: 20,
 
 		paddingHorizontal: 10,
-		paddingVertical: 10,
+		paddingVertical: 5,
 	},
 	match: {
 		width: "100%",
-		paddingVertical: 10,
 	},
 	images: {
 		marginTop: 20,
