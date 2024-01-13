@@ -44,11 +44,9 @@ export default function ProfilScreen() {
 			</View>
 			<View style={[styles.card, { gap: 30 }]}>
 				<View style={styles.sub}>
-					<Text style={styles.title2}>Subscriptions</Text>
-					<Text>Compare</Text>
+					<Text style={styles.title2}>Shop</Text>
 				</View>
 				<Pressable
-					onPress={() => router.push("/")}
 					style={({ pressed }) => [
 						styles.button,
 						{
@@ -57,7 +55,37 @@ export default function ProfilScreen() {
 						},
 					]}
 				>
-					<Text style={[styles.title2, { color: "black" }]}>Meetdev Premium</Text>
+					<Text style={[styles.title2, { color: "black" }]}>
+						Go to shop
+					</Text>
+					<MaterialIcons name="arrow-forward-ios" size={24} color="black" />
+				</Pressable>
+			</View>
+			<View style={[styles.card, { gap: 30 }]}>
+				<View style={styles.sub}>
+					<Text style={styles.title2}>Subscriptions</Text>
+					<Pressable
+						style={({ pressed }) => [
+							{
+								opacity: pressed ? 0.5 : 1,
+							},
+						]}
+					>
+						<Text style={styles.text}>Compare</Text>
+					</Pressable>
+				</View>
+				<Pressable
+					style={({ pressed }) => [
+						styles.button,
+						{
+							opacity: pressed ? 0.5 : 1,
+							backgroundColor: Colors[colorScheme ?? "light"].tint,
+						},
+					]}
+				>
+					<Text style={[styles.title2, { color: "black" }]}>
+						Meetdev Premium
+					</Text>
 					<Text style={{ color: "black" }}>From $8.99</Text>
 					<MaterialIcons name="arrow-forward-ios" size={24} color="black" />
 				</Pressable>
@@ -79,6 +107,10 @@ const styles = StyleSheet.create({
 	title2: {
 		fontSize: 20,
 		fontWeight: "bold",
+	},
+	text: {
+		fontSize: 18,
+		fontWeight: "300",
 	},
 	image: {
 		width: 120,
