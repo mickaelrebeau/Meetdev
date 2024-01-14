@@ -43,51 +43,21 @@ export default function ProfilScreen() {
 				</Pressable>
 			</View>
 			<View style={[styles.card, { gap: 30 }]}>
-				<View style={styles.sub}>
-					<Text style={styles.title2}>Shop</Text>
-				</View>
+				<Text style={styles.title2}>Coming soon..</Text>
+				<Text style={[styles.text, { textAlign: "center", width: "80%" }]}>
+					Subscriptions page and shop will be coming soon for suport the projct
+					you can make a donation by cliking here.
+				</Text>
 				<Pressable
 					style={({ pressed }) => [
-						styles.button,
+						styles.buttonOutline,
 						{
 							opacity: pressed ? 0.5 : 1,
-							backgroundColor: Colors[colorScheme ?? "light"].tint,
-						},
+						}
 					]}
+					onPress={() => router.push("https://streamlabs.com/mike_dreeman/tip")}
 				>
-					<Text style={[styles.title2, { color: "black" }]}>
-						Go to shop
-					</Text>
-					<MaterialIcons name="arrow-forward-ios" size={24} color="black" />
-				</Pressable>
-			</View>
-			<View style={[styles.card, { gap: 30 }]}>
-				<View style={styles.sub}>
-					<Text style={styles.title2}>Subscriptions</Text>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Compare</Text>
-					</Pressable>
-				</View>
-				<Pressable
-					style={({ pressed }) => [
-						styles.button,
-						{
-							opacity: pressed ? 0.5 : 1,
-							backgroundColor: Colors[colorScheme ?? "light"].tint,
-						},
-					]}
-				>
-					<Text style={[styles.title2, { color: "black" }]}>
-						Meetdev Premium
-					</Text>
-					<Text style={{ color: "black" }}>From $8.99</Text>
-					<MaterialIcons name="arrow-forward-ios" size={24} color="black" />
+					<Text style={styles.textButton}>Donate</Text>
 				</Pressable>
 			</View>
 		</View>
