@@ -20,42 +20,94 @@ export default function EditProfile() {
 				contentContainerStyle={{ alignItems: "center" }}
 			>
 				<View style={style.form}>
-					<Text style={style.title}>Media</Text>
-					<View style={style.media}>
-						<View style={style.photo} />
+					<View style={style.formContent}>
+						<Text style={style.title}>Media</Text>
+						<View style={style.media}>
+							<View style={style.photo} />
+						</View>
 					</View>
-					<Text style={style.title}>Bio</Text>
-					<TextInput
-						placeholder="Bio"
-						multiline
-						numberOfLines={6}
-						style={style.bio}
-						placeholderTextColor="gray"
-					/>
-					<Text style={style.title}>Last Name</Text>
-					<Input placeholder="Last Name" />
-					<Text style={style.title}>First Name</Text>
-					<Input placeholder="First Name" />
-					<Text style={style.title}>Username</Text>
-					<Input placeholder="Username" />
-					<Text style={style.title}>Age</Text>
-					<Input placeholder="Age" />
-					<Text style={style.title}>Country</Text>
-					<Input placeholder="Country" />
-					<Text style={style.title}>Grade Level</Text>
-					<Input placeholder="Grade Level" />
-					<Text style={style.title}>Languages</Text>
-					<Input placeholder="Languages" />
-					<Text style={style.title}>Programming Languages</Text>
-					<Input placeholder="Programming Languages" />
-					<Text style={style.title}>Post</Text>
-					<Input placeholder="Post" />
-					<Text style={style.title}>Company</Text>
-					<Input placeholder="Company" />
-					<Text style={style.title}>Github Url</Text>
-					<Input placeholder="Github" />
-					<Text style={style.title}>Portfolio Url</Text>
-					<Input placeholder="Portfolio" />
+					<View style={style.formContent}>
+						<Text style={style.title}>Bio</Text>
+						<TextInput
+							placeholder="Ceci est une bio haha.."
+							multiline
+							numberOfLines={6}
+							style={style.bio}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Username</Text>
+						<TextInput
+							placeholder="Mike_dreeman"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Country</Text>
+						<TextInput
+							placeholder="France"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Languages</Text>
+						<TextInput
+							placeholder="Français, Espagnol, Anglais"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Programming Languages</Text>
+						<TextInput
+							placeholder="Javascript, Python"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Post</Text>
+						<TextInput
+							placeholder="Développer Frontend"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Company</Text>
+						<TextInput
+							placeholder="En recherche d'emploi mdr"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Github Url</Text>
+						<TextInput
+							placeholder="https://github.com/mickaelrebeau"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Gitlab Url</Text>
+						<TextInput
+							placeholder="https://gitlab.com/Mike97310"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
+					<View style={style.formContent}>
+						<Text style={style.title}>Portfolio Url</Text>
+						<TextInput
+							placeholder="https://mike-dreeman-portfolio.vercel.app/"
+							style={style.input}
+							placeholderTextColor="gray"
+						/>
+					</View>
 
 					<Pressable style={style.button}>
 						<Text style={[style.title, { textAlign: "center" }]}>
@@ -96,13 +148,17 @@ const style = StyleSheet.create({
         backgroundColor: "#3e3e3e",
 	},
 	form: {
-		marginVertical: 50,
+		marginVertical: 20,
 		width: "90%",
 		height: "auto",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "transparent",
+		gap: 20,
+	},
+	formContent: {
+		width: "100%",
 		gap: 5,
 	},
 	title: {
@@ -110,10 +166,17 @@ const style = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: "400",
 	},
+	input: {
+		width: "100%",
+		paddingHorizontal: 10,
+		paddingVertical: 10,
+		borderWidth: 2,
+		borderColor: "gray",
+		borderRadius: 8,
+	},
 	bio: {
 		padding: 10,
-		marginVertical: 5,
-		width: "95%",
+		width: "100%",
 		borderWidth: 2,
 		borderColor: "gray",
 		borderRadius: 8,
