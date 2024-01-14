@@ -8,6 +8,7 @@ const mike = {
 	id: 1,
 	name: "Mike_dreeman",
 	job: "Frontend Developer",
+	company: "Apple",
 	image: require("../assets/images/mike.png"),
 	bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
 	tags: ["Python", "Javascript", "Typescript", "Java"],
