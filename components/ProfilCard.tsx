@@ -2,6 +2,7 @@ import { Image, StyleSheet } from "react-native";
 
 import { Text, View } from "./Themed";
 import { Card } from "@rneui/themed";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ProfilCard(user: User) {
 	return (
@@ -37,6 +38,16 @@ export default function ProfilCard(user: User) {
 					>
 						{user.job}
 					</Text>
+					<Text
+						style={{
+							color: "black",
+							fontWeight: "300",
+							fontSize: 20,
+							textAlign: "center",
+						}}
+					>
+						At {user.company}
+					</Text>
 				</View>
 			</View>
 			<Text style={{ marginVertical: 30, color: "gray" }}>{user.bio}</Text>
@@ -50,8 +61,8 @@ export default function ProfilCard(user: User) {
 				}}
 			>
 				{user.tags.map((tag) => (
-                    <Text
-                        key={tag}
+					<Text
+						key={tag}
 						style={{
 							borderWidth: 1,
 							borderColor: "gray",
@@ -65,6 +76,11 @@ export default function ProfilCard(user: User) {
 						{tag}
 					</Text>
 				))}
+			</View>
+			<View style={styles.links}>
+				<AntDesign name="github" size={24} color="black" />
+				<AntDesign name="gitlab" size={24} color="black" />
+				<MaterialCommunityIcons name="web" size={24} color="black" />
 			</View>
 		</Card>
 	);
@@ -93,9 +109,14 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: "bold",
 	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: "80%",
+	links: {
+		marginTop: 30,
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-around",
+		gap: 10,
+
+		backgroundColor: "transparent",
 	},
 });
