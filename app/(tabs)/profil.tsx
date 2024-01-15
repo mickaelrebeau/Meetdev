@@ -1,13 +1,10 @@
-import { Image, Pressable, StyleSheet, useColorScheme } from "react-native";
+import { Image, Pressable, StyleSheet } from "react-native";
 
 import { Text, View } from "../../components/Themed";
 import { useRouter } from "expo-router";
-import Colors from "../../constants/Colors";
-import { MaterialIcons } from "@expo/vector-icons";
 
 export default function ProfilScreen() {
 	const router = useRouter();
-	const colorScheme = useColorScheme();
 	
 	return (
 		<View style={styles.container}>
@@ -20,7 +17,7 @@ export default function ProfilScreen() {
 			</View>
 			<View style={styles.card}>
 				<Pressable
-					onPress={() => router.push("/editProfil")}
+					onPress={() => router.push("/edit-profile")}
 					style={({ pressed }) => [
 						styles.buttonOutline,
 						{
@@ -31,7 +28,7 @@ export default function ProfilScreen() {
 					<Text style={styles.textButton}>Edit profile</Text>
 				</Pressable>
 				<Pressable
-					onPress={() => router.push("/modalCard")}
+					onPress={() => router.push("/card")}
 					style={({ pressed }) => [
 						styles.buttonOutline,
 						{
@@ -122,7 +119,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		borderRadius: 50,
 		borderColor: "#2f95dc",
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 	button: {
 		width: "90%",
