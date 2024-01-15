@@ -33,20 +33,6 @@ export default function TabLayout() {
 						<TabBarIcon name="comments" color={color} />
 					),
 					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
-					headerRight: () => (
-						<Link href="/security" asChild>
-							<Pressable>
-								{({ pressed }) => (
-									<FontAwesome
-										name="shield"
-										size={25}
-										color={Colors[colorScheme ?? "light"].tint}
-										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-									/>
-								)}
-							</Pressable>
-						</Link>
-					),
 				}}
 			/>
 			<Tabs.Screen
@@ -59,18 +45,6 @@ export default function TabLayout() {
 					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
 					headerRight: () => (
 						<View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-							<Link href="/filters" asChild>
-								<Pressable>
-									{({ pressed }) => (
-										<FontAwesome
-											name="filter"
-											size={25}
-											color={Colors[colorScheme ?? "light"].tint}
-											style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-										/>
-									)}
-								</Pressable>
-							</Link>
 							<Link href="/notifications" asChild>
 								<Pressable>
 									{({ pressed }) => (
@@ -95,18 +69,6 @@ export default function TabLayout() {
 					headerLeft: () => <LogoSvg style={{ marginLeft: 15 }} />,
 					headerRight: () => (
 						<View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-							<Link href="/security" asChild>
-								<Pressable>
-									{({ pressed }) => (
-										<FontAwesome
-											name="shield"
-											size={30}
-											color={Colors[colorScheme ?? "light"].tint}
-											style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-										/>
-									)}
-								</Pressable>
-							</Link>
 							<Link href="/settings" asChild>
 								<Pressable>
 									{({ pressed }) => (
