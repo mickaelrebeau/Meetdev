@@ -28,7 +28,7 @@ export default function HeroScreen() {
 			</Text>
 			<View style={styles.authButton}>
 				<Pressable
-					onPress={() => router.push("/home")}
+					onPress={() => router.push("/signup-step")}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
@@ -38,7 +38,7 @@ export default function HeroScreen() {
 					<Text style={styles.textButton}>Sign Up with Github</Text>
 				</Pressable>
 				<Pressable
-					onPress={() => router.push("/home")}
+					onPress={() => router.push("/signup-step")}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
@@ -61,7 +61,7 @@ export default function HeroScreen() {
 				</Pressable>
 
 				<Pressable
-					onPress={() => router.push("/auth")}
+					onPress={() => router.push("/log-problems")}
 					style={({ pressed }) => [
 						{ opacity: pressed ? 0.5 : 1, marginTop: 20 },
 					]}
