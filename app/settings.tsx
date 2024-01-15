@@ -1,136 +1,135 @@
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, useColorScheme } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import { router } from "expo-router";
+import { Filters } from "../components/Filters";
+import { ScrollView } from "react-native-gesture-handler";
+import { LogoSvg } from "../assets/images/LogoSvg";
 
 export default function SettingsScreen() {
 	const colorScheme = useColorScheme();
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.card}>
-				<Text style={styles.title}>Notifications</Text>
-				<View style={styles.subcard}>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>E-mail address</Text>
-					</Pressable>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Notifications</Text>
-					</Pressable>
+		<SafeAreaView style={styles.container}>
+			<ScrollView
+				style={{
+					width: "100%",
+				}}
+			>
+				<View style={styles.settings}>
+					<View style={styles.card}>
+						<Text style={styles.title}>Contact us</Text>
+						<View style={styles.subcard}>
+							<Pressable
+								style={({ pressed }) => [
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.text}>Give Feedback</Text>
+							</Pressable>
+						</View>
+					</View>
+					<View style={styles.card}>
+						<Text style={styles.title}>Confidentialities</Text>
+						<View style={styles.subcard}>
+							<Pressable
+								style={({ pressed }) => [
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.text}>Privacy Policy</Text>
+							</Pressable>
+							<Pressable
+								style={({ pressed }) => [
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.text}>Privacy Preference</Text>
+							</Pressable>
+						</View>
+					</View>
+					<View style={styles.card}>
+						<Text style={styles.title}>Legal Notice</Text>
+						<View style={styles.subcard}>
+							<Pressable
+								style={({ pressed }) => [
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.text}>Licenses</Text>
+							</Pressable>
+							<Pressable
+								style={({ pressed }) => [
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.text}>Terms of use</Text>
+							</Pressable>
+						</View>
+					</View>
+					<View style={styles.buttons}>
+						<Pressable
+							onPress={() => router.push("/")}
+							style={({ pressed }) => [
+								styles.button,
+								{
+									opacity: pressed ? 0.5 : 1,
+									backgroundColor: Colors[colorScheme ?? "light"].tint,
+								},
+							]}
+						>
+							<Text style={[styles.title, { color: "black" }]}>Log Out</Text>
+						</Pressable>
+						<Pressable
+							onPress={() => router.push("/")}
+							style={({ pressed }) => [
+								styles.buttonOutline,
+								{
+									opacity: pressed ? 0.5 : 1,
+								},
+							]}
+						>
+							<Text style={styles.title}>Delete your account</Text>
+						</Pressable>
+					</View>
+					<View style={styles.footer}>
+						<View style={styles.logo}>
+							<LogoSvg />
+							<Text style={styles.text}>Meetdev</Text>
+						</View>
+						<Text style={[styles.text, { textAlign: "center" }]}>© 2024, Meetdev</Text>
+					</View>
 				</View>
-			</View>
-			<View style={styles.card}>
-				<Text style={styles.title}>Contact us</Text>
-				<View style={styles.subcard}>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Help and support</Text>
-					</Pressable>
-				</View>
-			</View>
-			<View style={styles.card}>
-				<Text style={styles.title}>Confidentialities</Text>
-				<View style={styles.subcard}>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Privacy Policy</Text>
-					</Pressable>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Privacy Preference</Text>
-					</Pressable>
-				</View>
-			</View>
-			<View style={styles.card}>
-				<Text style={styles.title}>Legal Notice</Text>
-				<View style={styles.subcard}>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Licenses</Text>
-					</Pressable>
-					<Pressable
-						style={({ pressed }) => [
-							{
-								opacity: pressed ? 0.5 : 1,
-							},
-						]}
-					>
-						<Text style={styles.text}>Terms of use</Text>
-					</Pressable>
-				</View>
-			</View>
-			<View style={styles.buttons}>
-				<Pressable
-					onPress={() => router.push("/")}
-					style={({ pressed }) => [
-						styles.button,
-						{
-							opacity: pressed ? 0.5 : 1,
-							backgroundColor: Colors[colorScheme ?? "light"].tint,
-						},
-					]}
-				>
-					<Text style={[styles.title, { color: "black" }]}>Log Out</Text>
-				</Pressable>
-				<Pressable
-					onPress={() => router.push("/")}
-					style={({ pressed }) => [
-						styles.buttonOutline,
-						{
-							opacity: pressed ? 0.5 : 1,
-						},
-					]}
-				>
-					<Text style={styles.title}>Delete your account</Text>
-				</Pressable>
-			</View>
-		</View>
+			</ScrollView>
+		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: 20,
+		width: "100%",
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "space-around",
-		gap: 30,
+	},
+	settings: {
+		paddingHorizontal: 20,
+		paddingVertical: 20,
+
+		gap: 20,
 	},
 	card: {
-		width: "90%",
+		width: "100%",
 		display: "flex",
 		flexDirection: "column",
 		gap: 10,
@@ -148,14 +147,14 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		fontSize: 18,
-		fontWeight: "300",
+		fontWeight: "400",
 	},
 	buttons: {
 		width: "100%",
-		marginTop: 20,
+		marginTop: 50,
 		alignItems: "center",
 		flexDirection: "column",
-		gap: 10,
+		gap: 20,
 	},
 	buttonOutline: {
 		width: "90%",
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		borderRadius: 50,
 		borderColor: "#2f95dc",
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 	button: {
 		width: "90%",
@@ -186,4 +185,18 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 		borderColor: "transparent",
 	},
+	footer: {
+		marginTop: 80,
+		width: "100%",
+		display: "flex",
+		flexDirection: "column",
+		gap: 10,
+	},
+	logo: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 10,
+	}
 });
