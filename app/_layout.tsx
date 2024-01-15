@@ -53,6 +53,15 @@ function RootLayoutNav() {
 		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
 			<Stack>
 				<Stack.Screen name="index" options={{ headerShown: false }} />
+				<Stack.Screen name="signup-step" options={{ headerShown: false }} />
+				<Stack.Screen
+					name="log-problems"
+					options={{ presentation: "modal", title: "Connection problems ?" }}
+				/>
+				<Stack.Screen
+					name="forgot-password"
+					options={{ presentation: "modal", title: "Reset Password" }}
+				/>
 				<Stack.Screen
 					name="auth"
 					options={{ headerShown: false, presentation: "modal" }}
@@ -63,26 +72,18 @@ function RootLayoutNav() {
 					options={{ presentation: "modal", headerShown: false }}
 				/>
 				<Stack.Screen
-					name="filters"
-					options={{ presentation: "modal", title: "Filters" }}
-				/>
-				<Stack.Screen
 					name="notifications"
 					options={{ presentation: "modal", title: "Notifications" }}
-				/>
-				<Stack.Screen
-					name="security"
-					options={{ presentation: "modal", title: "Security" }}
 				/>
 				<Stack.Screen
 					name="settings"
 					options={{ presentation: "modal", title: "Settings" }}
 				/>
 				<Stack.Screen
-					name="editProfil"
+					name="edit-profile"
 					options={{ presentation: "modal", title: "Edit Profile" }}
 				/>
-				<Stack.Screen name="modalCard" options={{ headerShown: false }} />
+				<Stack.Screen name="card" options={{ headerShown: false }} />
 			</Stack>
 		</ThemeProvider>
 	);
