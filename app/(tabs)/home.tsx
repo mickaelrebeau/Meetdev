@@ -21,7 +21,7 @@ import Animated, {
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import Colors from "../../constants/Colors";
-import { SignalModal } from "../../components/SignalModal";
+import { SignalModal } from "../../components/modal/SignalModal";
 
 export default function HomeScreen() {
 	const colorScheme = useColorScheme();
@@ -281,13 +281,13 @@ const styles = StyleSheet.create({
 	button: {
 		paddingHorizontal: 20,
 		paddingVertical: 20,
-		borderWidth: 2,
+		borderWidth: 1,
 		borderColor: "#2f95dc",
 		borderRadius: 100,
 	},
 	buttonCenter: {
 		padding: 12,
-		borderWidth: 2,
+		borderWidth: 1,
 		borderColor: "#2f95dc",
 		borderRadius: 100,
 	},
