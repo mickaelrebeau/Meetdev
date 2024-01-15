@@ -14,7 +14,7 @@ const mike = {
 	tags: ["Python", "Javascript", "Typescript", "Java"],
 };
 
-export default function ModalCard() {
+export default function Card() {
     return (
 			<SafeAreaView style={styles.container}>
 				<View style={styles.card}>
@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		borderRadius: 50,
 		borderColor: "#2f95dc",
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 });
