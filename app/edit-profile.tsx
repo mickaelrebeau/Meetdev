@@ -3,16 +3,11 @@ import {
 	SafeAreaView,
 	StyleSheet,
 	TextInput,
-	useColorScheme,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native-gesture-handler";
-import { Input } from "@rneui/themed";
-import Colors from "../constants/Colors";
 
 export default function EditProfile() {
-	const colorScheme = useColorScheme();
-
 	return (
 		<SafeAreaView style={style.container}>
 			<ScrollView
