@@ -4,7 +4,7 @@ import { Platform, Pressable, StyleSheet } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { useState } from "react";
-import { NewMatch } from "../components/NewMatchModal";
+import { NewMatch } from "../components/modal/NewMatchModal";
 
 export default function NotificationsScreen() {
 	const [modalVisible, setModalVisible] = useState(false);
