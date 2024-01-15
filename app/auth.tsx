@@ -1,4 +1,9 @@
-import { Pressable, SafeAreaView, StyleSheet, useColorScheme } from "react-native";
+import {
+	Pressable,
+	SafeAreaView,
+	StyleSheet,
+	useColorScheme,
+} from "react-native";
 
 import { Text, View } from "../components/Themed";
 import { CheckBox, Input, Tab, TabView } from "@rneui/themed";
@@ -19,11 +24,13 @@ export default function AuthScreen() {
 				<Text style={styles.titleLogo}>Meetdev</Text>
 			</View>
 			<Tab
-				style={{ marginTop: 20 }}
+				style={{
+					marginTop: 20,
+				}}
 				value={index}
 				onChange={(e) => setIndex(e)}
 				indicatorStyle={{
-					height: 2,
+					height: 1,
 					backgroundColor: Colors[colorScheme ?? "light"].tint,
 				}}
 			>
@@ -198,7 +205,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		borderRadius: 50,
 		borderColor: "#2f95dc",
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 	textButton: {
 		fontSize: 20,
