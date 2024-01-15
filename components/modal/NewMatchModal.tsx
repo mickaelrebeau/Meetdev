@@ -6,15 +6,14 @@ import {
 	useColorScheme,
 	useWindowDimensions,
 } from "react-native";
-import { View, Text } from "./Themed";
-import { AntDesign } from "@expo/vector-icons";
-import { LogoSvg } from "../assets/images/LogoSvg";
-import Colors from "../constants/Colors";
+import { View, Text } from "../Themed";
+import Colors from "../../constants/Colors";
 import Animated, {
 	interpolate,
 	useAnimatedStyle,
 	useSharedValue,
 } from "react-native-reanimated";
+import { LogoSvg } from "../../assets/images/LogoSvg";
 
 export const NewMatch = ({
 	modalVisible,
@@ -66,19 +65,19 @@ export const NewMatch = ({
 					<Animated.View style={leftTranslate}>
 						<Image
 							style={{ width: 100, height: 100 }}
-							source={require("../assets/images/mike.png")}
+							source={require("../../assets/images/mike.png")}
 						/>
 					</Animated.View>
 					<Animated.View>
 						<Image
 							style={{ width: 100, height: 100 }}
-							source={require("../assets/images/mike.png")}
+							source={require("../../assets/images/mike.png")}
 						/>
 					</Animated.View>
 				</Animated.View>
 				<Image
 					style={{ width: "100%", height: 300 }}
-					source={require("../assets/images/canards.png")}
+					source={require("../../assets/images/canards.png")}
 				/>
 				<View style={styles.buttons}>
 					<Pressable

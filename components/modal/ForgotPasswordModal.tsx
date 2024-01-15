@@ -1,8 +1,8 @@
 import { StyleSheet, Modal, Pressable } from "react-native";
-import { Text, View } from "./Themed";
-import { AntDesign } from "@expo/vector-icons";
+import { View, Text } from "../Themed";
+import { router } from "expo-router";
 
-export const SignalModal = ({
+export const ForgotPasswordModal = ({
 	modalVisible,
 	setModalVisible,
 }: {
@@ -21,33 +21,23 @@ export const SignalModal = ({
 			<View style={styles.container}>
 				<View style={styles.card}>
 					<View style={styles.header}>
-						<Text style={styles.title}>Actions</Text>
-						<Pressable
-							onPress={() => setModalVisible(!modalVisible)}
-							style={({ pressed }) => [
-								styles.close,
-								{ opacity: pressed ? 0.5 : 1 },
-							]}
-						>
-							<AntDesign name="closecircle" size={24} color="white" />
-						</Pressable>
+						<Text style={styles.title}>Email sent !</Text>
 					</View>
 					<View style={styles.body}>
+						<Text style={styles.text}>
+							If you have an account with us, you will receive an email shortly.
+						</Text>
+						<Text style={styles.text}>
+							Please check your email to reset your password.
+						</Text>
 						<Pressable
+							onPress={() => router.push("/auth")}
 							style={({ pressed }) => [
 								styles.buttonOutline,
 								{ opacity: pressed ? 0.5 : 1 },
 							]}
 						>
-							<Text style={styles.title}>Report</Text>
-						</Pressable>
-						<Pressable
-							style={({ pressed }) => [
-								styles.buttonOutline,
-								{ opacity: pressed ? 0.5 : 1 },
-							]}
-						>
-							<Text style={styles.title}>Block</Text>
+							<Text style={styles.title}>Log In</Text>
 						</Pressable>
 					</View>
 				</View>
@@ -69,8 +59,8 @@ const styles = StyleSheet.create({
 
 		borderRadius: 10,
 	},
-    header: {
-        paddingVertical: 20,
+	header: {
+		paddingVertical: 20,
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
@@ -79,7 +69,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 	},
 	close: {
-        marginBottom: 10,
+		marginBottom: 10,
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 5,
@@ -87,12 +77,16 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 20,
 		fontWeight: "bold",
-	},
+    },
+    text: {
+        fontSize: 18,
+        fontWeight: "500",
+    },
 	body: {
-        paddingVertical: 20,
-        
-        alignItems: "center",
-        gap: 20,
+		paddingVertical: 20,
+
+		alignItems: "center",
+		gap: 20,
 	},
 	buttonOutline: {
 		width: "90%",
@@ -107,6 +101,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		borderRadius: 50,
 		borderColor: "#2f95dc",
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 });
