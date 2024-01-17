@@ -8,46 +8,52 @@ import { FlatList } from "react-native";
 export default function MessagesScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.match}>
-				<Text style={styles.title}>Matches</Text>
-				<ScrollView horizontal contentContainerStyle={styles.images}>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/mike.png")}
+			<View style={styles.content}>
+				<View style={styles.match}>
+					<Text style={styles.title}>Matches</Text>
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={styles.images}
+					>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/mike.png")}
+						/>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/homer.png")}
+						/>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/fbi.png")}
+						/>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/elon.png")}
+						/>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/macron.png")}
+						/>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/mark.png")}
+						/>
+						<Image
+							style={styles.image}
+							source={require("../../assets/images/naruto.png")}
+						/>
+					</ScrollView>
+				</View>
+				<View style={styles.match}>
+					<Text style={styles.title}>Messages</Text>
+					<FlatList
+						data={Messages}
+						renderItem={({ item }) => <MessageList {...item} />}
+						contentContainerStyle={{ paddingBottom: 200 }}
 					/>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/homer.png")}
-					/>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/fbi.png")}
-					/>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/elon.png")}
-					/>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/macron.png")}
-					/>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/mark.png")}
-					/>
-					<Image
-						style={styles.image}
-						source={require("../../assets/images/naruto.png")}
-					/>
-				</ScrollView>
-			</View>
-			<View style={styles.match}>
-				<Text style={styles.title}>Messages</Text>
-				<FlatList
-					data={Messages}
-					renderItem={({ item }) => <MessageList {...item} />}
-					contentContainerStyle={{ paddingBottom: 200 }}
-				/>
+				</View>
 			</View>
 		</SafeAreaView>
 	);
@@ -56,13 +62,15 @@ export default function MessagesScreen() {
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
+		flex: 1,
+	},
+	content: {
+		paddingHorizontal: 10,
+		width: "100%",
 
 		flex: 1,
 		alignItems: "center",
 		gap: 20,
-
-		paddingHorizontal: 10,
-		paddingVertical: 5,
 	},
 	match: {
 		width: "100%",
