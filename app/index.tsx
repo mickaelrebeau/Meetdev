@@ -59,15 +59,6 @@ export default function HeroScreen() {
 						Sign Up with an email
 					</Text>
 				</Pressable>
-
-				<Pressable
-					onPress={() => router.push("/log-problems")}
-					style={({ pressed }) => [
-						{ opacity: pressed ? 0.5 : 1, marginTop: 20 },
-					]}
-				>
-					<Text style={styles.textButton}>Connection problems?</Text>
-				</Pressable>
 			</View>
 
 			{/* Use a light status bar on iOS to account for the black space above the modal */}
