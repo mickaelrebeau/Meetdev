@@ -71,7 +71,7 @@ export const NewMatch = ({
 					<Animated.View>
 						<Image
 							style={{ width: 100, height: 100 }}
-							source={require("../../assets/images/mike.png")}
+							source={require("../../assets/images/homer.png")}
 						/>
 					</Animated.View>
 				</Animated.View>
