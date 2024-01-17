@@ -17,28 +17,30 @@ const mike = {
 export default function Card() {
     return (
 			<SafeAreaView style={styles.container}>
-				<View style={styles.card}>
-					<ProfilCard {...mike} />
-				</View>
-				<View style={styles.buttons}>
-                <Pressable
-                        onPress={() => router.push("/editProfil")}
-						style={({ pressed }) => [
-							styles.button,
-							{ opacity: pressed ? 0.5 : 1 },
-						]}
-					>
-						<Text style={styles.title}>Edit profile</Text>
-					</Pressable>
-					<Pressable
-						onPress={() => router.push("/profil")}
-						style={({ pressed }) => [
-							styles.button,
-							{ opacity: pressed ? 0.5 : 1 },
-						]}
-					>
-						<Text style={styles.title}>Close</Text>
-					</Pressable>
+				<View style={styles.content}>
+					<View style={styles.card}>
+						<ProfilCard {...mike} />
+					</View>
+					<View style={styles.buttons}>
+						<Pressable
+							onPress={() => router.push("/editProfil")}
+							style={({ pressed }) => [
+								styles.button,
+								{ opacity: pressed ? 0.5 : 1 },
+							]}
+						>
+							<Text style={styles.title}>Edit profile</Text>
+						</Pressable>
+						<Pressable
+							onPress={() => router.push("/profil")}
+							style={({ pressed }) => [
+								styles.button,
+								{ opacity: pressed ? 0.5 : 1 },
+							]}
+						>
+							<Text style={styles.title}>Close</Text>
+						</Pressable>
+					</View>
 				</View>
 			</SafeAreaView>
 		);
@@ -53,7 +55,14 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 20,
-		fontWeight: "400",
+		fontWeight: "500",
+	},
+	content: {
+		width: "100%",
+
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	card: {
 		width: "90%",
