@@ -3,11 +3,15 @@ import {
 	SafeAreaView,
 	StyleSheet,
 	TextInput,
+	useColorScheme,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native-gesture-handler";
+import Colors from "../constants/Colors";
 
 export default function EditProfile() {
+	const colorScheme = useColorScheme();
+	
 	return (
 		<SafeAreaView style={style.container}>
 			<ScrollView
@@ -27,7 +31,10 @@ export default function EditProfile() {
 							placeholder="Ceci est une bio haha.."
 							multiline
 							numberOfLines={6}
-							style={style.bio}
+							style={[
+								style.bio,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -35,7 +42,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Username</Text>
 						<TextInput
 							placeholder="Mike_dreeman"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -43,7 +53,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Country</Text>
 						<TextInput
 							placeholder="France"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -51,7 +64,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Languages</Text>
 						<TextInput
 							placeholder="Français, Espagnol, Anglais"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -59,7 +75,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Programming Languages</Text>
 						<TextInput
 							placeholder="Javascript, Python"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -67,7 +86,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Post</Text>
 						<TextInput
 							placeholder="Développer Frontend"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -75,7 +97,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Company</Text>
 						<TextInput
 							placeholder="En recherche d'emploi mdr"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -83,7 +108,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Github Url</Text>
 						<TextInput
 							placeholder="https://github.com/mickaelrebeau"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -91,7 +119,10 @@ export default function EditProfile() {
 						<Text style={style.title}>Gitlab Url</Text>
 						<TextInput
 							placeholder="https://gitlab.com/Mike97310"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
@@ -99,13 +130,32 @@ export default function EditProfile() {
 						<Text style={style.title}>Portfolio Url</Text>
 						<TextInput
 							placeholder="https://mike-dreeman-portfolio.vercel.app/"
-							style={style.input}
+							style={[
+								style.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholderTextColor="gray"
 						/>
 					</View>
 
-					<Pressable style={style.button}>
-						<Text style={[style.title, { textAlign: "center" }]}>
+					<Pressable
+						style={({ pressed }) => [
+							style.button,
+							{
+								opacity: pressed ? 0.5 : 1,
+								backgroundColor: Colors[colorScheme ?? "light"].tint,
+							},
+						]}
+					>
+						<Text
+							style={[
+								style.title,
+								{
+									textAlign: "center",
+									color: Colors[colorScheme ?? "light"].background,
+								},
+							]}
+						>
 							Save Changes
 						</Text>
 					</Pressable>
@@ -139,17 +189,17 @@ const style = StyleSheet.create({
 		borderWidth: 2,
 		borderRadius: 10,
 		borderColor: "gray",
-        borderStyle: "dashed",
-        backgroundColor: "#3e3e3e",
+		borderStyle: "dashed",
+		backgroundColor: "#3e3e3e",
 	},
 	form: {
-		marginVertical: 20,
-		width: "90%",
+		paddingHorizontal: 20,
+		paddingVertical: 20,
+		width: "100%",
 		height: "auto",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "transparent",
 		gap: 20,
 	},
 	formContent: {
@@ -157,9 +207,8 @@ const style = StyleSheet.create({
 		gap: 5,
 	},
 	title: {
-		width: "100%",
 		fontSize: 20,
-		fontWeight: "400",
+		fontWeight: "500",
 	},
 	input: {
 		width: "100%",
@@ -178,13 +227,17 @@ const style = StyleSheet.create({
 	},
 	button: {
 		width: "100%",
-		height: 50,
-		backgroundColor: "black",
+		marginVertical: 30,
+		paddingVertical: 15,
+
+		display: "flex",
+		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
+		gap: 10,
+
+		borderWidth: 1,
 		borderRadius: 50,
-		borderWidth: 2,
-		borderColor: "#2f95dc",
-		marginVertical: 20,
+		borderColor: "transparent",
 	},
 });
