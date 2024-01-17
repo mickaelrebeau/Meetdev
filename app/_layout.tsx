@@ -55,10 +55,6 @@ function RootLayoutNav() {
 				<Stack.Screen name="index" options={{ headerShown: false }} />
 				<Stack.Screen name="signup-step" options={{ headerShown: false }} />
 				<Stack.Screen
-					name="log-problems"
-					options={{ presentation: "modal", title: "Connection problems ?" }}
-				/>
-				<Stack.Screen
 					name="forgot-password"
 					options={{ presentation: "modal", title: "Reset Password" }}
 				/>
