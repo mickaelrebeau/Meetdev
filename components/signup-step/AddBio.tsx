@@ -1,17 +1,22 @@
+import Colors from "../../constants/Colors";
 import { Text, View } from "../Themed";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, useColorScheme } from "react-native";
 
 export const AddBio = () => {
+	const colorScheme = useColorScheme();
+	
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.title, { textAlign: "center" }]}>Tell us more about yourself</Text>
+			<Text style={[styles.title, { textAlign: "center" }]}>
+				Tell us more about yourself
+			</Text>
 			<View style={styles.formContent}>
 				<Text style={styles.title}>Bio</Text>
 				<TextInput
 					placeholder="Ceci est une bio haha.."
 					multiline
 					numberOfLines={6}
-					style={styles.bio}
+					style={[styles.bio, { color: Colors[colorScheme ?? "light"].text }]}
 					placeholderTextColor="gray"
 				/>
 			</View>
