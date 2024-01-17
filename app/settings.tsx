@@ -3,12 +3,14 @@ import { Pressable, SafeAreaView, StyleSheet, useColorScheme } from "react-nativ
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import { router } from "expo-router";
-import { Filters } from "../components/Filters";
 import { ScrollView } from "react-native-gesture-handler";
 import { LogoSvg } from "../assets/images/LogoSvg";
+import { useState } from "react";
+import { FeedBack } from "../components/modal/FeedBackModal";
 
 export default function SettingsScreen() {
 	const colorScheme = useColorScheme();
+	const [modalVisible, setModalVisible] = useState(false);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -22,6 +24,7 @@ export default function SettingsScreen() {
 						<Text style={styles.title}>Contact us</Text>
 						<View style={styles.subcard}>
 							<Pressable
+								onPress={() => setModalVisible(true)}
 								style={({ pressed }) => [
 									{
 										opacity: pressed ? 0.5 : 1,
@@ -89,7 +92,14 @@ export default function SettingsScreen() {
 								},
 							]}
 						>
-							<Text style={[styles.title, { color: "black" }]}>Log Out</Text>
+							<Text
+								style={[
+									styles.title,
+									{ color: Colors[colorScheme ?? "light"].background },
+								]}
+							>
+								Log Out
+							</Text>
 						</Pressable>
 						<Pressable
 							onPress={() => router.push("/")}
@@ -108,10 +118,13 @@ export default function SettingsScreen() {
 							<LogoSvg />
 							<Text style={styles.text}>Meetdev</Text>
 						</View>
-						<Text style={[styles.text, { textAlign: "center" }]}>© 2024, Meetdev</Text>
+						<Text style={[styles.text, { textAlign: "center" }]}>
+							© 2024, Meetdev
+						</Text>
 					</View>
 				</View>
 			</ScrollView>
+			<FeedBack modalVisible={modalVisible} setModalVisible={setModalVisible} />
 		</SafeAreaView>
 	);
 }
@@ -143,7 +156,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 20,
-		fontWeight: "bold",
+		fontWeight: "500",
 	},
 	text: {
 		fontSize: 18,
@@ -157,7 +170,7 @@ const styles = StyleSheet.create({
 		gap: 20,
 	},
 	buttonOutline: {
-		width: "90%",
+		width: "100%",
 		paddingVertical: 15,
 
 		display: "flex",
@@ -172,7 +185,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	button: {
-		width: "90%",
+		width: "100%",
 		paddingVertical: 15,
 
 		display: "flex",
