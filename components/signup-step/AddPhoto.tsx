@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View } from "../Themed";
 import { AntDesign } from "@expo/vector-icons";
 
