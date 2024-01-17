@@ -1,6 +1,7 @@
-import { StyleSheet, Modal, Pressable } from "react-native";
+import { StyleSheet, Modal, Pressable, useColorScheme } from "react-native";
 import { Text, View } from "../Themed";
 import { AntDesign } from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
 
 export const SignalModal = ({
 	modalVisible,
@@ -8,7 +9,9 @@ export const SignalModal = ({
 }: {
 	modalVisible: boolean;
 	setModalVisible: (value: boolean) => void;
-}) => {
+	}) => {
+	const colorScheme = useColorScheme();
+
 	return (
 		<Modal
 			animationType="slide"
@@ -29,7 +32,11 @@ export const SignalModal = ({
 								{ opacity: pressed ? 0.5 : 1 },
 							]}
 						>
-							<AntDesign name="closecircle" size={24} color="white" />
+							<AntDesign
+								name="closecircle"
+								size={24}
+								color={Colors[colorScheme ?? "light"].tint}
+							/>
 						</Pressable>
 					</View>
 					<View style={styles.body}>
