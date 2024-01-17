@@ -10,6 +10,7 @@ import { CheckBox, Input, Tab, TabView } from "@rneui/themed";
 import { LogoSvg } from "../assets/images/LogoSvg";
 import React from "react";
 import Colors from "../constants/Colors";
+import { router } from "expo-router";
 
 export default function AuthScreen() {
 	const colorScheme = useColorScheme();
@@ -62,17 +63,26 @@ export default function AuthScreen() {
 				>
 					<View style={styles.form}>
 						<Text style={styles.label}>Email</Text>
-						<Input style={styles.input} placeholder="email@example.fr" />
+						<Input
+							style={[
+								styles.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
+							placeholder="email@example.fr"
+						/>
 
 						<Text style={styles.label}>Password</Text>
 						<Input
-							style={styles.input}
+							style={[
+								styles.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholder="@Exemple123"
 							secureTextEntry
 						/>
 
 						<Pressable
-							onPress={() => {}}
+							onPress={() => router.push("/home")}
 							style={({ pressed }) => [
 								styles.button,
 								{
@@ -81,6 +91,15 @@ export default function AuthScreen() {
 							]}
 						>
 							<Text style={styles.textButton}>Login</Text>
+						</Pressable>
+
+						<Pressable
+							onPress={() => router.push("/forgot-password")}
+							style={({ pressed }) => [
+								{ opacity: pressed ? 0.5 : 1, marginTop: 30 },
+							]}
+						>
+							<Text style={styles.textButton}>Forgot password?</Text>
 						</Pressable>
 					</View>
 				</TabView.Item>
@@ -96,14 +115,29 @@ export default function AuthScreen() {
 				>
 					<View style={styles.signup}>
 						<Text style={styles.label}>Username</Text>
-						<Input style={styles.input} placeholder="Exemple123" />
+						<Input
+							style={[
+								styles.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
+							placeholder="Exemple123"
+						/>
 
 						<Text style={styles.label}>Email</Text>
-						<Input style={styles.input} placeholder="email@exemple.fr" />
+						<Input
+							style={[
+								styles.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
+							placeholder="email@exemple.fr"
+						/>
 
 						<Text style={styles.label}>Password</Text>
 						<Input
-							style={styles.input}
+							style={[
+								styles.input,
+								{ color: Colors[colorScheme ?? "light"].text },
+							]}
 							placeholder="@Exemple123"
 							secureTextEntry
 						/>
