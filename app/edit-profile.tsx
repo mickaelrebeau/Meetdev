@@ -11,6 +11,8 @@ import Colors from "../constants/Colors";
 import { MultipleSelectList, SelectList } from "react-native-dropdown-select-list";
 import { SetStateAction, useState } from "react";
 import { dataCountry, dataLanguage, dataPost, dataProgrammingLanguage } from "../constants/Datas";
+import { AntDesign, Feather } from "@expo/vector-icons";
+import { Filters } from "../components/Filters";
 
 export default function EditProfile() {
 	const colorScheme = useColorScheme();
@@ -18,6 +20,12 @@ export default function EditProfile() {
 	const [language, setLanguage] = useState([]);
 	const [programmingLanguage, setProgrammingLanguage] = useState([]);
 	const [post, setPost] = useState();
+
+	const [filterCountry, setFilterCountry] = useState();
+	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState(
+		[]
+	);
+	const [filterPost, setFilterPost] = useState([]);
 	
 	return (
 		<SafeAreaView style={style.container}>
@@ -26,10 +34,97 @@ export default function EditProfile() {
 				contentContainerStyle={{ alignItems: "center" }}
 			>
 				<View style={style.form}>
+					<Text style={style.title}>Filters</Text>
+					<View style={style.filters}>
+						<Text style={style.title}>Filters by countries</Text>
+						<SelectList
+							search={false}
+							data={dataCountry}
+							setSelected={setFilterCountry}
+							placeholder="Select your country"
+							searchPlaceholder="Search a country"
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
+							arrowicon={
+								<Feather
+									name="chevron-down"
+									size={24}
+									color={Colors[colorScheme ?? "light"].tint}
+								/>
+							}
+						/>
+						<Text style={style.title}>Filters by posts</Text>
+						<MultipleSelectList
+							search={false}
+							setSelected={(val: SetStateAction<never[]>) => setFilterPost(val)}
+							data={dataPost}
+							placeholder="Select your programming languages"
+							label="Programming Languages"
+							save="value"
+							searchPlaceholder="Search a programming language"
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							checkBoxStyles={{ backgroundColor: "white" }}
+							labelStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
+							arrowicon={
+								<Feather
+									name="chevron-down"
+									size={24}
+									color={Colors[colorScheme ?? "light"].tint}
+								/>
+							}
+						/>
+						<Text style={style.title}>Filters by technologies</Text>
+						<MultipleSelectList
+							search={false}
+							setSelected={(val: SetStateAction<never[]>) =>
+								setFilterProgrammingLanguage(val)
+							}
+							data={dataProgrammingLanguage}
+							placeholder="Select your programming languages"
+							label="Programming Languages"
+							save="value"
+							searchPlaceholder="Search a programming language"
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							checkBoxStyles={{ backgroundColor: "white" }}
+							labelStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
+							arrowicon={
+								<Feather
+									name="chevron-down"
+									size={24}
+									color={Colors[colorScheme ?? "light"].tint}
+								/>
+							}
+						/>
+					</View>
+					<Text style={style.title}>Informations</Text>
 					<View style={style.formContent}>
 						<Text style={style.title}>Media</Text>
-						<View style={style.media}>
-							<View style={style.photo} />
+						<View style={style.mediaContainer}>
+							<View style={style.media}>
+								<View style={style.photo} />
+							</View>
+							<Pressable
+								style={({ pressed }) => [
+									style.add,
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<AntDesign name="pluscircleo" size={28} color="black" />
+							</Pressable>
 						</View>
 					</View>
 					<View style={style.formContent}>
@@ -145,17 +240,6 @@ export default function EditProfile() {
 						/>
 					</View>
 					<View style={style.formContent}>
-						<Text style={style.title}>Gitlab Url</Text>
-						<TextInput
-							placeholder="https://gitlab.com/Mike97310"
-							style={[
-								style.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholderTextColor="gray"
-						/>
-					</View>
-					<View style={style.formContent}>
 						<Text style={style.title}>Portfolio Url</Text>
 						<TextInput
 							placeholder="https://mike-dreeman-portfolio.vercel.app/"
@@ -206,6 +290,10 @@ const style = StyleSheet.create({
 		backgroundColor: "transparent",
 		gap: 1,
 	},
+	mediaContainer: {
+		width: 140,
+		height: 140,
+	},
 	media: {
 		padding: 10,
 		width: "100%",
@@ -221,8 +309,18 @@ const style = StyleSheet.create({
 		borderStyle: "dashed",
 		backgroundColor: "#3e3e3e",
 	},
-	dropdown: {
+	add: {
+		position: "absolute",
+		bottom: 0,
+		right: 0,
 
+		padding: 2,
+		borderRadius: 50,
+		backgroundColor: "white",
+	},
+	filters: {
+		width: "100%",
+		gap: 20,
 	},
 	form: {
 		paddingHorizontal: 20,
