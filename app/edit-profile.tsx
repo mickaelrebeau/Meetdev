@@ -8,9 +8,16 @@ import {
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
+import { MultipleSelectList, SelectList } from "react-native-dropdown-select-list";
+import { SetStateAction, useState } from "react";
+import { dataCountry, dataLanguage, dataPost, dataProgrammingLanguage } from "../constants/Datas";
 
 export default function EditProfile() {
 	const colorScheme = useColorScheme();
+	const [country, setCountry] = useState();
+	const [language, setLanguage] = useState([]);
+	const [programmingLanguage, setProgrammingLanguage] = useState([]);
+	const [post, setPost] = useState();
 	
 	return (
 		<SafeAreaView style={style.container}>
@@ -51,46 +58,68 @@ export default function EditProfile() {
 					</View>
 					<View style={style.formContent}>
 						<Text style={style.title}>Country</Text>
-						<TextInput
-							placeholder="France"
-							style={[
-								style.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholderTextColor="gray"
+						<SelectList
+							data={dataCountry}
+							setSelected={setCountry}
+							placeholder="Select your country"
+							searchPlaceholder="Search a country"
+							dropdownStyles={style.input}
+							boxStyles={style.input}
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
 						/>
 					</View>
 					<View style={style.formContent}>
 						<Text style={style.title}>Languages</Text>
-						<TextInput
-							placeholder="Français, Espagnol, Anglais"
-							style={[
-								style.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholderTextColor="gray"
+						<MultipleSelectList
+							setSelected={(val: SetStateAction<never[]>) => setLanguage(val)}
+							data={dataLanguage}
+							placeholder="Select your languages"
+							label="Languages"
+							save="value"
+							searchPlaceholder="Search a language"
+							dropdownStyles={style.input}
+							boxStyles={style.input}
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
 						/>
 					</View>
 					<View style={style.formContent}>
 						<Text style={style.title}>Programming Languages</Text>
-						<TextInput
-							placeholder="Javascript, Python"
-							style={[
-								style.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholderTextColor="gray"
+						<MultipleSelectList
+							setSelected={(val: SetStateAction<never[]>) =>
+								setProgrammingLanguage(val)
+							}
+							data={dataProgrammingLanguage}
+							placeholder="Select your programming languages"
+							label="Programming Languages"
+							save="value"
+							searchPlaceholder="Search a programming language"
+							dropdownStyles={style.input}
+							boxStyles={style.input}
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
 						/>
 					</View>
 					<View style={style.formContent}>
 						<Text style={style.title}>Post</Text>
-						<TextInput
-							placeholder="Développer Frontend"
-							style={[
-								style.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholderTextColor="gray"
+						<SelectList
+							data={dataPost}
+							setSelected={setPost}
+							placeholder="Select your post"
+							searchPlaceholder="Search a post"
+							dropdownStyles={style.input}
+							boxStyles={style.input}
+							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							dropdownTextStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
 						/>
 					</View>
 					<View style={style.formContent}>
@@ -191,6 +220,9 @@ const style = StyleSheet.create({
 		borderColor: "gray",
 		borderStyle: "dashed",
 		backgroundColor: "#3e3e3e",
+	},
+	dropdown: {
+
 	},
 	form: {
 		paddingHorizontal: 20,
