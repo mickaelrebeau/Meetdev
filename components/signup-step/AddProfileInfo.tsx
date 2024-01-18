@@ -2,10 +2,25 @@ import { Text, View } from "../Themed";
 import { ScrollView } from "react-native-gesture-handler";
 import { TextInput, StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
+import {
+	MultipleSelectList,
+	SelectList,
+} from "react-native-dropdown-select-list";
+import {
+	dataCountry,
+	dataLanguage,
+	dataPost,
+	dataProgrammingLanguage,
+} from "../../constants/Datas";
+import { SetStateAction, useState } from "react";
 
 export const AddProfileInfo = () => {
 	const colorScheme = useColorScheme();
-	
+	const [country, setCountry] = useState();
+	const [language, setLanguage] = useState([]);
+	const [programmingLanguage, setProgrammingLanguage] = useState([]);
+	const [post, setPost] = useState();
+
 	return (
 		<View style={styles.container}>
 			<Text style={[styles.title, { textAlign: "center" }]}>
@@ -13,9 +28,9 @@ export const AddProfileInfo = () => {
 			</Text>
 			<ScrollView style={styles.scrollView}>
 				<View style={styles.formContent}>
-					<Text style={styles.title}>Country</Text>
+					<Text style={styles.title}>Username</Text>
 					<TextInput
-						placeholder="France"
+						placeholder="Mike_dreeman"
 						style={[
 							styles.input,
 							{ color: Colors[colorScheme ?? "light"].text },
@@ -23,38 +38,73 @@ export const AddProfileInfo = () => {
 						placeholderTextColor="gray"
 					/>
 				</View>
-
+				<View style={styles.formContent}>
+					<Text style={styles.title}>Country</Text>
+					<SelectList
+						search={false}
+						data={dataCountry}
+						setSelected={setCountry}
+						placeholder="Select your country"
+						searchPlaceholder="Search a country"
+						dropdownStyles={styles.input}
+						boxStyles={styles.input}
+						inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+						dropdownTextStyles={{
+							color: Colors[colorScheme ?? "light"].text,
+						}}
+					/>
+				</View>
 				<View style={styles.formContent}>
 					<Text style={styles.title}>Languages</Text>
-					<TextInput
-						placeholder="Français, Espagnol, Anglais"
-						style={[
-							styles.input,
-							{ color: Colors[colorScheme ?? "light"].text },
-						]}
-						placeholderTextColor="gray"
+					<MultipleSelectList
+						search={false}
+						setSelected={(val: SetStateAction<never[]>) => setLanguage(val)}
+						data={dataLanguage}
+						placeholder="Select your languages"
+						label="Languages"
+						save="value"
+						searchPlaceholder="Search a language"
+						dropdownStyles={styles.input}
+						boxStyles={styles.input}
+						inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+						dropdownTextStyles={{
+							color: Colors[colorScheme ?? "light"].text,
+						}}
 					/>
 				</View>
 				<View style={styles.formContent}>
 					<Text style={styles.title}>Programming Languages</Text>
-					<TextInput
-						placeholder="Javascript, Python"
-						style={[
-							styles.input,
-							{ color: Colors[colorScheme ?? "light"].text },
-						]}
-						placeholderTextColor="gray"
+					<MultipleSelectList
+						search={false}
+						setSelected={(val: SetStateAction<never[]>) =>
+							setProgrammingLanguage(val)
+						}
+						data={dataProgrammingLanguage}
+						placeholder="Select your programming languages"
+						label="Programming Languages"
+						save="value"
+						searchPlaceholder="Search a programming language"
+						dropdownStyles={styles.input}
+						boxStyles={styles.input}
+						inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+						dropdownTextStyles={{
+							color: Colors[colorScheme ?? "light"].text,
+						}}
 					/>
 				</View>
 				<View style={styles.formContent}>
 					<Text style={styles.title}>Post</Text>
-					<TextInput
-						placeholder="Développer Frontend"
-						style={[
-							styles.input,
-							{ color: Colors[colorScheme ?? "light"].text },
-						]}
-						placeholderTextColor="gray"
+					<SelectList
+						data={dataPost}
+						setSelected={setPost}
+						placeholder="Select your post"
+						searchPlaceholder="Search a post"
+						dropdownStyles={styles.input}
+						boxStyles={styles.input}
+						inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+						dropdownTextStyles={{
+							color: Colors[colorScheme ?? "light"].text,
+						}}
 					/>
 				</View>
 				<View style={styles.formContent}>
