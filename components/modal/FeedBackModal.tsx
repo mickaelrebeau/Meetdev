@@ -24,7 +24,7 @@ export const FeedBack = ({
 			<View style={styles.container}>
 				<View style={styles.card}>
 					<View style={styles.header}>
-						<Text style={styles.title}>Actions</Text>
+						<Text style={styles.title}>Feedback</Text>
 						<Pressable
 							onPress={() => setModalVisible(!modalVisible)}
 							style={({ pressed }) => [
