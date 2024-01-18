@@ -362,6 +362,7 @@ export const dataProgrammingLanguage = [
 	"C#",
 	".Net",
 	"Javascript",
+	"Typescript",
 	"SQL",
 	"Assembly language",
 	"PHP",
@@ -411,4 +412,10 @@ export const dataPost = [
 	"Data Engineer",
 	"Data Architect",
 	"IT Consultant",
+	"Freelancer",
+	"UI/UX Designer",
+	"Graphic Designer",
+	"Game Developer",
+	"Game Designer",
+	"3D Artist",
 ];
