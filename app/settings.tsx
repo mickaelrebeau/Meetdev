@@ -7,10 +7,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import { LogoSvg } from "../assets/images/LogoSvg";
 import { useState } from "react";
 import { FeedBack } from "../components/modal/FeedBackModal";
+import { PrivacyPolicy } from "../components/modal/PrivacyPolicyModal";
 
 export default function SettingsScreen() {
 	const colorScheme = useColorScheme();
-	const [modalVisible, setModalVisible] = useState(false);
+	const [modalFeedBackVisible, setModalFeedBackVisible] = useState(false);
+	const [modalPrivacyPolicyVisible, setModalPrivacyPolicyVisible] =
+		useState(false);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -24,7 +27,7 @@ export default function SettingsScreen() {
 						<Text style={styles.title}>Contact us</Text>
 						<View style={styles.subcard}>
 							<Pressable
-								onPress={() => setModalVisible(true)}
+								onPress={() => setModalFeedBackVisible(true)}
 								style={({ pressed }) => [
 									{
 										opacity: pressed ? 0.5 : 1,
@@ -39,6 +42,7 @@ export default function SettingsScreen() {
 						<Text style={styles.title}>Confidentialities</Text>
 						<View style={styles.subcard}>
 							<Pressable
+								onPress={() => setModalPrivacyPolicyVisible(true)}
 								style={({ pressed }) => [
 									{
 										opacity: pressed ? 0.5 : 1,
@@ -46,15 +50,6 @@ export default function SettingsScreen() {
 								]}
 							>
 								<Text style={styles.text}>Privacy Policy</Text>
-							</Pressable>
-							<Pressable
-								style={({ pressed }) => [
-									{
-										opacity: pressed ? 0.5 : 1,
-									},
-								]}
-							>
-								<Text style={styles.text}>Privacy Preference</Text>
 							</Pressable>
 						</View>
 					</View>
@@ -124,7 +119,11 @@ export default function SettingsScreen() {
 					</View>
 				</View>
 			</ScrollView>
-			<FeedBack modalVisible={modalVisible} setModalVisible={setModalVisible} />
+			<FeedBack modalVisible={modalFeedBackVisible} setModalVisible={setModalFeedBackVisible} />
+			<PrivacyPolicy
+				modalVisible={modalPrivacyPolicyVisible}
+				setModalVisible={setModalPrivacyPolicyVisible}
+			/>
 		</SafeAreaView>
 	);
 }
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
 	},
 	buttons: {
 		width: "100%",
-		marginTop: 50,
+		marginTop: 80,
 		alignItems: "center",
 		flexDirection: "column",
 		gap: 20,
