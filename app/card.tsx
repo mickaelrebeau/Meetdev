@@ -23,7 +23,7 @@ export default function Card() {
 					</View>
 					<View style={styles.buttons}>
 						<Pressable
-							onPress={() => router.push("/editProfil")}
+							onPress={() => router.push("/edit-profile")}
 							style={({ pressed }) => [
 								styles.button,
 								{ opacity: pressed ? 0.5 : 1 },
