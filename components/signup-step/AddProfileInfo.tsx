@@ -13,6 +13,7 @@ import {
 	dataProgrammingLanguage,
 } from "../../constants/Datas";
 import { SetStateAction, useState } from "react";
+import { Feather } from "@expo/vector-icons";
 
 export const AddProfileInfo = () => {
 	const colorScheme = useColorScheme();
@@ -52,6 +53,13 @@ export const AddProfileInfo = () => {
 						dropdownTextStyles={{
 							color: Colors[colorScheme ?? "light"].text,
 						}}
+						arrowicon={
+							<Feather
+								name="chevron-down"
+								size={24}
+								color={Colors[colorScheme ?? "light"].tint}
+							/>
+						}
 					/>
 				</View>
 				<View style={styles.formContent}>
@@ -61,15 +69,26 @@ export const AddProfileInfo = () => {
 						setSelected={(val: SetStateAction<never[]>) => setLanguage(val)}
 						data={dataLanguage}
 						placeholder="Select your languages"
-						label="Languages"
+						label="My Languages"
 						save="value"
 						searchPlaceholder="Search a language"
 						dropdownStyles={styles.input}
 						boxStyles={styles.input}
+						checkBoxStyles={{ backgroundColor: "white" }}
+						labelStyles={{
+							color: Colors[colorScheme ?? "light"].text,
+						}}
 						inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 						dropdownTextStyles={{
 							color: Colors[colorScheme ?? "light"].text,
 						}}
+						arrowicon={
+							<Feather
+								name="chevron-down"
+								size={24}
+								color={Colors[colorScheme ?? "light"].tint}
+							/>
+						}
 					/>
 				</View>
 				<View style={styles.formContent}>
@@ -81,20 +100,32 @@ export const AddProfileInfo = () => {
 						}
 						data={dataProgrammingLanguage}
 						placeholder="Select your programming languages"
-						label="Programming Languages"
+						label="My Programming Languages"
 						save="value"
 						searchPlaceholder="Search a programming language"
 						dropdownStyles={styles.input}
 						boxStyles={styles.input}
+						checkBoxStyles={{ backgroundColor: "white" }}
+						labelStyles={{
+							color: Colors[colorScheme ?? "light"].text,
+						}}
 						inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 						dropdownTextStyles={{
 							color: Colors[colorScheme ?? "light"].text,
 						}}
+						arrowicon={
+							<Feather
+								name="chevron-down"
+								size={24}
+								color={Colors[colorScheme ?? "light"].tint}
+							/>
+						}
 					/>
 				</View>
 				<View style={styles.formContent}>
 					<Text style={styles.title}>Post</Text>
 					<SelectList
+						search={false}
 						data={dataPost}
 						setSelected={setPost}
 						placeholder="Select your post"
@@ -105,6 +136,13 @@ export const AddProfileInfo = () => {
 						dropdownTextStyles={{
 							color: Colors[colorScheme ?? "light"].text,
 						}}
+						arrowicon={
+							<Feather
+								name="chevron-down"
+								size={24}
+								color={Colors[colorScheme ?? "light"].tint}
+							/>
+						}
 					/>
 				</View>
 				<View style={styles.formContent}>
@@ -122,17 +160,6 @@ export const AddProfileInfo = () => {
 					<Text style={styles.title}>Github Url</Text>
 					<TextInput
 						placeholder="https://github.com/mickaelrebeau"
-						style={[
-							styles.input,
-							{ color: Colors[colorScheme ?? "light"].text },
-						]}
-						placeholderTextColor="gray"
-					/>
-				</View>
-				<View style={styles.formContent}>
-					<Text style={styles.title}>Gitlab Url</Text>
-					<TextInput
-						placeholder="https://gitlab.com/Mike97310"
 						style={[
 							styles.input,
 							{ color: Colors[colorScheme ?? "light"].text },
