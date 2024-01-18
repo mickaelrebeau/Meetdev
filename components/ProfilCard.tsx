@@ -79,7 +79,6 @@ export default function ProfilCard(user: User) {
 			</View>
 			<View style={styles.links}>
 				<AntDesign name="github" size={24} color="black" />
-				<AntDesign name="gitlab" size={24} color="black" />
 				<MaterialCommunityIcons name="web" size={24} color="black" />
 			</View>
 		</Card>
