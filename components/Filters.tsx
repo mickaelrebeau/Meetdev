@@ -1,4 +1,4 @@
-import { StyleSheet, useColorScheme } from "react-native";
+import { Pressable, StyleSheet, useColorScheme } from "react-native";
 import { View, Text } from "../components/Themed";
 import { MultipleSelectList, SelectList } from "react-native-dropdown-select-list";
 import { dataCountry, dataPost, dataProgrammingLanguage } from "../constants/Datas";
@@ -6,12 +6,27 @@ import { SetStateAction, useState } from "react";
 import Colors from "../constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import auth from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
 
 export const Filters = () => {
 	const colorScheme = useColorScheme();
-	const [country, setCountry] = useState();
-	const [programmingLanguage, setProgrammingLanguage] = useState([]);
-	const [post, setPost] = useState([]);
+	const [country, setCountry] = useState<string>("");
+	const [programmingLanguage, setProgrammingLanguage] = useState<string[]>([]);
+	const [post, setPost] = useState<string[]>([]);
+	const currentUser = auth().currentUser;
+
+	const filtersProfiles = async (user: FirebaseAuthTypes.User | null) => {
+		db().ref(`users/${user}/filters`).set({ country, programmingLanguage, post });
+	}; 
+
+	const handleSubmit = async () => {
+		await filtersProfiles(currentUser);
+
+		router.push("/home");
+	};
 	
 	return (
 		<ScrollView>
@@ -38,7 +53,7 @@ export const Filters = () => {
 				<Text style={styles.title}>Filters by posts</Text>
 				<MultipleSelectList
 					search={false}
-					setSelected={(val: SetStateAction<never[]>) => setPost(val)}
+					setSelected={(val: SetStateAction<string[]>) => setPost(val)}
 					data={dataPost}
 					placeholder="Select your programming languages"
 					label="Programming Languages"
@@ -63,7 +78,7 @@ export const Filters = () => {
 				<Text style={styles.title}>Filters by technologies</Text>
 				<MultipleSelectList
 					search={false}
-					setSelected={(val: SetStateAction<never[]>) =>
+					setSelected={(val: SetStateAction<string[]>) =>
 						setProgrammingLanguage(val)
 					}
 					data={dataProgrammingLanguage}
@@ -87,20 +102,53 @@ export const Filters = () => {
 						/>
 					}
 				/>
+				<View style={styles.buttons}>
+					<Pressable
+						onPress={handleSubmit}
+						style={({ pressed }) => [
+							{ opacity: pressed ? 0.5 : 1 },
+							styles.button,
+						]}
+					>
+						<Text>Apply</Text>
+					</Pressable>
+				</View>
 			</View>
 		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-    container: {
+	container: {
 		width: "100%",
 		paddingBottom: 20,
 		flex: 1,
 		gap: 10,
-    },
+	},
 	title: {
 		fontSize: 18,
 		fontWeight: "400",
+	},
+	buttons: {
+		width: "100%",
+		marginTop: 20,
+		alignItems: "center",
+		flexDirection: "column",
+		gap: 10,
+	},
+	button: {
+		width: "90%",
+		paddingVertical: 15,
+
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 10,
+
+		backgroundColor: "transparent",
+		borderRadius: 50,
+		borderColor: "#2f95dc",
+		borderWidth: 1,
 	},
 });
