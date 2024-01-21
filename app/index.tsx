@@ -10,9 +10,24 @@ import { Text, View } from "../components/Themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { LogoSvg } from "../assets/images/LogoSvg";
 import { useRouter } from "expo-router";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { useEffect } from "react";
+import auth from "@react-native-firebase/auth";
 
 export default function HeroScreen() {
-    const router = useRouter();
+	const router = useRouter();
+	
+	const onAuthStateChange = (user: FirebaseAuthTypes.User | null) => {
+		if (user) {
+			router.push("/home");
+		} else {
+			router.push("/");
+		}
+	}
+
+	useEffect(() => {
+		auth().onAuthStateChanged(onAuthStateChange);
+	}, []);
 
 	return (
 		<ImageBackground

@@ -11,12 +11,62 @@ import { LogoSvg } from "../assets/images/LogoSvg";
 import React from "react";
 import Colors from "../constants/Colors";
 import { router } from "expo-router";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
 
 export default function AuthScreen() {
 	const colorScheme = useColorScheme();
 	const [index, setIndex] = React.useState(0);
 	const [checked, setChecked] = React.useState(false);
 	const toggleCheckbox = () => setChecked(!checked);
+
+	const [name, setName] = React.useState("");
+	const [login, setLogin] = React.useState<{ email: string; password: string }>({
+		email: "",
+		password: "",
+	})
+
+	const [register, setRegister] = React.useState<{ email: string; password: string }>(
+		{
+			email: "",
+			password: "",
+		}
+	);
+
+	const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
+		db().ref(`users/${response.user.uid}`).set({name})
+	}
+
+	const handleLogin = async () => {
+		try {
+			const response = await auth().signInWithEmailAndPassword(
+				login.email,
+				login.password
+			)
+
+			if (response) {
+				router.push("/home")
+			}
+		} catch (error) {
+			alert(error)
+		}
+	}
+
+	const handleRegister = async () => {
+		try {
+			const response = await auth().createUserWithEmailAndPassword(
+				register.email,
+				register.password
+			)
+
+			if (response) {
+				await createProfile(response);
+				router.push("/signup-step")
+			}
+		} catch (error) {
+			alert(error)
+		}
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -69,6 +119,8 @@ export default function AuthScreen() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholder="email@example.fr"
+							value={login.email}
+							onChangeText={(email) => setLogin({ ...login, email })}
 						/>
 
 						<Text style={styles.label}>Password</Text>
@@ -78,11 +130,13 @@ export default function AuthScreen() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholder="@Exemple123"
+							value={login.password}
+							onChangeText={(password) => setLogin({ ...login, password })}
 							secureTextEntry
 						/>
 
 						<Pressable
-							onPress={() => router.push("/home")}
+							onPress={handleLogin}
 							style={({ pressed }) => [
 								styles.button,
 								{
@@ -121,6 +175,8 @@ export default function AuthScreen() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholder="Exemple123"
+							value={name}
+							onChangeText={(name) => setName(name)}
 						/>
 
 						<Text style={styles.label}>Email</Text>
@@ -130,6 +186,8 @@ export default function AuthScreen() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholder="email@exemple.fr"
+							value={register.email}
+							onChangeText={(email) => setRegister({ ...register, email })}
 						/>
 
 						<Text style={styles.label}>Password</Text>
@@ -139,6 +197,8 @@ export default function AuthScreen() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholder="@Exemple123"
+							value={register.password}
+							onChangeText={(password) => setRegister({ ...register, password })}
 							secureTextEntry
 						/>
 
@@ -151,7 +211,7 @@ export default function AuthScreen() {
 						/>
 
 						<Pressable
-							onPress={() => {}}
+							onPress={handleRegister}
 							style={({ pressed }) => [
 								styles.button,
 								{
