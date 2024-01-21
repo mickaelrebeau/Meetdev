@@ -23,9 +23,11 @@ export const Filters = () => {
 	}; 
 
 	const handleSubmit = async () => {
-		await filtersProfiles(currentUser);
+		if (currentUser !== null) {
+			await filtersProfiles(currentUser);
 
-		router.push("/home");
+			router.push("/home");
+		}
 	};
 	
 	return (
