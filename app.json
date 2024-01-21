@@ -34,6 +34,10 @@
     },
     "plugins": [
       "expo-router",
+      "expo-updates",
+      {
+        "username": "mike_dreeman"
+      },
       "@react-native-firebase/app",
       [
         "expo-build-properties",
