@@ -1,4 +1,5 @@
 import {
+	Image,
 	Pressable,
 	SafeAreaView,
 	StyleSheet,
@@ -8,25 +9,94 @@ import {
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
-import { MultipleSelectList, SelectList } from "react-native-dropdown-select-list";
+import {
+	MultipleSelectList,
+	SelectList,
+} from "react-native-dropdown-select-list";
 import { SetStateAction, useState } from "react";
-import { dataCountry, dataLanguage, dataPost, dataProgrammingLanguage } from "../constants/Datas";
+import {
+	dataCountry,
+	dataLanguage,
+	dataPost,
+	dataProgrammingLanguage,
+} from "../constants/Datas";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import { Filters } from "../components/Filters";
+import auth from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 
 export default function EditProfile() {
 	const colorScheme = useColorScheme();
-	const [country, setCountry] = useState();
-	const [language, setLanguage] = useState([]);
-	const [programmingLanguage, setProgrammingLanguage] = useState([]);
-	const [post, setPost] = useState();
-
-	const [filterCountry, setFilterCountry] = useState();
-	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState(
-		[]
+	const currentUser = auth().currentUser;
+	const [image, setImage] = useState<string>(
+		"file:///data/user/0/com.dreeman.meetdev/cache/ImagePicker/7f5560e3-1d53-43ea-84f5-93c484c50a92.jpeg"
 	);
-	const [filterPost, setFilterPost] = useState([]);
-	
+	const [country, setCountry] = useState<string>("France");
+	const [language, setLanguage] = useState<string[]>([]);
+	const [programmingLanguage, setProgrammingLanguage] = useState<string[]>([]);
+	const [post, setPost] = useState<string>("CEO");
+	const [data, setData] = useState<{
+		bio: string;
+		username: string;
+		company: string;
+		github_url: string;
+		portfolio_url: string;
+	}>({
+		bio: "Ceci est une bio 🙂...",
+		username: "Mike",
+		company: "Alt incubateur tech",
+		github_url: "https://github.com/mickaelrebeau",
+		portfolio_url: "https://mike-dreeman-portfolio.vercel.app/",
+	});
+	const [filterCountry, setFilterCountry] = useState<string>("");
+	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState<string[]>([]);
+	const [filterPost, setFilterPost] = useState<string[]>([]);
+
+	const pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [3, 3],
+			quality: 1,
+		});
+
+		if (!result.canceled) {
+			setImage(result.assets[0].uri);
+		}
+	};
+
+	const profileInfos = async (user: FirebaseAuthTypes.User | null) => {
+		const filters = {
+			country: filterCountry,
+			programming_languages: filterProgrammingLanguage,
+			post: filterPost,
+		};
+
+		db().ref(`users/${user?.uid}`).set({
+			image_uri: image,
+			bio: data.bio,
+			name: data.username,
+			country: country,
+			languages: language,
+			programming_languages: programmingLanguage,
+			post: post,
+			company: data.company,
+			github_url: data.github_url,
+			portfolio_url: data.portfolio_url,
+			filters: filters,
+		});
+	};
+
+	const handleSubmit = async () => {
+		if (currentUser !== null) {
+			await profileInfos(currentUser);
+
+			router.push("/profil");
+		}
+	};
+
 	return (
 		<SafeAreaView style={style.container}>
 			<ScrollView
@@ -58,7 +128,7 @@ export default function EditProfile() {
 						<Text style={style.title}>Filters by posts</Text>
 						<MultipleSelectList
 							search={false}
-							setSelected={(val: SetStateAction<never[]>) => setFilterPost(val)}
+							setSelected={(val: SetStateAction<string[]>) => setFilterPost(val)}
 							data={dataPost}
 							placeholder="Select your programming languages"
 							label="Programming Languages"
@@ -83,7 +153,7 @@ export default function EditProfile() {
 						<Text style={style.title}>Filters by technologies</Text>
 						<MultipleSelectList
 							search={false}
-							setSelected={(val: SetStateAction<never[]>) =>
+							setSelected={(val: SetStateAction<string[]>) =>
 								setFilterProgrammingLanguage(val)
 							}
 							data={dataProgrammingLanguage}
@@ -113,9 +183,14 @@ export default function EditProfile() {
 						<Text style={style.title}>Media</Text>
 						<View style={style.mediaContainer}>
 							<View style={style.media}>
-								<View style={style.photo} />
+								{image !== null ? (
+									<Image source={{ uri: image }} style={style.photo} />
+								) : (
+									<View style={style.photo} />
+								)}
 							</View>
 							<Pressable
+								onPress={pickImage}
 								style={({ pressed }) => [
 									style.add,
 									{
@@ -138,6 +213,8 @@ export default function EditProfile() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholderTextColor="gray"
+							value={data.bio}
+							onChangeText={(val) => setData({ ...data, bio: val })}
 						/>
 					</View>
 					<View style={style.formContent}>
@@ -149,6 +226,8 @@ export default function EditProfile() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholderTextColor="gray"
+							value={data.username}
+							onChangeText={(val) => setData({ ...data, username: val })}
 						/>
 					</View>
 					<View style={style.formContent}>
@@ -169,7 +248,7 @@ export default function EditProfile() {
 					<View style={style.formContent}>
 						<Text style={style.title}>Languages</Text>
 						<MultipleSelectList
-							setSelected={(val: SetStateAction<never[]>) => setLanguage(val)}
+							setSelected={(val: SetStateAction<string[]>) => setLanguage(val)}
 							data={dataLanguage}
 							placeholder="Select your languages"
 							label="Languages"
@@ -186,7 +265,7 @@ export default function EditProfile() {
 					<View style={style.formContent}>
 						<Text style={style.title}>Programming Languages</Text>
 						<MultipleSelectList
-							setSelected={(val: SetStateAction<never[]>) =>
+							setSelected={(val: SetStateAction<string[]>) =>
 								setProgrammingLanguage(val)
 							}
 							data={dataProgrammingLanguage}
@@ -226,6 +305,8 @@ export default function EditProfile() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholderTextColor="gray"
+							value={data.company}
+							onChangeText={(val) => setData({ ...data, company: val })}
 						/>
 					</View>
 					<View style={style.formContent}>
@@ -237,6 +318,8 @@ export default function EditProfile() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholderTextColor="gray"
+							value={data.github_url}
+							onChangeText={(val) => setData({ ...data, github_url: val })}
 						/>
 					</View>
 					<View style={style.formContent}>
@@ -248,10 +331,13 @@ export default function EditProfile() {
 								{ color: Colors[colorScheme ?? "light"].text },
 							]}
 							placeholderTextColor="gray"
+							value={data.portfolio_url}
+							onChangeText={(val) => setData({ ...data, portfolio_url: val })}
 						/>
 					</View>
 
 					<Pressable
+						onPress={handleSubmit}
 						style={({ pressed }) => [
 							style.button,
 							{

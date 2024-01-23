@@ -1,33 +1,78 @@
 import { StatusBar } from "expo-status-bar";
-import {
-	ImageBackground,
-	Platform,
-	Pressable,
-	StyleSheet,
-} from "react-native";
+import { ImageBackground, Platform, Pressable, StyleSheet } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { LogoSvg } from "../assets/images/LogoSvg";
 import { useRouter } from "expo-router";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { useEffect } from "react";
 import auth from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { useEffect } from "react";
+import * as WebBrowser from "expo-web-browser";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
+import { createTokenWithCode } from "../utils/createToken";
+
+WebBrowser.maybeCompleteAuthSession();
+
+const discovery = {
+	authorizationEndpoint: "https://github.com/login/oauth/authorize",
+	tokenEndpoint: "https://github.com/login/oauth/access_token",
+	revocationEndpoint:
+		"https://github.com/settings/connections/applications/1d346e1b8f7973c3cb2d",
+};
 
 export default function HeroScreen() {
 	const router = useRouter();
-	
-	const onAuthStateChange = (user: FirebaseAuthTypes.User | null) => {
-		if (user) {
-			router.push("/home");
-		} else {
-			router.push("/");
+
+	const [request, response, promptAsync] = useAuthRequest(
+		{
+			clientId: "1d346e1b8f7973c3cb2d",
+			scopes: [],
+			redirectUri: makeRedirectUri(),
+		},
+		discovery
+	);
+
+	const handleResponse = async () => {
+		if (response?.type === "success") {
+			const { code } = response.params;
+			const { token_type, scope, access_token } = await createTokenWithCode(
+				code
+			);
+
+			if (!access_token) {
+				alert("Something went wrong. Please try again.");
+				return;
+			}
+
+			const credential = auth.GithubAuthProvider.credential(access_token);
+			await auth().signInWithCredential(credential);
+
+			router.push("/signup-step");
 		}
-	}
+	};
+
+	const handleGoogleSignin = async () => {
+		try {
+			await GoogleSignin.hasPlayServices();
+			const { idToken } = await GoogleSignin.signIn();
+			const credential = auth.GoogleAuthProvider.credential(idToken);
+			await auth().signInWithCredential(credential);
+
+			router.push("/signup-step");
+		} catch (error) {
+			alert(error);
+		}
+	};
 
 	useEffect(() => {
-		auth().onAuthStateChanged(onAuthStateChange);
-	}, []);
+		GoogleSignin.configure({
+			webClientId:
+				"561315881893-pqn4j9i9l2gv8s8no2ckgj9fe2k0obro.apps.googleusercontent.com",
+		});
+
+		handleResponse();
+	}, [response]);
 
 	return (
 		<ImageBackground
@@ -43,7 +88,9 @@ export default function HeroScreen() {
 			</Text>
 			<View style={styles.authButton}>
 				<Pressable
-					onPress={() => router.push("/signup-step")}
+					onPress={() => {
+						promptAsync();
+					}}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },
@@ -53,7 +100,7 @@ export default function HeroScreen() {
 					<Text style={styles.textButton}>Sign Up with Github</Text>
 				</Pressable>
 				<Pressable
-					onPress={() => router.push("/signup-step")}
+					onPress={handleGoogleSignin}
 					style={({ pressed }) => [
 						styles.button,
 						{ opacity: pressed ? 0.5 : 1 },

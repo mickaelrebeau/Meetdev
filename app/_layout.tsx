@@ -5,10 +5,12 @@ import {
 	ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, router } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import * as Updates from "expo-updates";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import auth from "@react-native-firebase/auth";
 
 export {
 	// Catch any errors thrown by the Layout component.
@@ -62,9 +64,18 @@ function RootLayoutNav() {
 			alert(`Error checking for updates: ${error}`);
 		}
 	};
+	
+	const onAuthStateChange = (user: FirebaseAuthTypes.User | null) => {
+		if (user) {
+			router.push("/home");
+		} else {
+			router.push("/");
+		}
+	};
 
 	useEffect(() => {
 		checkUpdate();
+		auth().onAuthStateChanged(onAuthStateChange);
 	}, []);
 
 	return (

@@ -19,7 +19,12 @@ export const Filters = () => {
 	const currentUser = auth().currentUser;
 
 	const filtersProfiles = async (user: FirebaseAuthTypes.User | null) => {
-		db().ref(`users/${user}/filters`).set({ country, programmingLanguage, post });
+		const filters = {
+			country: country,
+			programming_languages: programmingLanguage,
+			post: post,
+		};
+		db().ref(`users/${user?.uid}`).set({ filters: filters });
 	}; 
 
 	const handleSubmit = async () => {

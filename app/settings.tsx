@@ -8,12 +8,28 @@ import { LogoSvg } from "../assets/images/LogoSvg";
 import { useState } from "react";
 import { FeedBack } from "../components/modal/FeedBackModal";
 import { PrivacyPolicy } from "../components/modal/PrivacyPolicyModal";
+import auth from "@react-native-firebase/auth";
 
 export default function SettingsScreen() {
 	const colorScheme = useColorScheme();
+	const currentUser = auth().currentUser;
 	const [modalFeedBackVisible, setModalFeedBackVisible] = useState(false);
 	const [modalPrivacyPolicyVisible, setModalPrivacyPolicyVisible] =
 		useState(false);
+	
+	const handleLogout = async () => {
+		if (currentUser !== null) {
+			await auth().signOut();
+			router.push("/");
+		}
+	}
+
+	const handleDeleteAccount = async () => {
+		if (currentUser !== null) {
+			await auth().currentUser?.delete();
+			router.push("/");
+		}
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -78,7 +94,7 @@ export default function SettingsScreen() {
 					</View>
 					<View style={styles.buttons}>
 						<Pressable
-							onPress={() => router.push("/")}
+							onPress={handleLogout}
 							style={({ pressed }) => [
 								styles.button,
 								{
@@ -97,7 +113,7 @@ export default function SettingsScreen() {
 							</Text>
 						</Pressable>
 						<Pressable
-							onPress={() => router.push("/")}
+							onPress={handleDeleteAccount}
 							style={({ pressed }) => [
 								styles.buttonOutline,
 								{
@@ -119,7 +135,10 @@ export default function SettingsScreen() {
 					</View>
 				</View>
 			</ScrollView>
-			<FeedBack modalVisible={modalFeedBackVisible} setModalVisible={setModalFeedBackVisible} />
+			<FeedBack
+				modalVisible={modalFeedBackVisible}
+				setModalVisible={setModalFeedBackVisible}
+			/>
 			<PrivacyPolicy
 				modalVisible={modalPrivacyPolicyVisible}
 				setModalVisible={setModalPrivacyPolicyVisible}
