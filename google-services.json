@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "561315881893-kt5221u9j2ha32ose7bf0sl02r4ntvan.apps.googleusercontent.com",
+          "client_id": "561315881893-9d25b8216mu6br9dodvekl04srm044jr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dreeman.meetdev",
+            "certificate_hash": "e859109c236f068d1061943a6d070bf6bf7a7ac7"
+          }
+        },
+        {
+          "client_id": "561315881893-pqn4j9i9l2gv8s8no2ckgj9fe2k0obro.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -28,8 +36,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "561315881893-kt5221u9j2ha32ose7bf0sl02r4ntvan.apps.googleusercontent.com",
+              "client_id": "561315881893-hmce5rtgraph08rovh7c7lhnarmkbmsq.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "561315881893-vbl3u1m9g7n8mp5pveik793op6ra1b4h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dreeman.meetdev"
+              }
             }
           ]
         }

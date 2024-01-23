@@ -5,7 +5,7 @@
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/images/icon.png",
-		"scheme": "myapp",
+		"scheme": "meetdev",
 		"userInterfaceStyle": "automatic",
 		"splash": {
 			"image": "./assets/images/splash.png",
@@ -55,7 +55,8 @@
 					"cameraPermission": false
 				}
 			],
-			"expo-build-properties"
+			"expo-build-properties",
+			"@react-native-google-signin/google-signin"
 		],
 		"experiments": {
 			"typedRoutes": true
