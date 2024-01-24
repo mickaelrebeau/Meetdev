@@ -5,10 +5,18 @@ import Colors from "../constants/Colors";
 import { Input } from "@rneui/themed";
 import { useState } from "react";
 import { ForgotPasswordModal } from "../components/modal/ForgotPasswordModal";
+import auth from "@react-native-firebase/auth";
 
 export default function ForgotPassword() {
 	const colorScheme = useColorScheme();
-	const [modalVisible, setModalVisible] = useState(false);
+	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const [email, setEmail] = useState<string>("");
+
+	const handleSubmit = async () => {
+		await auth().sendPasswordResetEmail(email);
+
+		setModalVisible(true);
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -17,9 +25,11 @@ export default function ForgotPassword() {
 				<Input
 					placeholder="Email@test.fr"
 					style={{ color: Colors[colorScheme ?? "light"].text }}
-				></Input>
+					value={email}
+					onChangeText={(email) => setEmail(email)}
+				/>
 				<Pressable
-					onPress={() => setModalVisible(true)}
+					onPress={handleSubmit}
 					style={({ pressed }) => [
 						styles.buttonOutline,
 						{
