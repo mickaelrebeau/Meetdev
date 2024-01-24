@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Image,
 	Pressable,
 	SafeAreaView,
@@ -9,11 +10,7 @@ import {
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
-import {
-	MultipleSelectList,
-	SelectList,
-} from "react-native-dropdown-select-list";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
 	dataCountry,
 	dataLanguage,
@@ -26,33 +23,68 @@ import db from "@react-native-firebase/database";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
+import SelectList from "../components/SelectList";
+import MultipleSelectList from "../components/MultipleSelectList";
 
 export default function EditProfile() {
 	const colorScheme = useColorScheme();
 	const currentUser = auth().currentUser;
-	const [image, setImage] = useState<string>(
-		"file:///data/user/0/com.dreeman.meetdev/cache/ImagePicker/7f5560e3-1d53-43ea-84f5-93c484c50a92.jpeg"
-	);
-	const [country, setCountry] = useState<string>("France");
+	const [country, setCountry] = useState<string>("");
 	const [language, setLanguage] = useState<string[]>([]);
 	const [programmingLanguage, setProgrammingLanguage] = useState<string[]>([]);
-	const [post, setPost] = useState<string>("CEO");
+	const [post, setPost] = useState<string>("");
 	const [data, setData] = useState<{
+		image_uri: string;
 		bio: string;
 		username: string;
 		company: string;
 		github_url: string;
 		portfolio_url: string;
 	}>({
-		bio: "Ceci est une bio 🙂...",
-		username: "Mike",
-		company: "Alt incubateur tech",
-		github_url: "https://github.com/mickaelrebeau",
-		portfolio_url: "https://mike-dreeman-portfolio.vercel.app/",
+		image_uri: "",
+		bio: "",
+		username: "",
+		company: "",
+		github_url: "",
+		portfolio_url: "",
 	});
 	const [filterCountry, setFilterCountry] = useState<string>("");
-	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState<string[]>([]);
+	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState<
+		string[]
+	>([]);
 	const [filterPost, setFilterPost] = useState<string[]>([]);
+
+	const getDatas = async (user: FirebaseAuthTypes.User | null) => {
+		db()
+			.ref(`users/${user?.uid}`)
+			.on("value", (snapshot) => {
+				Alert.alert("Snapshot", JSON.stringify(snapshot.val()));
+				const value = snapshot.val();
+				setData({
+					image_uri: value?.image_uri ?? "",
+					bio: value?.bio ?? "",
+					username: value?.name ?? "",
+					company: value?.company ?? "",
+					github_url: value?.github_url ?? "",
+					portfolio_url: value?.portfolio_url ?? "",
+				});
+				setCountry(value?.country ?? "");
+				setLanguage(value?.languages ?? []);
+				setProgrammingLanguage(value?.programming_languages ?? []);
+				setPost(value?.post ?? "");
+				setFilterCountry(value?.filters?.country ?? "");
+				setFilterProgrammingLanguage(
+					value?.filters?.programming_languages ?? []
+				);
+				setFilterPost(value?.filters?.post ?? []);
+			});
+	};
+
+	useEffect(() => {
+		if (currentUser !== null) {
+			getDatas(currentUser);
+		}
+	}, [currentUser]);
 
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -63,7 +95,10 @@ export default function EditProfile() {
 		});
 
 		if (!result.canceled) {
-			setImage(result.assets[0].uri);
+			setData({
+				...data,
+				image_uri: result.assets[0].uri,
+			});
 		}
 	};
 
@@ -75,7 +110,7 @@ export default function EditProfile() {
 		};
 
 		db().ref(`users/${user?.uid}`).set({
-			image_uri: image,
+			image_uri: data.image_uri,
 			bio: data.bio,
 			name: data.username,
 			country: country,
@@ -113,6 +148,7 @@ export default function EditProfile() {
 							setSelected={setFilterCountry}
 							placeholder="Select your country"
 							searchPlaceholder="Search a country"
+							defaultOption={{ key: filterCountry, value: filterCountry }}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							dropdownTextStyles={{
 								color: Colors[colorScheme ?? "light"].text,
@@ -128,12 +164,16 @@ export default function EditProfile() {
 						<Text style={style.title}>Filters by posts</Text>
 						<MultipleSelectList
 							search={false}
-							setSelected={(val: SetStateAction<string[]>) => setFilterPost(val)}
+							setSelected={(val: SetStateAction<string[]>) =>
+								setFilterPost(val)
+							}
 							data={dataPost}
 							placeholder="Select your programming languages"
 							label="Programming Languages"
-							save="value"
 							searchPlaceholder="Search a programming language"
+							defaultOptions={filterPost.map((post) => {
+								return { key: post, value: post };
+							})}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							checkBoxStyles={{ backgroundColor: "white" }}
 							labelStyles={{
@@ -159,7 +199,6 @@ export default function EditProfile() {
 							data={dataProgrammingLanguage}
 							placeholder="Select your programming languages"
 							label="Programming Languages"
-							save="value"
 							searchPlaceholder="Search a programming language"
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							checkBoxStyles={{ backgroundColor: "white" }}
@@ -183,8 +222,8 @@ export default function EditProfile() {
 						<Text style={style.title}>Media</Text>
 						<View style={style.mediaContainer}>
 							<View style={style.media}>
-								{image !== null ? (
-									<Image source={{ uri: image }} style={style.photo} />
+								{data.image_uri !== null ? (
+									<Image source={{ uri: data.image_uri }} style={style.photo} />
 								) : (
 									<View style={style.photo} />
 								)}
@@ -239,6 +278,7 @@ export default function EditProfile() {
 							searchPlaceholder="Search a country"
 							dropdownStyles={style.input}
 							boxStyles={style.input}
+							defaultOption={{ key: country, value: country }}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							dropdownTextStyles={{
 								color: Colors[colorScheme ?? "light"].text,
@@ -290,6 +330,7 @@ export default function EditProfile() {
 							searchPlaceholder="Search a post"
 							dropdownStyles={style.input}
 							boxStyles={style.input}
+							defaultOption={{ key: post, value: post }}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							dropdownTextStyles={{
 								color: Colors[colorScheme ?? "light"].text,
