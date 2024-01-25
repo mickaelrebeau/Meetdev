@@ -1,29 +1,38 @@
 export const Users = [
 	{
 		id: 1,
-		name: "Mike_dreeman",
-		job: "Frontend Developer",
+		username: "Mike_dreeman",
+		post: "Frontend Developer",
 		company: "Apple",
-		image: require("../assets/images/mike.png"),
+		image_uri:
+			"file:///data/user/0/com.dreeman.meetdev/cache/ImagePicker/cd9ed1cb-9009-470d-8ba2-78c22b0ccafd.jpeg",
 		bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
+		github_url: "https://github.com/Mike-dreeman",
+		portfolio_url: "https://www.mike-dreeman-portfolio.vercel.app",
 		tags: ["Python", "Javascript", "Typescript", "PHP", ".Net"],
 	},
 	{
 		id: 2,
-		name: "Mickael Rébeau",
-		job: "Backend Developer",
+		username: "Mickael Rébeau",
+		post: "Backend Developer",
 		company: "Google",
-		image: require("../assets/images/mike.png"),
+		image_uri:
+			"file:///data/user/0/com.dreeman.meetdev/cache/ImagePicker/cd9ed1cb-9009-470d-8ba2-78c22b0ccafd.jpeg",
 		bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
+		github_url: "https://github.com/Mike-dreeman",
+		portfolio_url: "https://www.mike-dreeman-portfolio.vercel.app",
 		tags: ["Python", "Typescript", "C++", "C#", "Objective-C", "Java"],
 	},
 	{
 		id: 3,
-		name: "Mike Dreeman",
-		job: "Fullstack Developer",
+		username: "Mike Dreeman",
+		post: "Fullstack Developer",
 		company: "Facebook",
-		image: require("../assets/images/mike.png"),
+		image_uri:
+			"file:///data/user/0/com.dreeman.meetdev/cache/ImagePicker/cd9ed1cb-9009-470d-8ba2-78c22b0ccafd.jpeg",
 		bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
+		github_url: "https://github.com/Mike-dreeman",
+		portfolio_url: "https://www.mike-dreeman-portfolio.vercel.app",
 		tags: ["Python", "Javascript", "HTML", "CSS", "Java"],
 	},
 ];
