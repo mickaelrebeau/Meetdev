@@ -1,8 +1,9 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet } from "react-native";
 
 import { Text, View } from "./Themed";
 import { Card } from "@rneui/themed";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 export default function ProfilCard(user: User) {
 	return (
@@ -16,7 +17,7 @@ export default function ProfilCard(user: User) {
 					backgroundColor: "transparent",
 				}}
 			>
-				<Image style={{ width: 150, height: 150 }} source={user.image} />
+				<Image style={styles.image} source={{ uri: user.image_uri }} />
 				<View style={{ backgroundColor: "transparent", width: "100%" }}>
 					<Text
 						style={{
@@ -26,7 +27,7 @@ export default function ProfilCard(user: User) {
 							textAlign: "center",
 						}}
 					>
-						{user.name}
+						{user.username}
 					</Text>
 					<Text
 						style={{
@@ -36,7 +37,7 @@ export default function ProfilCard(user: User) {
 							textAlign: "center",
 						}}
 					>
-						{user.job}
+						{user.post}
 					</Text>
 					<Text
 						style={{
@@ -50,7 +51,9 @@ export default function ProfilCard(user: User) {
 					</Text>
 				</View>
 			</View>
-			<Text style={{ marginVertical: 30, color: "gray" }}>{user.bio}</Text>
+			<Text style={{ minHeight: 60, marginVertical: 30, color: "gray" }}>
+				{user.bio}
+			</Text>
 			<View
 				style={{
 					display: "flex",
@@ -78,8 +81,30 @@ export default function ProfilCard(user: User) {
 				))}
 			</View>
 			<View style={styles.links}>
-				<AntDesign name="github" size={24} color="black" />
-				<MaterialCommunityIcons name="web" size={24} color="black" />
+				{user.github_url && (
+					<Pressable
+						onPress={() =>
+							router.push(
+								`https://${user.github_url.replace(/^https?:\/\//, "")}`
+							)
+						}
+						style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+					>
+						<AntDesign name="github" size={24} color="black" />
+					</Pressable>
+				)}
+				{user.portfolio_url && (
+					<Pressable
+						onPress={() =>
+							router.push(
+								`https://${user.portfolio_url.replace(/^https?:\/\//, "")}`
+							)
+						}
+						style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+					>
+						<MaterialCommunityIcons name="web" size={24} color="black" />
+					</Pressable>
+				)}
 			</View>
 		</Card>
 	);
@@ -103,6 +128,13 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		flexDirection: "column",
 		gap: 10,
+	},
+	image: {
+		width: 150,
+		height: 150,
+		borderRadius: 100,
+		borderWidth: 2,
+		borderColor: "#2f95dc",
 	},
 	title: {
 		fontSize: 20,

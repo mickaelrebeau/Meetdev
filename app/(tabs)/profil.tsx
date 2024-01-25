@@ -2,18 +2,48 @@ import { Image, Pressable, StyleSheet } from "react-native";
 
 import { Text, View } from "../../components/Themed";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
 
 export default function ProfilScreen() {
 	const router = useRouter();
+	const currentUser = auth().currentUser;
+	const [datas, setDatas] = useState<{
+		image_uri: string;
+		username: string;
+	}>({
+		image_uri: "",
+		username: "",
+	});
+
+	const getDatas = async (user: FirebaseAuthTypes.User | null) => {
+		db().ref(`users/${user?.uid}`).on("value", (snapshot) => {
+			const value = snapshot.val();
+
+			setDatas({
+				image_uri: value?.image_uri ?? "",
+				username: value?.name ?? "",
+			});
+		});
+	}
+
+	useEffect(() => {
+		if (currentUser !== null) {
+			getDatas(currentUser);
+		}
+	}, [currentUser]);
 	
 	return (
 		<View style={styles.container}>
 			<View style={styles.card}>
-				<Image
+				{datas.image_uri !== "" ? (<Image
 					style={styles.image}
-					source={require("../../assets/images/mike.png")}
-				/>
-				<Text style={styles.title}>Mike_Dreeman</Text>
+					source={{uri: datas.image_uri}}
+				/>) : (
+					<View style={styles.image}/>
+				)}
+				{datas.username !== "" ? (<Text style={styles.title}>{datas.username}</Text>) : (<Text>No data.</Text>)}
 			</View>
 			<View style={styles.card}>
 				<Pressable

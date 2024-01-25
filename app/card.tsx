@@ -3,23 +3,80 @@ import { View, Text } from "../components/Themed";
 import ProfilCard from "../components/ProfilCard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-
-const mike = {
-	id: 1,
-	name: "Mike_dreeman",
-	job: "Frontend Developer",
-	company: "Apple",
-	image: require("../assets/images/mike.png"),
-	bio: "Lorem ipsum dolor sit amet consectetur. Imperdiet urna proin et leo sollicitudin facilisi dolor magna. Augue tristique amet faucibus dictumenim viverra. Ullamcorper risus felis magna sem risus vestibulum miaugue.",
-	tags: ["Python", "Javascript", "Typescript", "Java"],
-};
+import { useEffect, useState } from "react";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
 
 export default function Card() {
+	const currentUser = auth().currentUser;
+	const [datas, setDatas] = useState<{
+		image_uri: string;
+		bio: string;
+		username: string;
+		company: string;
+		post: string;
+		github_url: string;
+		portfolio_url: string;
+	}>({
+		image_uri: "",
+		bio: "",
+		username: "",
+		company: "",
+		post: "",
+		github_url: "",
+		portfolio_url: "",
+	});
+	const [programming, setProgramming] = useState<string[]>([]);
+
+	const user = {
+		id: 0,
+		username: datas.username,
+		image_uri: datas.image_uri,
+		company: datas.company,
+		post: datas.post,
+		github_url: datas.github_url,
+		portfolio_url: datas.portfolio_url,
+		bio: datas.bio,
+		tags: programming,
+	};
+
+	const getDatas = async (user: FirebaseAuthTypes.User | null) => {
+		db()
+			.ref(`users/${user?.uid}`)
+			.on("value", (snapshot) => {
+				const value = snapshot.val();
+
+				setDatas({
+					image_uri: value?.image_uri ?? "",
+					bio: value?.bio ?? "",
+					username: value?.name ?? "",
+					company: value?.company ?? "",
+					post: value?.post ?? "",
+					github_url: value?.github_url ?? "",
+					portfolio_url: value?.portfolio_url ?? "",
+				});
+			});
+
+		db()
+			.ref(`users/${user?.uid}/programming_languages`)
+			.on("value", (snapshot) => {
+				const value = snapshot.val();
+
+				setProgramming(Object.values(value ?? []));
+			});
+	};
+
+	useEffect(() => {
+		if (currentUser !== null) {
+			getDatas(currentUser);
+		}
+	}, [currentUser]);
+	
     return (
 			<SafeAreaView style={styles.container}>
 				<View style={styles.content}>
 					<View style={styles.card}>
-						<ProfilCard {...mike} />
+						<ProfilCard {...user} />
 					</View>
 					<View style={styles.buttons}>
 						<Pressable
