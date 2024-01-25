@@ -1,6 +1,5 @@
 import { Pressable, StyleSheet, useColorScheme } from "react-native";
 import { View, Text } from "../components/Themed";
-import { MultipleSelectList, SelectList } from "react-native-dropdown-select-list";
 import { dataCountry, dataPost, dataProgrammingLanguage } from "../constants/Datas";
 import { SetStateAction, useState } from "react";
 import Colors from "../constants/Colors";
@@ -10,6 +9,8 @@ import { router } from "expo-router";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import auth from "@react-native-firebase/auth";
 import db from "@react-native-firebase/database";
+import SelectList from "./SelectList";
+import MultipleSelectList from "./MultipleSelectList";
 
 export const Filters = () => {
 	const colorScheme = useColorScheme();

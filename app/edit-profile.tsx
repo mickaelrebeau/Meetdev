@@ -49,17 +49,16 @@ export default function EditProfile() {
 		portfolio_url: "",
 	});
 	const [filterCountry, setFilterCountry] = useState<string>("");
-	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState<
-		string[]
-	>([]);
+	const [filterProgrammingLanguage, setFilterProgrammingLanguage] =
+		useState<string[]>([]);
 	const [filterPost, setFilterPost] = useState<string[]>([]);
 
 	const getDatas = async (user: FirebaseAuthTypes.User | null) => {
 		db()
 			.ref(`users/${user?.uid}`)
 			.on("value", (snapshot) => {
-				Alert.alert("Snapshot", JSON.stringify(snapshot.val()));
 				const value = snapshot.val();
+
 				setData({
 					image_uri: value?.image_uri ?? "",
 					bio: value?.bio ?? "",
@@ -69,14 +68,40 @@ export default function EditProfile() {
 					portfolio_url: value?.portfolio_url ?? "",
 				});
 				setCountry(value?.country ?? "");
-				setLanguage(value?.languages ?? []);
-				setProgrammingLanguage(value?.programming_languages ?? []);
 				setPost(value?.post ?? "");
 				setFilterCountry(value?.filters?.country ?? "");
-				setFilterProgrammingLanguage(
-					value?.filters?.programming_languages ?? []
-				);
-				setFilterPost(value?.filters?.post ?? []);
+			});
+
+		db()
+			.ref(`users/${user?.uid}/filters/post`)
+			.on("value", (snapshot) => {
+				const value = snapshot.val();
+
+				setFilterPost(Object.values(value ?? []));
+			});
+		
+		db()
+			.ref(`users/${user?.uid}/filters/programming_languages`)
+			.on("value", (snapshot) => {
+				const value = snapshot.val();
+
+				setFilterProgrammingLanguage(Object.values(value ?? []));
+			});
+		
+		db()
+			.ref(`users/${user?.uid}/languages`)
+			.on("value", (snapshot) => {
+				const value = snapshot.val();
+				
+				setLanguage(Object.values(value ?? []));
+			});
+		
+		db()
+			.ref(`users/${user?.uid}/programming_languages`)
+			.on("value", (snapshot) => {
+				const value = snapshot.val();
+
+				setProgrammingLanguage(Object.values(value ?? []));
 			});
 	};
 
@@ -148,6 +173,8 @@ export default function EditProfile() {
 							setSelected={setFilterCountry}
 							placeholder="Select your country"
 							searchPlaceholder="Search a country"
+							dropdownStyles={style.input}
+							boxStyles={style.input}
 							defaultOption={{ key: filterCountry, value: filterCountry }}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							dropdownTextStyles={{
@@ -171,9 +198,8 @@ export default function EditProfile() {
 							placeholder="Select your programming languages"
 							label="Programming Languages"
 							searchPlaceholder="Search a programming language"
-							defaultOptions={filterPost.map((post) => {
-								return { key: post, value: post };
-							})}
+							dropdownStyles={style.input}
+							boxStyles={style.input}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							checkBoxStyles={{ backgroundColor: "white" }}
 							labelStyles={{
@@ -190,6 +216,13 @@ export default function EditProfile() {
 								/>
 							}
 						/>
+						<View style={style.tagcontainer}>
+							{filterPost && filterPost.length > 0 ? (
+								filterPost.map((el) => <Text style={style.tag}>{el}</Text>)
+							) : (
+								<Text>No data.</Text>
+							)}
+						</View>
 						<Text style={style.title}>Filters by technologies</Text>
 						<MultipleSelectList
 							search={false}
@@ -200,6 +233,8 @@ export default function EditProfile() {
 							placeholder="Select your programming languages"
 							label="Programming Languages"
 							searchPlaceholder="Search a programming language"
+							dropdownStyles={style.input}
+							boxStyles={style.input}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
 							checkBoxStyles={{ backgroundColor: "white" }}
 							labelStyles={{
@@ -216,6 +251,16 @@ export default function EditProfile() {
 								/>
 							}
 						/>
+						<View style={style.tagcontainer}>
+							{filterProgrammingLanguage &&
+							filterProgrammingLanguage.length > 0 ? (
+								filterProgrammingLanguage.map((el) => (
+									<Text style={style.tag}>{el}</Text>
+								))
+							) : (
+								<Text>No data.</Text>
+							)}
+						</View>
 					</View>
 					<Text style={style.title}>Informations</Text>
 					<View style={style.formContent}>
@@ -288,38 +333,76 @@ export default function EditProfile() {
 					<View style={style.formContent}>
 						<Text style={style.title}>Languages</Text>
 						<MultipleSelectList
+							search={false}
 							setSelected={(val: SetStateAction<string[]>) => setLanguage(val)}
 							data={dataLanguage}
 							placeholder="Select your languages"
 							label="Languages"
-							save="value"
 							searchPlaceholder="Search a language"
 							dropdownStyles={style.input}
 							boxStyles={style.input}
+							checkBoxStyles={{ backgroundColor: "white" }}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							labelStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
 							dropdownTextStyles={{
 								color: Colors[colorScheme ?? "light"].text,
 							}}
+							arrowicon={
+								<Feather
+									name="chevron-down"
+									size={24}
+									color={Colors[colorScheme ?? "light"].tint}
+								/>
+							}
 						/>
+						<View style={style.tagcontainer}>
+							{language && language.length > 0 ? (
+								language.map((el) => <Text style={style.tag}>{el}</Text>)
+							) : (
+								<Text>No data.</Text>
+							)}
+						</View>
 					</View>
 					<View style={style.formContent}>
 						<Text style={style.title}>Programming Languages</Text>
 						<MultipleSelectList
+							search={false}
 							setSelected={(val: SetStateAction<string[]>) =>
 								setProgrammingLanguage(val)
 							}
 							data={dataProgrammingLanguage}
 							placeholder="Select your programming languages"
 							label="Programming Languages"
-							save="value"
 							searchPlaceholder="Search a programming language"
 							dropdownStyles={style.input}
 							boxStyles={style.input}
 							inputStyles={{ color: Colors[colorScheme ?? "light"].text }}
+							checkBoxStyles={{ backgroundColor: "white" }}
 							dropdownTextStyles={{
 								color: Colors[colorScheme ?? "light"].text,
 							}}
+							labelStyles={{
+								color: Colors[colorScheme ?? "light"].text,
+							}}
+							arrowicon={
+								<Feather
+									name="chevron-down"
+									size={24}
+									color={Colors[colorScheme ?? "light"].tint}
+								/>
+							}
 						/>
+						<View style={style.tagcontainer}>
+							{programmingLanguage && programmingLanguage.length > 0 ? (
+								programmingLanguage.map((el) => (
+									<Text style={style.tag}>{el}</Text>
+								))
+							) : (
+								<Text>No data.</Text>
+							)}
+						</View>
 					</View>
 					<View style={style.formContent}>
 						<Text style={style.title}>Post</Text>
@@ -496,5 +579,27 @@ const style = StyleSheet.create({
 		borderWidth: 1,
 		borderRadius: 50,
 		borderColor: "transparent",
+	},
+	tagcontainer: {
+		width: "100%",
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		flexWrap: "wrap",
+		gap: 5,
+
+		paddingHorizontal: 10,
+		paddingVertical: 10,
+		borderWidth: 2,
+		borderColor: "gray",
+		borderRadius: 8,
+	},
+	tag: {
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		borderWidth: 1,
+		borderColor: "gray",
+		borderRadius: 50,
 	},
 });
