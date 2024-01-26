@@ -1,6 +1,6 @@
 export const Users = [
 	{
-		id: 1,
+		id: "1",
 		username: "Mike_dreeman",
 		post: "Frontend Developer",
 		company: "Apple",
@@ -12,7 +12,7 @@ export const Users = [
 		tags: ["Python", "Javascript", "Typescript", "PHP", ".Net"],
 	},
 	{
-		id: 2,
+		id: "2",
 		username: "Mickael Rébeau",
 		post: "Backend Developer",
 		company: "Google",
@@ -24,7 +24,7 @@ export const Users = [
 		tags: ["Python", "Typescript", "C++", "C#", "Objective-C", "Java"],
 	},
 	{
-		id: 3,
+		id: "3",
 		username: "Mike Dreeman",
 		post: "Fullstack Developer",
 		company: "Facebook",
