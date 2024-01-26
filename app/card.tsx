@@ -29,7 +29,7 @@ export default function Card() {
 	const [programming, setProgramming] = useState<string[]>([]);
 
 	const user = {
-		id: 0,
+		id: currentUser?.uid ?? "",
 		username: datas.username,
 		image_uri: datas.image_uri,
 		company: datas.company,
