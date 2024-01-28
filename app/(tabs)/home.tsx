@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Pressable,
 	StyleSheet,
 	useColorScheme,
@@ -8,7 +9,6 @@ import {
 import { View } from "../../components/Themed";
 import { AntDesign, Fontisto } from "@expo/vector-icons";
 import ProfilCard from "../../components/ProfilCard";
-import { Users } from "../../constants/Users";
 import Animated, {
 	interpolate,
 	runOnJS,
@@ -24,6 +24,7 @@ import Colors from "../../constants/Colors";
 import { SignalModal } from "../../components/modal/SignalModal";
 import auth from "@react-native-firebase/auth";
 import { Likes } from "../../utils/likeProfile";
+import { Users } from "../../constants/Users";
 
 export default function HomeScreen() {
 	const colorScheme = useColorScheme();
@@ -222,7 +223,10 @@ export default function HomeScreen() {
 				</Pressable>
 			</View>
 
-			<SignalModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+			<SignalModal
+				modalVisible={modalVisible}
+				setModalVisible={setModalVisible}
+			/>
 		</View>
 	);
 }
