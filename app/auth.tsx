@@ -13,6 +13,7 @@ import Colors from "../constants/Colors";
 import { router } from "expo-router";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import db from "@react-native-firebase/database";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function AuthScreen() {
 	const colorScheme = useColorScheme();
@@ -21,52 +22,55 @@ export default function AuthScreen() {
 	const toggleCheckbox = () => setChecked(!checked);
 
 	const [name, setName] = React.useState("");
-	const [login, setLogin] = React.useState<{ email: string; password: string }>({
-		email: "",
-		password: "",
-	})
-
-	const [register, setRegister] = React.useState<{ email: string; password: string }>(
+	const [login, setLogin] = React.useState<{ email: string; password: string }>(
 		{
 			email: "",
 			password: "",
 		}
 	);
 
+	const [register, setRegister] = React.useState<{
+		email: string;
+		password: string;
+	}>({
+		email: "",
+		password: "",
+	});
+
 	const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
-		db().ref(`users/${response.user.uid}`).set({name})
-	}
+		db().ref(`users/${response.user.uid}`).set({ name });
+	};
 
 	const handleLogin = async () => {
 		try {
 			const response = await auth().signInWithEmailAndPassword(
 				login.email,
 				login.password
-			)
+			);
 
 			if (response) {
-				router.push("/home")
+				router.push("/home");
 			}
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
-	}
+	};
 
 	const handleRegister = async () => {
 		try {
 			const response = await auth().createUserWithEmailAndPassword(
 				register.email,
 				register.password
-			)
+			);
 
 			if (response) {
 				await createProfile(response);
-				router.push("/signup-step")
+				router.push("/signup-step");
 			}
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
-	}
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -111,51 +115,53 @@ export default function AuthScreen() {
 						alignItems: "center",
 					}}
 				>
-					<View style={styles.form}>
-						<Text style={styles.label}>Email</Text>
-						<Input
-							style={[
-								styles.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholder="email@example.fr"
-							value={login.email}
-							onChangeText={(email) => setLogin({ ...login, email })}
-						/>
+					<ScrollView style={styles.scrollView}>
+						<View style={styles.form}>
+							<Text style={styles.label}>Email</Text>
+							<Input
+								style={[
+									styles.input,
+									{ color: Colors[colorScheme ?? "light"].text },
+								]}
+								placeholder="email@example.fr"
+								value={login.email}
+								onChangeText={(email) => setLogin({ ...login, email })}
+							/>
 
-						<Text style={styles.label}>Password</Text>
-						<Input
-							style={[
-								styles.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholder="@Exemple123"
-							value={login.password}
-							onChangeText={(password) => setLogin({ ...login, password })}
-							secureTextEntry
-						/>
+							<Text style={styles.label}>Password</Text>
+							<Input
+								style={[
+									styles.input,
+									{ color: Colors[colorScheme ?? "light"].text },
+								]}
+								placeholder="@Exemple123"
+								value={login.password}
+								onChangeText={(password) => setLogin({ ...login, password })}
+								secureTextEntry
+							/>
 
-						<Pressable
-							onPress={handleLogin}
-							style={({ pressed }) => [
-								styles.button,
-								{
-									opacity: pressed ? 0.5 : 1,
-								},
-							]}
-						>
-							<Text style={styles.textButton}>Login</Text>
-						</Pressable>
+							<Pressable
+								onPress={handleLogin}
+								style={({ pressed }) => [
+									styles.button,
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.textButton}>Login</Text>
+							</Pressable>
 
-						<Pressable
-							onPress={() => router.push("/forgot-password")}
-							style={({ pressed }) => [
-								{ opacity: pressed ? 0.5 : 1, marginTop: 30 },
-							]}
-						>
-							<Text style={styles.textButton}>Forgot password?</Text>
-						</Pressable>
-					</View>
+							<Pressable
+								onPress={() => router.push("/forgot-password")}
+								style={({ pressed }) => [
+									{ opacity: pressed ? 0.5 : 1, marginTop: 30 },
+								]}
+							>
+								<Text style={styles.textButton}>Forgot password?</Text>
+							</Pressable>
+						</View>
+					</ScrollView>
 				</TabView.Item>
 
 				<TabView.Item
@@ -167,61 +173,65 @@ export default function AuthScreen() {
 						alignItems: "center",
 					}}
 				>
-					<View style={styles.signup}>
-						<Text style={styles.label}>Username</Text>
-						<Input
-							style={[
-								styles.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholder="Exemple123"
-							value={name}
-							onChangeText={(name) => setName(name)}
-						/>
+					<ScrollView style={styles.scrollView}>
+						<View style={styles.signup}>
+							<Text style={styles.label}>Username</Text>
+							<Input
+								style={[
+									styles.input,
+									{ color: Colors[colorScheme ?? "light"].text },
+								]}
+								placeholder="Exemple123"
+								value={name}
+								onChangeText={(name) => setName(name)}
+							/>
 
-						<Text style={styles.label}>Email</Text>
-						<Input
-							style={[
-								styles.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholder="email@exemple.fr"
-							value={register.email}
-							onChangeText={(email) => setRegister({ ...register, email })}
-						/>
+							<Text style={styles.label}>Email</Text>
+							<Input
+								style={[
+									styles.input,
+									{ color: Colors[colorScheme ?? "light"].text },
+								]}
+								placeholder="email@exemple.fr"
+								value={register.email}
+								onChangeText={(email) => setRegister({ ...register, email })}
+							/>
 
-						<Text style={styles.label}>Password</Text>
-						<Input
-							style={[
-								styles.input,
-								{ color: Colors[colorScheme ?? "light"].text },
-							]}
-							placeholder="@Exemple123"
-							value={register.password}
-							onChangeText={(password) => setRegister({ ...register, password })}
-							secureTextEntry
-						/>
+							<Text style={styles.label}>Password</Text>
+							<Input
+								style={[
+									styles.input,
+									{ color: Colors[colorScheme ?? "light"].text },
+								]}
+								placeholder="@Exemple123"
+								value={register.password}
+								onChangeText={(password) =>
+									setRegister({ ...register, password })
+								}
+								secureTextEntry
+							/>
 
-						<CheckBox
-							containerStyle={styles.checkbox}
-							textStyle={{ color: Colors[colorScheme ?? "light"].text }}
-							title="I accept the terms and conditions of use"
-							checked={checked}
-							onPress={toggleCheckbox}
-						/>
+							<CheckBox
+								containerStyle={styles.checkbox}
+								textStyle={{ color: Colors[colorScheme ?? "light"].text }}
+								title="I accept the terms and conditions of use"
+								checked={checked}
+								onPress={toggleCheckbox}
+							/>
 
-						<Pressable
-							onPress={handleRegister}
-							style={({ pressed }) => [
-								styles.button,
-								{
-									opacity: pressed ? 0.5 : 1,
-								},
-							]}
-						>
-							<Text style={styles.textButton}>Sign Up</Text>
-						</Pressable>
-					</View>
+							<Pressable
+								onPress={handleRegister}
+								style={({ pressed }) => [
+									styles.button,
+									{
+										opacity: pressed ? 0.5 : 1,
+									},
+								]}
+							>
+								<Text style={styles.textButton}>Sign Up</Text>
+							</Pressable>
+						</View>
+					</ScrollView>
 				</TabView.Item>
 			</TabView>
 		</SafeAreaView>
@@ -231,6 +241,12 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+	},
+	scrollView: {
+		width: "100%",
+		height: "auto",
+
+		paddingHorizontal: 20,
 	},
 	logo: {
 		marginTop: 50,
@@ -247,19 +263,22 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		marginVertical: 50,
-		width: "80%",
+
+		width: "100%",
 		height: "auto",
+
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "transparent",
 		gap: 1,
+
+		backgroundColor: "transparent",
 	},
 	signup: {
 		marginTop: 60,
 		paddingBottom: 100,
 
-		width: "80%",
+		width: "100%",
 		height: "auto",
 
 		backgroundColor: "transparent",
@@ -275,6 +294,7 @@ const styles = StyleSheet.create({
 	label: {
 		width: "100%",
 		marginBottom: 5,
+
 		fontSize: 16,
 		fontWeight: "400",
 		textAlign: "left",
