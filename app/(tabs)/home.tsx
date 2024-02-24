@@ -1,5 +1,4 @@
 import {
-	Alert,
 	Pressable,
 	StyleSheet,
 	useColorScheme,
@@ -22,13 +21,10 @@ import { PanGestureHandler } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import Colors from "../../constants/Colors";
 import { SignalModal } from "../../components/modal/SignalModal";
-import auth from "@react-native-firebase/auth";
-import { Likes } from "../../utils/likeProfile";
 import { Users } from "../../constants/Users";
 
 export default function HomeScreen() {
 	const colorScheme = useColorScheme();
-	const currentUser = auth().currentUser;
 	const [modalVisible, setModalVisible] = useState(false);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [nextIndex, setNextIndex] = useState((currentIndex + 1) % Users.length);
@@ -113,8 +109,6 @@ export default function HomeScreen() {
 				runOnJS(setCurrentIndex)((currentIndex + 1) % Users.length);
 			}
 		);
-
-		Likes(currentUser, currentProfil.id)
 	};
 
 	const handleReject = () => {
