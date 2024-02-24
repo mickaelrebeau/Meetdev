@@ -3,47 +3,36 @@ import { Image, Pressable, StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import db from "@react-native-firebase/database";
+import { fetchGetImageByUserId, fetchGetUserById } from "../../utils/fetch";
 
 export default function ProfilScreen() {
 	const router = useRouter();
-	const currentUser = auth().currentUser;
-	const [datas, setDatas] = useState<{
-		image_uri: string;
-		username: string;
-	}>({
-		image_uri: "",
-		username: "",
-	});
-
-	const getDatas = async (user: FirebaseAuthTypes.User | null) => {
-		db().ref(`users/${user?.uid}`).on("value", (snapshot) => {
-			const value = snapshot.val();
-
-			setDatas({
-				image_uri: value?.image_uri ?? "",
-				username: value?.name ?? "",
-			});
-		});
-	}
+	const [username, setUsername] = useState<string | null>(null);
+	const [image, setImage] = useState<null | string>(null);
 
 	useEffect(() => {
-		if (currentUser !== null) {
-			getDatas(currentUser);
-		}
-	}, [currentUser]);
-	
+		fetchGetUserById().then((data) => {
+			setUsername(data.displayName);
+		});
+
+		fetchGetImageByUserId().then((data) => {
+			setImage(data[0].uri);
+		})
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.card}>
-				{datas.image_uri !== "" ? (<Image
-					style={styles.image}
-					source={{uri: datas.image_uri}}
-				/>) : (
-					<View style={styles.image}/>
+				{image !== null ? (
+					<Image style={styles.image} source={{ uri: image }} />
+				) : (
+					<View style={styles.image} />
 				)}
-				{datas.username !== "" ? (<Text style={styles.title}>{datas.username}</Text>) : (<Text>No data.</Text>)}
+				{username !== null ? (
+					<Text style={styles.title}>{username}</Text>
+				) : (
+					<Text>No data.</Text>
+				)}
 			</View>
 			<View style={styles.card}>
 				<Pressable
@@ -80,7 +69,7 @@ export default function ProfilScreen() {
 						styles.buttonOutline,
 						{
 							opacity: pressed ? 0.5 : 1,
-						}
+						},
 					]}
 					onPress={() => router.push("https://streamlabs.com/mike_dreeman/tip")}
 				>
