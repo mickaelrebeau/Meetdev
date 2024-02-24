@@ -1,74 +1,80 @@
 import {
+	Alert,
 	Pressable,
 	SafeAreaView,
 	StyleSheet,
 	useColorScheme,
 } from "react-native";
-
 import { Text, View } from "../components/Themed";
-import { CheckBox, Input, Tab, TabView } from "@rneui/themed";
+import { Input, Tab, TabView } from "@rneui/themed";
 import { LogoSvg } from "../assets/images/LogoSvg";
-import React from "react";
+import React, { useState } from "react";
 import Colors from "../constants/Colors";
 import { router } from "expo-router";
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import db from "@react-native-firebase/database";
 import { ScrollView } from "react-native-gesture-handler";
+import { useAuth } from "./context/AuthContext";
 
 export default function AuthScreen() {
 	const colorScheme = useColorScheme();
-	const [index, setIndex] = React.useState(0);
-	const [checked, setChecked] = React.useState(false);
-	const toggleCheckbox = () => setChecked(!checked);
-
-	const [name, setName] = React.useState("");
-	const [login, setLogin] = React.useState<{ email: string; password: string }>(
-		{
-			email: "",
-			password: "",
-		}
-	);
-
-	const [register, setRegister] = React.useState<{
-		email: string;
-		password: string;
-	}>({
+	const { onLogin, onRegister } = useAuth();
+	const [loginError, setLoginError] = useState<string | null>(null);
+	const [registerError, setRegisterError] = useState<string | null>(null);
+	const [index, setIndex] = useState(0);
+	const [login, setLogin] = useState<{ email: string; password: string }>({
 		email: "",
 		password: "",
 	});
 
-	const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
-		db().ref(`users/${response.user.uid}`).set({ name });
-	};
+	const [register, setRegister] = useState<{
+		displayName: string;
+		email: string;
+		password: string;
+	}>({
+		displayName: "",
+		email: "",
+		password: "",
+	});
 
 	const handleLogin = async () => {
-		try {
-			const response = await auth().signInWithEmailAndPassword(
-				login.email,
-				login.password
-			);
+		if (!login.email.trim()) {
+			Alert.alert("Input empty","Please enter an email");
+			return;
+		}
 
-			if (response) {
-				router.push("/home");
-			}
-		} catch (error) {
-			alert(error);
+		if (!login.password.trim()) {
+			Alert.alert("Input empty", "Please enter a password");
+			return;
+		}
+
+		const result = await onLogin!(login.email, login.password);
+		if (result && result.error) {
+			setLoginError("Invalid email or password");
 		}
 	};
 
 	const handleRegister = async () => {
-		try {
-			const response = await auth().createUserWithEmailAndPassword(
-				register.email,
-				register.password
-			);
+		if (!register.displayName.trim()) {
+			Alert.alert("Input empty", "Please enter an username");
+			return;
+		}
 
-			if (response) {
-				await createProfile(response);
-				router.push("/signup-step");
-			}
-		} catch (error) {
-			alert(error);
+		if (!register.email.trim()) {
+			Alert.alert("Input empty", "Please enter an email");
+			return;
+		}
+
+		if (!register.password.trim()) {
+			Alert.alert("Input empty", "Please enter a password");
+			return;
+		}
+
+		const result = await onRegister!(
+			register.displayName,
+			register.email,
+			register.password
+		);
+		if (result && result.error) {
+			setRegisterError("Invalid email or password");
 		}
 	};
 
@@ -140,6 +146,8 @@ export default function AuthScreen() {
 								secureTextEntry
 							/>
 
+							{loginError && <Text style={styles.errorText}>{loginError}</Text>}
+
 							<Pressable
 								onPress={handleLogin}
 								style={({ pressed }) => [
@@ -182,8 +190,10 @@ export default function AuthScreen() {
 									{ color: Colors[colorScheme ?? "light"].text },
 								]}
 								placeholder="Exemple123"
-								value={name}
-								onChangeText={(name) => setName(name)}
+								value={register.displayName}
+								onChangeText={(displayName) =>
+									setRegister({ ...register, displayName })
+								}
 							/>
 
 							<Text style={styles.label}>Email</Text>
@@ -211,13 +221,9 @@ export default function AuthScreen() {
 								secureTextEntry
 							/>
 
-							<CheckBox
-								containerStyle={styles.checkbox}
-								textStyle={{ color: Colors[colorScheme ?? "light"].text }}
-								title="I accept the terms and conditions of use"
-								checked={checked}
-								onPress={toggleCheckbox}
-							/>
+							{registerError && (
+								<Text style={styles.errorText}>{registerError}</Text>
+							)}
 
 							<Pressable
 								onPress={handleRegister}
@@ -260,6 +266,10 @@ const styles = StyleSheet.create({
 	titleLogo: {
 		fontSize: 30,
 		fontWeight: "bold",
+	},
+	errorText: {
+		color: "red",
+		fontSize: 18,
 	},
 	form: {
 		marginVertical: 50,
