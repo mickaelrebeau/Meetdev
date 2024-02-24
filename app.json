@@ -14,13 +14,18 @@
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.meetdev.meetdev",
+			"config": {
+				"usesNonExemptEncryption": false
+			}
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#ffffff"
-			}
+			},
+			"package": "com.meetdev.meetdev"
 		},
 		"web": {
 			"favicon": "./assets/images/logo.png"
@@ -36,6 +41,14 @@
 				}
 			],
 			"@react-native-google-signin/google-signin"
-		]
+		],
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "acc5558d-0f48-4d6c-8c27-09374de3d6f1"
+			}
+		}
 	}
 }
