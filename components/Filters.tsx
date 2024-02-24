@@ -1,14 +1,10 @@
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
+import { Alert, Pressable, StyleSheet, useColorScheme } from "react-native";
 import { View, Text } from "../components/Themed";
 import { dataCountry, dataPost, dataProgrammingLanguage } from "../constants/Datas";
 import { SetStateAction, useState } from "react";
 import Colors from "../constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import auth from "@react-native-firebase/auth";
-import db from "@react-native-firebase/database";
 import SelectList from "./SelectList";
 import MultipleSelectList from "./MultipleSelectList";
 
@@ -17,23 +13,9 @@ export const Filters = () => {
 	const [country, setCountry] = useState<string>("");
 	const [programmingLanguage, setProgrammingLanguage] = useState<string[]>([]);
 	const [post, setPost] = useState<string[]>([]);
-	const currentUser = auth().currentUser;
-
-	const filtersProfiles = async (user: FirebaseAuthTypes.User | null) => {
-		const filters = {
-			country: country,
-			programming_languages: programmingLanguage,
-			post: post,
-		};
-		db().ref(`users/${user?.uid}`).set({ filters: filters });
-	}; 
 
 	const handleSubmit = async () => {
-		if (currentUser !== null) {
-			await filtersProfiles(currentUser);
-
-			router.push("/home");
-		}
+		Alert.alert('test', 'hello');
 	};
 	
 	return (
