@@ -8,27 +8,17 @@ import { LogoSvg } from "../assets/images/LogoSvg";
 import { useState } from "react";
 import { FeedBack } from "../components/modal/FeedBackModal";
 import { PrivacyPolicy } from "../components/modal/PrivacyPolicyModal";
-import auth from "@react-native-firebase/auth";
+import { useAuth } from "./context/AuthContext";
 
 export default function SettingsScreen() {
 	const colorScheme = useColorScheme();
-	const currentUser = auth().currentUser;
+	const { onLogout } = useAuth();
 	const [modalFeedBackVisible, setModalFeedBackVisible] = useState(false);
 	const [modalPrivacyPolicyVisible, setModalPrivacyPolicyVisible] =
 		useState(false);
-	
-	const handleLogout = async () => {
-		if (currentUser !== null) {
-			await auth().signOut();
-			router.push("/");
-		}
-	}
 
 	const handleDeleteAccount = async () => {
-		if (currentUser !== null) {
-			await auth().currentUser?.delete();
-			router.push("/");
-		}
+		router.push("/");
 	}
 
 	return (
@@ -94,7 +84,7 @@ export default function SettingsScreen() {
 					</View>
 					<View style={styles.buttons}>
 						<Pressable
-							onPress={handleLogout}
+							onPress={onLogout}
 							style={({ pressed }) => [
 								styles.button,
 								{
