@@ -1,5 +1,4 @@
 import {
-	Alert,
 	Image,
 	Pressable,
 	SafeAreaView,
@@ -18,30 +17,25 @@ import {
 	dataProgrammingLanguage,
 } from "../constants/Datas";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import auth from "@react-native-firebase/auth";
-import db from "@react-native-firebase/database";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import SelectList from "../components/SelectList";
 import MultipleSelectList from "../components/MultipleSelectList";
+import { fetchPostImage, fetchGetUserDataById, fetchGetImageByUserId } from "../utils/fetch";
 
 export default function EditProfile() {
 	const colorScheme = useColorScheme();
-	const currentUser = auth().currentUser;
 	const [country, setCountry] = useState<string>("");
 	const [language, setLanguage] = useState<string[]>([]);
 	const [programmingLanguage, setProgrammingLanguage] = useState<string[]>([]);
 	const [post, setPost] = useState<string>("");
 	const [data, setData] = useState<{
-		image_uri: string;
 		bio: string;
 		username: string;
 		company: string;
 		github_url: string;
 		portfolio_url: string;
 	}>({
-		image_uri: "",
 		bio: "",
 		username: "",
 		company: "",
@@ -49,113 +43,63 @@ export default function EditProfile() {
 		portfolio_url: "",
 	});
 	const [filterCountry, setFilterCountry] = useState<string>("");
-	const [filterProgrammingLanguage, setFilterProgrammingLanguage] =
-		useState<string[]>([]);
+	const [filterProgrammingLanguage, setFilterProgrammingLanguage] = useState<
+		string[]
+	>([]);
 	const [filterPost, setFilterPost] = useState<string[]>([]);
-
-	const getDatas = async (user: FirebaseAuthTypes.User | null) => {
-		db()
-			.ref(`users/${user?.uid}`)
-			.on("value", (snapshot) => {
-				const value = snapshot.val();
-
-				setData({
-					image_uri: value?.image_uri ?? "",
-					bio: value?.bio ?? "",
-					username: value?.name ?? "",
-					company: value?.company ?? "",
-					github_url: value?.github_url ?? "",
-					portfolio_url: value?.portfolio_url ?? "",
-				});
-				setCountry(value?.country ?? "");
-				setPost(value?.post ?? "");
-				setFilterCountry(value?.filters?.country ?? "");
-			});
-
-		db()
-			.ref(`users/${user?.uid}/filters/post`)
-			.on("value", (snapshot) => {
-				const value = snapshot.val();
-
-				setFilterPost(Object.values(value ?? []));
-			});
-		
-		db()
-			.ref(`users/${user?.uid}/filters/programming_languages`)
-			.on("value", (snapshot) => {
-				const value = snapshot.val();
-
-				setFilterProgrammingLanguage(Object.values(value ?? []));
-			});
-		
-		db()
-			.ref(`users/${user?.uid}/languages`)
-			.on("value", (snapshot) => {
-				const value = snapshot.val();
-				
-				setLanguage(Object.values(value ?? []));
-			});
-		
-		db()
-			.ref(`users/${user?.uid}/programming_languages`)
-			.on("value", (snapshot) => {
-				const value = snapshot.val();
-
-				setProgrammingLanguage(Object.values(value ?? []));
-			});
-	};
-
-	useEffect(() => {
-		if (currentUser !== null) {
-			getDatas(currentUser);
-		}
-	}, [currentUser]);
+	const [image, setImage] = useState<null | {
+		uri: string;
+		name: string;
+		type: string;
+	}>(null);
 
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
 			aspect: [3, 3],
 			quality: 1,
 		});
 
 		if (!result.canceled) {
-			setData({
-				...data,
-				image_uri: result.assets[0].uri,
+			setImage({
+				uri: result.assets[0].uri,
+				name: new Date().getTime().toString() + "_image",
+				type: "image/jpeg",
 			});
 		}
 	};
 
-	const profileInfos = async (user: FirebaseAuthTypes.User | null) => {
-		const filters = {
-			country: filterCountry,
-			programming_languages: filterProgrammingLanguage,
-			post: filterPost,
-		};
-
-		db().ref(`users/${user?.uid}`).set({
-			image_uri: data.image_uri,
-			bio: data.bio,
-			name: data.username,
-			country: country,
-			languages: language,
-			programming_languages: programmingLanguage,
-			post: post,
-			company: data.company,
-			github_url: data.github_url,
-			portfolio_url: data.portfolio_url,
-			filters: filters,
-		});
-	};
-
 	const handleSubmit = async () => {
-		if (currentUser !== null) {
-			await profileInfos(currentUser);
-
-			router.push("/profil");
-		}
+		// router.push("/profil");
 	};
+
+	useEffect(() => {
+		fetchGetUserDataById().then((data) => {
+			// setData({
+			// 	bio: data.bio ?? "",
+			// 	username: data.displayName ?? "",
+			// 	company: data.company ?? "",
+			// 	github_url: data.github_url ?? "",
+			// 	portfolio_url: data.portfolio_url ?? "",
+			// });
+			// setCountry(data.country ?? "");
+			// setLanguage(data.language ?? []);
+			// setProgrammingLanguage(data.programmingLanguage ?? []);
+			// setPost(data.post ?? "");
+			// setFilterCountry(data.country ?? "");
+			// setFilterProgrammingLanguage(data.programmingLanguage ?? []);
+			// setFilterPost(data.post ?? "");
+		});
+
+		fetchGetImageByUserId().then((data) => {
+			setImage({
+				uri: data[0].uri,
+				name: data[0].name,
+				type: data[0].type,
+			});
+		});
+	}, []);
 
 	return (
 		<SafeAreaView style={style.container}>
@@ -267,11 +211,9 @@ export default function EditProfile() {
 						<Text style={style.title}>Media</Text>
 						<View style={style.mediaContainer}>
 							<View style={style.media}>
-								{data.image_uri !== null ? (
-									<Image source={{ uri: data.image_uri }} style={style.photo} />
-								) : (
-									<View style={style.photo} />
-								)}
+								{(image?.uri && (
+									<Image source={{ uri: image.uri }} style={style.photo} />
+								)) || <View style={style.photo} />}
 							</View>
 							<Pressable
 								onPress={pickImage}
