@@ -17,7 +17,7 @@ export default function ProfilCard(user: User) {
 					backgroundColor: "transparent",
 				}}
 			>
-				<Image style={styles.image} source={{ uri: user.image_uri }} />
+				<Image style={styles.image} source={user.image} />
 				<View style={{ backgroundColor: "transparent", width: "100%" }}>
 					<Text
 						style={{
