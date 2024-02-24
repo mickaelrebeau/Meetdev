@@ -5,7 +5,6 @@ import Colors from "../constants/Colors";
 import { Input } from "@rneui/themed";
 import { useState } from "react";
 import { ForgotPasswordModal } from "../components/modal/ForgotPasswordModal";
-import auth from "@react-native-firebase/auth";
 
 export default function ForgotPassword() {
 	const colorScheme = useColorScheme();
@@ -13,8 +12,6 @@ export default function ForgotPassword() {
 	const [email, setEmail] = useState<string>("");
 
 	const handleSubmit = async () => {
-		await auth().sendPasswordResetEmail(email);
-
 		setModalVisible(true);
 	};
 
