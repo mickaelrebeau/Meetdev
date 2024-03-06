@@ -9,14 +9,16 @@ import {
 	GiftedChat,
 	IMessage,
 } from "react-native-gifted-chat";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { RenderSend } from "../../components/SendButton";
 import { ScrollBottom } from "../../components/ScrollBottom";
+import { SocketContext } from "../context/SocketContext";
 
 export default function ChatScreen() {
 	const router = useRouter();
 	const { id } = useLocalSearchParams();
 	const colorScheme = useColorScheme();
+	const { socket } = useContext(SocketContext);
 
 	const data = Messages.find((message) => message.id.toString() === id);
 	const giftedChatMessages = data && convertToGiftedChatFormat(data).reverse();
@@ -24,14 +26,34 @@ export default function ChatScreen() {
 	const [messages, setMessages] = useState<IMessage[]>([]);
 
 	useEffect(() => {
-		setMessages(giftedChatMessages ||[]);
-	}, []);
+		if (socket) {
+			socket.on("receive_message", (message) => {
+				setMessages((previousMessages) =>
+					GiftedChat.append(previousMessages, message)
+				);
+			});
+		}
+
+		return () => {
+			if (socket) {
+				socket.off("receive_message");
+			}
+		}
+	}, [socket]);
 
 	const onSend = useCallback((messages: IMessage[]) => {
+		const text = messages[0].text.trim();
+
+		if (text && socket) {
+			socket.emit("send_message", text, (acklowlegdgment: any) => {
+				console.log("Message envoyé avec succès: ", acklowlegdgment);
+			});
+		}
+
 		setMessages((previousMessages) =>
 			GiftedChat.append(previousMessages, messages)
 		);
-	}, []);
+	}, [socket]);
 
 	return (
 		<SafeAreaView style={styles.container}>
