@@ -47,9 +47,12 @@ export default function AuthScreen() {
 		}
 
 		const result = await onLogin!(login.email, login.password);
-		if (result && result.error) {
+
+		if (!result) {
 			setLoginError("Invalid email or password");
 		}
+
+		router.push("/home");
 	};
 
 	const handleRegister = async () => {
@@ -73,7 +76,7 @@ export default function AuthScreen() {
 			register.email,
 			register.password
 		);
-		if (result && result.error) {
+		if (!result) {
 			setRegisterError("Invalid email or password");
 		}
 	};
