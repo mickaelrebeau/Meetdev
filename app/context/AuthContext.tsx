@@ -4,31 +4,35 @@ import { Alert } from "react-native";
 import axios from "axios";
 
 interface AuthProps {
-	authState?: { token?: string | null; authenticated: boolean | null };
-	onRegister?: (
+	authState: { token?: string | null; authenticated: boolean };
+	onRegister: (
 		email: string,
 		password: string,
 		displayName: string
-	) => Promise<any>;
-	onLogin?: (email: string, password: string) => Promise<any>;
-	onLogout?: () => Promise<any>;
+	) => Promise<boolean>;
+	onLogin: (email: string, password: string) => Promise<boolean>;
+	onLogout: () => Promise<void>;
 }
 
 const TOKEN_KEY = "token";
 export const API_URL = "http://192.168.1.36:3030";
-const AuthContext = createContext<AuthProps>({});
-
+const AuthContext = createContext<AuthProps>({
+	authState: {
+		token: null,
+		authenticated: false,
+	},
+	onRegister: () => new Promise((resolve) => resolve(false)),
+	onLogin: () => new Promise((r) => r(false)),
+	onLogout: () => new Promise(r => r()),
+});
 export const useAuth = () => {
 	return useContext(AuthContext);
 };
 
-export const AuthProvider = ({ children }: any) => {
-	const [authState, setAuthState] = useState<{
-		token: null | string;
-		authenticated: null | boolean;
-	}>({
+export const AuthProvider = ({ children }: React.PropsWithChildren) => {
+	const [authState, setAuthState] = useState<AuthProps["authState"]>({
 		token: null,
-		authenticated: null,
+		authenticated: false,
 	});
 
 	useEffect(() => {
@@ -45,7 +49,7 @@ export const AuthProvider = ({ children }: any) => {
         loadToken();
 	}, []);
 
-	const login = async (email: string, password: string) => {
+	const login = async (email: string, password: string): Promise<boolean> => {
 		try {
 			const result = await axios.post(API_URL + "/auth/signin", {
 				email,
@@ -62,8 +66,9 @@ export const AuthProvider = ({ children }: any) => {
 			] = `Bearer ${result.data.token}`;
 
 			await SecureStorage.setItemAsync(TOKEN_KEY, result.data.token);
+			return true;
 		} catch (error) {
-			console.log(error);
+			return false;
 		}
 	};
 
@@ -71,7 +76,7 @@ export const AuthProvider = ({ children }: any) => {
 		email: string,
 		password: string,
 		displayName: string
-	) => {
+	): Promise<any> => {
 		try {
 			const result = await axios.post(API_URL + "/auth/signup", {
 				email,
@@ -82,12 +87,14 @@ export const AuthProvider = ({ children }: any) => {
 			if (result.status === 201) {
 				Alert.alert("Success", "Your account has been created. Please login.");
 			}
+
+			return true;
 		} catch (error) {
-			console.log(error);
+			return false;
 		}
 	};
 
-	const logout = async () => {
+	const logout = async (): Promise<void> => {
 		await SecureStorage.deleteItemAsync(TOKEN_KEY);
 		axios.defaults.headers.common["Authorization"] = "";
 		setAuthState({
@@ -103,5 +110,5 @@ export const AuthProvider = ({ children }: any) => {
 		onLogout: logout,
     };
     
-    return <AuthContext.Provider value={ value }> { children } </AuthContext.Provider>;
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 };
