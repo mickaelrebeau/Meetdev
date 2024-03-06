@@ -9,6 +9,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { SocketProvider } from "./context/SocketContext";
 
 export {
 	// Catch any errors thrown by the Layout component.
@@ -52,42 +53,45 @@ function RootLayoutNav() {
 	const { authState } = useAuth();
 
 	return (
-		<AuthProvider>
-			<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-				<Stack>
-					{authState?.authenticated ? (
-						<Stack.Screen name="index" options={{ headerShown: false }} />
-					) : (
+		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+			<AuthProvider>
+				<SocketProvider>
+					<Stack>
+						{authState?.authenticated ? (
+							<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+						) : (
+							<Stack.Screen name="index" options={{ headerShown: false }} />
+						)}
 						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-					)}
-					<Stack.Screen name="signup-step" options={{ headerShown: false }} />
-					<Stack.Screen
-						name="forgot-password"
-						options={{ presentation: "modal", title: "Reset Password" }}
-					/>
-					<Stack.Screen
-						name="auth"
-						options={{ headerShown: false, presentation: "modal" }}
-					/>
-					<Stack.Screen
-						name="chat/[id]"
-						options={{ presentation: "modal", headerShown: false }}
-					/>
-					<Stack.Screen
-						name="notifications"
-						options={{ presentation: "modal", title: "Notifications" }}
-					/>
-					<Stack.Screen
-						name="settings"
-						options={{ presentation: "modal", title: "Settings" }}
-					/>
-					<Stack.Screen
-						name="edit-profile"
-						options={{ presentation: "modal", title: "Edit Profile" }}
-					/>
-					<Stack.Screen name="card" options={{ headerShown: false }} />
-				</Stack>
-			</ThemeProvider>
-		</AuthProvider>
+						<Stack.Screen name="signup-step" options={{ headerShown: false }} />
+						<Stack.Screen
+							name="forgot-password"
+							options={{ presentation: "modal", title: "Reset Password" }}
+						/>
+						<Stack.Screen
+							name="auth"
+							options={{ headerShown: false, presentation: "modal" }}
+						/>
+						<Stack.Screen
+							name="chat/[id]"
+							options={{ presentation: "modal", headerShown: false }}
+						/>
+						<Stack.Screen
+							name="notifications"
+							options={{ presentation: "modal", title: "Notifications" }}
+						/>
+						<Stack.Screen
+							name="settings"
+							options={{ presentation: "modal", title: "Settings" }}
+						/>
+						<Stack.Screen
+							name="edit-profile"
+							options={{ presentation: "modal", title: "Edit Profile" }}
+						/>
+						<Stack.Screen name="card" options={{ headerShown: false }} />
+					</Stack>
+				</SocketProvider>
+			</AuthProvider>
+		</ThemeProvider>
 	);
 }
