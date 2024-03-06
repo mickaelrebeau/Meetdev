@@ -16,6 +16,12 @@ export default function SettingsScreen() {
 	const [modalFeedBackVisible, setModalFeedBackVisible] = useState(false);
 	const [modalPrivacyPolicyVisible, setModalPrivacyPolicyVisible] =
 		useState(false);
+	
+	const handlelogout = async () => {
+		await onLogout();
+
+		router.push("/");
+	}
 
 	const handleDeleteAccount = async () => {
 		router.push("/");
@@ -84,7 +90,7 @@ export default function SettingsScreen() {
 					</View>
 					<View style={styles.buttons}>
 						<Pressable
-							onPress={onLogout}
+							onPress={handlelogout}
 							style={({ pressed }) => [
 								styles.button,
 								{
